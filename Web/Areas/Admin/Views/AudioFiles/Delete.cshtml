@@ -1,0 +1,71 @@
+﻿@model MaktabAhvaz.Domain.Entities.AudioFile
+
+@{
+    ViewData["Title"] = "حذف فایل صوتی";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <h4 class="mb-3">
+                حذف فایل صوتی
+            </h4>
+
+            <p>
+                آیا از حذف این فایل صوتی مطمئن هستید؟
+            </p>
+
+            <div class="alert alert-warning">
+
+                <strong>
+                    @Model.Title
+                </strong>
+
+                <br />
+
+                سخنران:
+                @Model.Speaker?.Name
+
+            </div>
+
+
+            <form asp-area="Admin"
+                  asp-controller="AudioFiles"
+                  asp-action="DeleteConfirmed"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+
+                <a asp-area="Admin"
+                   asp-controller="AudioFiles"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+
+                    انصراف
+
+                </a>
+
+
+                <button type="submit"
+                        class="btn btn-danger">
+
+                    حذف فایل
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

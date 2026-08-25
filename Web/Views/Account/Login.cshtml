@@ -1,0 +1,263 @@
+﻿@{
+    ViewData["Title"] = "ورود به پنل مدیریت";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] | مکتب اهواز</title>
+
+    <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: Tahoma, Arial, sans-serif;
+                min-height: 100vh;
+                background: #f5f7f6;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #1f2933;
+            }
+
+            .login-container {
+                width: 100%;
+                max-width: 430px;
+                padding: 20px;
+            }
+
+            .login-card {
+                background: #ffffff;
+                border-radius: 24px;
+                padding: 42px 36px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e8ece9;
+            }
+
+            .brand {
+                text-align: center;
+                margin-bottom: 32px;
+            }
+
+            .brand-logo {
+                width: 72px;
+                height: 72px;
+                margin: 0 auto 18px;
+                border-radius: 20px;
+                background: #198754;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                font-weight: bold;
+                box-shadow: 0 10px 25px rgba(25, 135, 84, 0.22);
+            }
+
+            .brand h1 {
+                font-size: 23px;
+                margin-bottom: 8px;
+                color: #18231d;
+            }
+
+            .brand p {
+                color: #7b857f;
+                font-size: 14px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                color: #34423a;
+            }
+
+            .input-wrapper {
+                position: relative;
+            }
+
+            .input-wrapper input {
+                width: 100%;
+                height: 52px;
+                border: 1px solid #dce3de;
+                border-radius: 14px;
+                padding: 0 16px;
+                font-size: 15px;
+                font-family: inherit;
+                outline: none;
+                transition: all 0.2s ease;
+                background: #fbfcfb;
+            }
+
+            .input-wrapper input:focus {
+                border-color: #198754;
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.10);
+            }
+
+            .validation-summary {
+                background: #fff4f4;
+                color: #b42318;
+                border: 1px solid #ffd6d6;
+                border-radius: 12px;
+                padding: 12px 14px;
+                margin-bottom: 18px;
+                font-size: 13px;
+                line-height: 1.8;
+            }
+
+            .validation-summary:empty {
+                display: none;
+            }
+
+            .login-button {
+                width: 100%;
+                height: 52px;
+                border: none;
+                border-radius: 14px;
+                background: #198754;
+                color: white;
+                font-family: inherit;
+                font-size: 15px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin-top: 5px;
+            }
+
+            .login-button:hover {
+                background: #157347;
+                transform: translateY(-1px);
+                box-shadow: 0 8px 20px rgba(25, 135, 84, 0.20);
+            }
+
+            .login-button:active {
+                transform: translateY(0);
+            }
+
+            .footer {
+                text-align: center;
+                margin-top: 24px;
+                color: #98a19b;
+                font-size: 12px;
+            }
+
+            @@media (max-width: 480px) {
+                .login-container {
+                    padding: 15px;
+                }
+
+                .login-card {
+                    padding: 32px 24px;
+                    border-radius: 20px;
+                }
+
+                .brand h1 {
+                    font-size: 21px;
+                }
+            }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <div class="brand">
+
+                <div class="brand-logo">
+                    م
+                </div>
+
+                <h1>پنل مدیریت مکتب اهواز</h1>
+
+                <p>
+                    برای ادامه وارد حساب مدیریت خود شوید
+                </p>
+
+            </div>
+
+            <form asp-controller="Account"
+                  asp-action="Login"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="returnUrl"
+                       value="@ViewBag.ReturnUrl" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="validation-summary">
+                </div>
+
+                <div class="form-group">
+
+                    <label for="email">
+                        ایمیل
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               placeholder="ایمیل خود را وارد کنید"
+                               autocomplete="username"
+                               required />
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        رمز عبور
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               placeholder="رمز عبور خود را وارد کنید"
+                               autocomplete="current-password"
+                               required />
+
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="login-button">
+                    ورود به پنل
+                </button>
+
+            </form>
+
+            <div class="footer">
+                © @DateTime.Now.Year مکتب اهواز
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

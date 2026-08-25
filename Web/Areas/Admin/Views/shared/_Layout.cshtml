@@ -1,0 +1,487 @@
+﻿@{
+    var pageTitle = ViewData["Title"]?.ToString() ?? "پنل مدیریت";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <meta name="theme-color" content="#0f766e" />
+
+    <title>@pageTitle | مکتب اهواز</title>
+
+
+    <!-- Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet" />
+
+
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+
+    <!-- Admin CSS -->
+
+    <link rel="stylesheet"
+          href="~/css/admin.css"
+          asp-append-version="true" />
+
+</head>
+
+
+<body class="admin-body">
+
+
+    <div class="admin-wrapper">
+
+
+        <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
+        <aside class="admin-sidebar"
+               id="sidebar">
+
+
+            <!-- BRAND -->
+
+            <div class="admin-brand">
+
+                <div class="admin-brand-logo">
+                    م
+                </div>
+
+                <div class="admin-brand-text">
+
+                    <span class="admin-brand-title">
+                        مکتب اهواز
+                    </span>
+
+                    <span class="admin-brand-subtitle">
+                        مدیریت هوشمند محتوا
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+
+            <nav class="admin-sidebar-nav">
+
+
+                <!-- مدیریت -->
+
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-section-title">
+                        مدیریت
+                    </div>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <span>⌂</span>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            داشبورد
+                        </span>
+
+                    </a>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="AudioFiles"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <span>♫</span>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            فایل‌های صوتی
+                        </span>
+
+                    </a>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Speakers"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <span>◉</span>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            سخنران‌ها
+                        </span>
+
+                    </a>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Categories"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <span>▦</span>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            دسته‌بندی‌ها
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- محتوای سایت -->
+
+                <div class="admin-nav-section">
+
+                    <div class="admin-nav-section-title">
+                        محتوای سایت
+                    </div>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Pages"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <span>▤</span>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            صفحات
+                        </span>
+
+                    </a>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Menus"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <span>☰</span>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            منوها
+                        </span>
+
+                    </a>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Settings"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <span>⚙</span>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            تنظیمات سایت
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <!-- SIDEBAR FOOTER -->
+
+            <div class="admin-sidebar-footer">
+
+                <div class="admin-sidebar-footer-line"></div>
+
+                <form asp-area="Admin"
+                      asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="admin-logout-btn">
+
+                        <span class="admin-logout-icon">
+                            ⇥
+                        </span>
+
+                        <span>
+                            خروج از حساب
+                        </span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             OVERLAY
+             ===================================================== -->
+
+        <div class="admin-sidebar-overlay"
+             id="overlay"
+             onclick="toggleSidebar()">
+        </div>
+
+
+
+        <!-- =====================================================
+             MAIN
+             ===================================================== -->
+
+        <main class="admin-main">
+
+
+            <!-- =================================================
+                 HEADER
+                 ================================================= -->
+
+            <header class="admin-header">
+
+
+                <div class="admin-header-left">
+
+
+                    <!-- MOBILE MENU -->
+
+                    <button type="button"
+                            class="admin-sidebar-toggle"
+                            onclick="toggleSidebar()"
+                            aria-label="باز کردن منو">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </button>
+
+
+                    <!-- PAGE INFO -->
+
+                    <div class="admin-page-info">
+
+                        <div class="admin-breadcrumb">
+
+                            <span>
+                                پنل مدیریت
+                            </span>
+
+                            <span class="admin-breadcrumb-separator">
+                                /
+                            </span>
+
+                            <span class="admin-breadcrumb-current">
+                                @pageTitle
+                            </span>
+
+                        </div>
+
+
+                        <h1 class="admin-page-title">
+                            @pageTitle
+                        </h1>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- USER -->
+
+                <div class="admin-header-right">
+
+                    <div class="admin-user">
+
+
+                        <div class="admin-user-avatar">
+                            م
+                        </div>
+
+
+                        <div class="admin-user-info">
+
+                            <span class="admin-user-name">
+
+                                @(User.Identity?.Name ?? "مدیر سیستم")
+
+                            </span>
+
+                            <span class="admin-user-role">
+
+                                مدیر سیستم
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </header>
+
+
+
+            <!-- =================================================
+                 CONTENT
+                 ================================================= -->
+
+            <div class="admin-content">
+
+                @RenderBody()
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FOOTER
+                 ================================================= -->
+
+            <footer class="admin-footer">
+
+                <span>
+                    © @DateTime.Now.Year
+                    مکتب اهواز
+                </span>
+
+                <span class="admin-footer-separator">
+                    •
+                </span>
+
+                <span>
+                    پنل مدیریت
+                </span>
+
+            </footer>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SCRIPTS
+         ===================================================== -->
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+
+            function toggleSidebar() {
+
+                const sidebar =
+                    document.getElementById("sidebar");
+
+                const overlay =
+                    document.getElementById("overlay");
+
+                sidebar.classList.toggle("open");
+
+                overlay.classList.toggle("show");
+
+            }
+
+
+            // بستن سایدبار با کلیک روی لینک در موبایل
+
+            document
+                .querySelectorAll(".admin-nav-item")
+                .forEach(function(item) {
+
+                    item.addEventListener("click", function() {
+
+                        if (window.innerWidth <= 992) {
+
+                            const sidebar =
+                                document.getElementById("sidebar");
+
+                            const overlay =
+                                document.getElementById("overlay");
+
+                            sidebar.classList.remove("open");
+
+                            overlay.classList.remove("show");
+
+                        }
+
+                    });
+
+                });
+
+
+            // بستن سایدبار با کلید Escape
+
+            document.addEventListener("keydown", function(event) {
+
+                if (event.key === "Escape") {
+
+                    const sidebar =
+                        document.getElementById("sidebar");
+
+                    const overlay =
+                        document.getElementById("overlay");
+
+                    sidebar.classList.remove("open");
+
+                    overlay.classList.remove("show");
+
+                }
+
+            });
+
+    </script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+</body>
+
+</html>

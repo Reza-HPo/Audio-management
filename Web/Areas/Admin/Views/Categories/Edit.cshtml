@@ -1,0 +1,304 @@
+﻿@model MaktabAhvaz.Domain.Entities.Category
+
+@{
+    ViewData["Title"] = "ویرایش دسته‌بندی";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="admin-page-header">
+
+        <div>
+
+            <h1 class="admin-page-title">
+                ویرایش دسته‌بندی
+            </h1>
+
+            <p class="admin-page-description">
+                اطلاعات دسته‌بندی «@Model.Name» را ویرایش کنید.
+            </p>
+
+        </div>
+
+
+        <a asp-area="Admin"
+           asp-controller="Categories"
+           asp-action="Index"
+           class="admin-btn admin-btn-secondary">
+
+            بازگشت به دسته‌بندی‌ها
+
+        </a>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <form asp-area="Admin"
+          asp-controller="Categories"
+          asp-action="Edit"
+          asp-route-id="@Model.Id"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="Id"
+               type="hidden" />
+
+
+        <div class="row g-4">
+
+
+            <!-- MAIN INFORMATION -->
+
+            <div class="col-lg-8">
+
+                <div class="admin-card">
+
+
+                    <div class="admin-card-header">
+
+                        <div>
+
+                            <h2 class="admin-card-title">
+                                اطلاعات دسته‌بندی
+                            </h2>
+
+                            <p class="admin-card-description">
+                                اطلاعات اصلی دسته‌بندی را تغییر دهید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-body">
+
+
+                        <!-- NAME -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Name"
+                                   class="admin-form-label">
+
+                                نام دسته‌بندی
+
+                                <span class="admin-required">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <input asp-for="Name"
+                                   class="admin-form-control"
+                                   placeholder="نام دسته‌بندی" />
+
+
+                            <span asp-validation-for="Name"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- SLUG -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Slug"
+                                   class="admin-form-label">
+
+                                Slug
+
+                            </label>
+
+
+                            <input asp-for="Slug"
+                                   class="admin-form-control"
+                                   dir="ltr"
+                                   placeholder="example-category" />
+
+
+                            <span asp-validation-for="Slug"
+                                  class="admin-form-error">
+                            </span>
+
+
+                            <div class="admin-form-help">
+
+                                شناسه متنی دسته‌بندی برای URL سایت.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Description"
+                                   class="admin-form-label">
+
+                                توضیحات
+
+                            </label>
+
+
+                            <textarea asp-for="Description"
+                                      class="admin-form-control"
+                                      rows="6"
+                                      placeholder="توضیحات دسته‌بندی..."></textarea>
+
+
+                            <span asp-validation-for="Description"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SETTINGS -->
+
+            <div class="col-lg-4">
+
+                <div class="admin-card">
+
+
+                    <div class="admin-card-header">
+
+                        <div>
+
+                            <h2 class="admin-card-title">
+                                تنظیمات
+                            </h2>
+
+                            <p class="admin-card-description">
+                                وضعیت و ترتیب نمایش.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-body">
+
+
+                        <!-- DISPLAY ORDER -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="DisplayOrder"
+                                   class="admin-form-label">
+
+                                ترتیب نمایش
+
+                            </label>
+
+
+                            <input asp-for="DisplayOrder"
+                                   type="number"
+                                   min="0"
+                                   class="admin-form-control" />
+
+
+                            <span asp-validation-for="DisplayOrder"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="admin-form-switch">
+
+                            <div>
+
+                                <strong>
+                                    دسته‌بندی فعال باشد
+                                </strong>
+
+                                <span>
+                                    دسته‌بندی‌های غیرفعال در سایت نمایش داده نمی‌شوند.
+                                </span>
+
+                            </div>
+
+
+                            <label class="admin-switch">
+
+                                <input asp-for="IsActive"
+                                       type="checkbox" />
+
+                                <span class="admin-switch-slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="admin-form-actions">
+
+
+                            <a asp-area="Admin"
+                               asp-controller="Categories"
+                               asp-action="Index"
+                               class="admin-btn admin-btn-secondary">
+
+                                انصراف
+
+                            </a>
+
+
+                            <button type="submit"
+                                    class="admin-btn admin-btn-primary">
+
+                                <span class="admin-btn-icon">
+                                    ✓
+                                </span>
+
+                                ذخیره تغییرات
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

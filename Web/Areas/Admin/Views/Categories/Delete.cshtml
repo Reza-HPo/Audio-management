@@ -1,0 +1,211 @@
+﻿@model MaktabAhvaz.Domain.Entities.Category
+
+@{
+    ViewData["Title"] = "حذف دسته‌بندی";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    var audioCount = Model.AudioCategories?.Count ?? 0;
+}
+
+<div class="admin-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="admin-page-header">
+
+        <div>
+
+            <h1 class="admin-page-title">
+                حذف دسته‌بندی
+            </h1>
+
+            <p class="admin-page-description">
+                حذف دسته‌بندی از پنل مدیریت
+            </p>
+
+        </div>
+
+
+        <a asp-area="Admin"
+           asp-controller="Categories"
+           asp-action="Index"
+           class="admin-btn admin-btn-secondary">
+
+            بازگشت به دسته‌بندی‌ها
+
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         DELETE CARD
+         ===================================================== -->
+
+    <div class="admin-card category-delete-card">
+
+        <div class="admin-card-body">
+
+
+            <!-- ICON -->
+
+            <div class="category-delete-icon">
+
+                !
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <h2 class="category-delete-title">
+
+                آیا از حذف این دسته‌بندی مطمئن هستید؟
+
+            </h2>
+
+
+            <p class="category-delete-description">
+
+                شما در حال حذف دسته‌بندی زیر هستید:
+
+            </p>
+
+
+            <!-- CATEGORY INFO -->
+
+            <div class="category-delete-info">
+
+
+                <div class="category-delete-info-icon">
+
+                    ▦
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        @Model.Name
+                    </strong>
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Slug))
+                    {
+                        <span dir="ltr">
+                            @Model.Slug
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 WARNING
+                 ================================================= -->
+            @if (audioCount > 0)
+            {
+                <div class="admin-alert admin-alert-danger">
+
+                    <span class="admin-alert-icon">
+                        !
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            امکان حذف وجود ندارد
+                        </strong>
+
+                        <div>
+                            این دسته‌بندی به
+                            <strong>@audioCount</strong>
+                            فایل صوتی متصل است.
+                        </div>
+
+                        <div>
+                            ابتدا دسته‌بندی را از فایل‌های صوتی مربوطه حذف کنید.
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <div class="admin-alert admin-alert-warning">
+
+                    <span class="admin-alert-icon">
+                        !
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            توجه
+                        </strong>
+
+                        <div>
+                            این عملیات قابل بازگشت نیست.
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- =================================================
+                 ACTIONS
+                 ================================================= -->
+
+            <div class="category-delete-actions">
+
+
+                <a asp-area="Admin"
+                   asp-controller="Categories"
+                   asp-action="Index"
+                   class="admin-btn admin-btn-secondary">
+
+                    انصراف
+
+                </a>
+
+
+                @if (audioCount == 0)
+                {
+                    <form asp-area="Admin"
+                          asp-controller="Categories"
+                          asp-action="DeleteConfirmed"
+                          asp-route-id="@Model.Id"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="admin-btn admin-btn-danger">
+
+                            <span class="admin-btn-icon">
+                                ×
+                            </span>
+
+                            حذف دسته‌بندی
+
+                        </button>
+
+                    </form>
+                }
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

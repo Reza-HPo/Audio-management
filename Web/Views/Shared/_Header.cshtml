@@ -1,0 +1,95 @@
+﻿<div class="container">
+    <nav class="navbar navbar-expand-lg py-3">
+
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center gap-2"
+           asp-controller="Home"
+           asp-action="Index">
+
+            <span class="brand-logo">
+                م
+            </span>
+
+            <span class="brand-name">
+                مکتب اهواز
+            </span>
+
+        </a>
+
+
+        <!-- Mobile Button -->
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="باز کردن منو">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <!-- Navigation -->
+        <div class="collapse navbar-collapse"
+             id="mainNavbar">
+
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        خانه
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="#">
+                        آرشیو صوتی
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="#">
+                        سخنران‌ها
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="#">
+                        دسته‌بندی‌ها
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="#">
+                        درباره ما
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <!-- Search -->
+            <div class="header-actions">
+
+                <button class="search-button"
+                        type="button"
+                        aria-label="جستجو">
+
+                    <span>⌕</span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+</div>

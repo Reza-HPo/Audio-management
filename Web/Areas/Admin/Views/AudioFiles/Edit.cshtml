@@ -1,0 +1,468 @@
+﻿@model Web.Areas.Admin.Models.AudioFiles.AudioFileEditViewModel
+
+@{
+    ViewData["Title"] = "ویرایش فایل صوتی";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page">
+
+    <!-- Header -->
+
+    <div class="admin-page-header">
+
+        <div>
+            <h1 class="admin-page-title">
+                ویرایش فایل صوتی
+            </h1>
+
+            <p class="admin-page-description">
+                اطلاعات و فایل سخنرانی را ویرایش کنید.
+            </p>
+        </div>
+
+        <a asp-area="Admin"
+           asp-controller="AudioFiles"
+           asp-action="Index"
+           class="admin-btn admin-btn-secondary">
+
+            <span>بازگشت</span>
+
+        </a>
+
+    </div>
+
+
+    <!-- Form -->
+
+    <form asp-area="Admin"
+          asp-controller="AudioFiles"
+          asp-action="Edit"
+          asp-route-id="@Model.Id"
+          method="post"
+          enctype="multipart/form-data">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="Id" type="hidden" />
+
+
+        <div class="row g-4">
+
+            <!-- ========================================= -->
+            <!-- اطلاعات اصلی -->
+            <!-- ========================================= -->
+
+            <div class="col-lg-8">
+
+                <div class="admin-card">
+
+                    <div class="admin-card-header">
+
+                        <div>
+                            <h2 class="admin-card-title">
+                                اطلاعات فایل
+                            </h2>
+
+                            <p class="admin-card-description">
+                                اطلاعات اصلی سخنرانی را مدیریت کنید.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-body">
+
+                        <!-- عنوان -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Title"
+                                   class="admin-form-label">
+
+                                عنوان سخنرانی
+
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="admin-form-control"
+                                   placeholder="عنوان سخنرانی را وارد کنید" />
+
+                            <span asp-validation-for="Title"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- توضیحات -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Description"
+                                   class="admin-form-label">
+
+                                توضیحات
+
+                            </label>
+
+                            <textarea asp-for="Description"
+                                      class="admin-form-control"
+                                      rows="6"
+                                      placeholder="توضیحات مربوط به سخنرانی..."></textarea>
+
+                            <span asp-validation-for="Description"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- فایل صوتی -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Audio"
+                                   class="admin-form-label">
+
+                                فایل صوتی جدید
+
+                            </label>
+
+                            <input asp-for="Audio"
+                                   type="file"
+                                   class="admin-form-control"
+                                   accept=".mp3,.m4a,audio/mpeg,audio/mp4" />
+
+                            <div class="admin-form-help">
+
+                                در صورت انتخاب فایل جدید،
+                                فایل صوتی قبلی جایگزین می‌شود.
+
+                            </div>
+
+                            <span asp-validation-for="Audio"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- فایل صوتی فعلی -->
+                        @if (!string.IsNullOrWhiteSpace(Model.CurrentAudioFile))
+                        {
+                            <div class="admin-current-file">
+
+                                <div class="admin-current-file-header">
+
+                                    <div>
+
+                                        <strong>
+                                            فایل صوتی فعلی
+                                        </strong>
+
+                                        <span>
+                                            برای شنیدن فایل روی دکمه پخش کلیک کنید.
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <audio controls
+                                       class="admin-audio-player">
+
+                                    <source src="@Model.CurrentAudioFile" />
+
+                                    مرورگر شما از پخش فایل صوتی پشتیبانی نمی‌کند.
+
+                                </audio>
+
+                            </div>
+                        }
+
+
+                        <!-- کاور -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="CoverImage"
+                                   class="admin-form-label">
+
+                                کاور جدید
+
+                            </label>
+
+                            <input asp-for="CoverImage"
+                                   type="file"
+                                   class="admin-form-control"
+                                   accept=".jpg,.jpeg,.png,.webp,image/*" />
+
+                            <div class="admin-form-help">
+
+                                در صورت انتخاب تصویر جدید،
+                                کاور قبلی جایگزین می‌شود.
+
+                            </div>
+
+                            <span asp-validation-for="CoverImage"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- کاور فعلی -->
+                        @if (!string.IsNullOrWhiteSpace(Model.CurrentCoverImage))
+                        {
+                            <div class="admin-current-cover">
+
+                                <div class="admin-current-file-header">
+
+                                    <div>
+
+                                        <strong>
+                                            کاور فعلی
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="admin-cover-preview">
+
+                                    <img src="@Model.CurrentCoverImage"
+                                         alt="کاور فایل صوتی" />
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================================= -->
+            <!-- تنظیمات -->
+            <!-- ========================================= -->
+
+            <div class="col-lg-4">
+
+                <div class="admin-card">
+
+                    <div class="admin-card-header">
+
+                        <div>
+
+                            <h2 class="admin-card-title">
+                                تنظیمات
+                            </h2>
+
+                            <p class="admin-card-description">
+                                تنظیمات انتشار و دسته‌بندی فایل.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-body">
+
+
+                        <!-- سخنران -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="SpeakerId"
+                                   class="admin-form-label">
+
+                                سخنران
+
+                            </label>
+
+                            <select asp-for="SpeakerId"
+                                    class="admin-form-control">
+
+                                <option value="0">
+                                    انتخاب سخنران
+                                </option>
+
+                                @foreach (var speaker in ViewBag.Speakers)
+                                {
+                                    <option value="@speaker.Id">
+
+                                        @speaker.Name
+
+                                    </option>
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="SpeakerId"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- دسته‌بندی -->
+
+                        <div class="admin-form-group">
+
+                            <label class="admin-form-label">
+
+                                دسته‌بندی‌ها
+
+                            </label>
+
+
+                            <div class="admin-category-list">
+
+                                @if (ViewBag.Categories != null)
+                                {
+                                    foreach (var category in ViewBag.Categories)
+                                    {
+                                        var isChecked =
+                                            Model.CategoryIds.Contains(category.Id);
+
+                                        <label class="admin-category-item">
+
+                                            <input type="checkbox"
+                                                   name="CategoryIds"
+                                                   value="@category.Id"
+                                                   checked="@isChecked" />
+
+                                            <span class="admin-category-check"></span>
+
+                                            <span class="admin-category-name">
+
+                                                @category.Name
+
+                                            </span>
+
+                                        </label>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="admin-empty-small">
+
+                                        دسته‌بندی‌ای وجود ندارد.
+
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- انتشار -->
+
+                        <div class="admin-setting-item">
+
+                            <div>
+
+                                <strong>
+                                    انتشار فایل
+                                </strong>
+
+                                <span>
+                                    فایل در سایت نمایش داده شود.
+                                </span>
+
+                            </div>
+
+
+                            <label class="admin-switch">
+
+                                <input asp-for="IsPublished"
+                                       type="checkbox" />
+
+                                <span class="admin-switch-slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- دانلود -->
+
+                        <div class="admin-setting-item">
+
+                            <div>
+
+                                <strong>
+                                    امکان دانلود
+                                </strong>
+
+                                <span>
+                                    کاربران بتوانند فایل را دانلود کنند.
+                                </span>
+
+                            </div>
+
+
+                            <label class="admin-switch">
+
+                                <input asp-for="IsDownloadable"
+                                       type="checkbox" />
+
+                                <span class="admin-switch-slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- دکمه‌ها -->
+
+                        <div class="admin-form-actions">
+
+                            <button type="submit"
+                                    class="admin-btn admin-btn-primary admin-btn-block">
+
+                                <span>
+                                    ذخیره تغییرات
+                                </span>
+
+                            </button>
+
+
+                            <a asp-area="Admin"
+                               asp-controller="AudioFiles"
+                               asp-action="Index"
+                               class="admin-btn admin-btn-secondary admin-btn-block">
+
+                                انصراف
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

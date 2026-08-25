@@ -1,0 +1,89 @@
+﻿@{
+    var title = ViewData["Title"]?.ToString();
+
+    var pageTitle = string.IsNullOrWhiteSpace(title)
+        ? "مکتب اهواز"
+        : $"{title} | مکتب اهواز";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description"
+          content="مکتب اهواز؛ آرشیو محتوای صوتی و سخنرانی‌ها" />
+
+    <title>@pageTitle</title>
+
+
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+          asp-append-version="true" />
+
+
+    <!-- Site CSS -->
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+
+    @await RenderSectionAsync("Styles", required: false)
+
+</head>
+
+
+<body>
+
+    <!-- Header -->
+
+    <header class="site-header">
+
+        @await Html.PartialAsync("_Header")
+
+    </header>
+
+
+    <!-- Main -->
+
+    <main class="site-main">
+
+        @RenderBody()
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer class="site-footer">
+
+        @await Html.PartialAsync("_Footer")
+
+    </footer>
+
+
+    <!-- Bootstrap JS -->
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+            asp-append-version="true"></script>
+
+
+    <!-- Site JS -->
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

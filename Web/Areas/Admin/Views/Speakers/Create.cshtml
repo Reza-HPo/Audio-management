@@ -1,0 +1,288 @@
+﻿@model MaktabAhvaz.Domain.Entities.Speaker
+
+@{
+    ViewData["Title"] = "افزودن سخنران";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page">
+
+    <!-- Header -->
+
+    <div class="admin-page-header">
+
+        <div>
+
+            <h1 class="admin-page-title">
+                افزودن سخنران
+            </h1>
+
+            <p class="admin-page-description">
+                یک سخنران جدید به مجموعه اضافه کنید.
+            </p>
+
+        </div>
+
+        <a asp-area="Admin"
+           asp-controller="Speakers"
+           asp-action="Index"
+           class="admin-btn admin-btn-secondary">
+
+            <span>
+                بازگشت به سخنران‌ها
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- Form -->
+
+    <form asp-area="Admin"
+          asp-controller="Speakers"
+          asp-action="Create"
+          method="post"
+          enctype="multipart/form-data">
+
+        @Html.AntiForgeryToken()
+
+        <div class="row g-4">
+
+
+            <!-- Main Information -->
+
+            <div class="col-lg-8">
+
+                <div class="admin-card">
+
+                    <div class="admin-card-header">
+
+                        <div>
+
+                            <h2 class="admin-card-title">
+                                اطلاعات سخنران
+                            </h2>
+
+                            <p class="admin-card-description">
+                                اطلاعات اصلی سخنران را وارد کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-body">
+
+
+                        <!-- Name -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Name"
+                                   class="admin-form-label">
+
+                                نام سخنران
+
+                                <span class="admin-required">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <input asp-for="Name"
+                                   class="admin-form-control"
+                                   placeholder="مثلاً حجت‌الاسلام و المسلمین ..."
+                                   autocomplete="off" />
+
+                            <span asp-validation-for="Name"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Bio -->
+
+                        <div class="admin-form-group">
+
+                            <label asp-for="Bio"
+                                   class="admin-form-label">
+
+                                درباره سخنران
+
+                            </label>
+
+                            <textarea asp-for="Bio"
+                                      class="admin-form-control admin-textarea"
+                                      rows="7"
+                                      placeholder="زندگینامه یا توضیح کوتاهی درباره سخنران..."></textarea>
+
+                            <div class="admin-form-help">
+
+                                این توضیحات می‌تواند در صفحه معرفی سخنران نمایش داده شود.
+
+                            </div>
+
+                            <span asp-validation-for="Bio"
+                                  class="admin-form-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Image -->
+
+                        <div class="admin-form-group">
+
+                            <label for="Image"
+                                   class="admin-form-label">
+
+                                تصویر سخنران
+
+                            </label>
+
+                            <div class="admin-upload">
+
+                                <input type="file"
+                                       id="Image"
+                                       name="image"
+                                       class="admin-upload-input"
+                                       accept=".jpg,.jpeg,.png,.webp" />
+
+                                <label for="Image"
+                                       class="admin-upload-label">
+
+                                    <span class="admin-upload-icon">
+                                        ↑
+                                    </span>
+
+                                    <span class="admin-upload-title">
+                                        انتخاب تصویر
+                                    </span>
+
+                                    <span class="admin-upload-description">
+                                        JPG، PNG یا WEBP
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="admin-form-help">
+
+                                تصویر اختیاری است.
+                                برای نتیجه بهتر از تصویر مربعی استفاده کنید.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Settings -->
+
+            <div class="col-lg-4">
+
+                <div class="admin-card">
+
+                    <div class="admin-card-header">
+
+                        <div>
+
+                            <h2 class="admin-card-title">
+                                تنظیمات
+                            </h2>
+
+                            <p class="admin-card-description">
+                                وضعیت نمایش سخنران را مشخص کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-body">
+
+
+                        <!-- Active -->
+
+                        <div class="admin-setting">
+
+                            <div>
+
+                                <strong class="admin-setting-title">
+                                    وضعیت سخنران
+                                </strong>
+
+                                <p class="admin-setting-description">
+                                    سخنران فعال در بخش‌های مختلف سایت قابل استفاده خواهد بود.
+                                </p>
+
+                            </div>
+
+
+                            <label class="admin-switch">
+
+                                <input asp-for="IsActive" />
+
+                                <span class="admin-switch-slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="admin-divider"></div>
+
+
+                        <!-- Submit -->
+
+                        <button type="submit"
+                                class="admin-btn admin-btn-primary admin-btn-lg w-100">
+
+                            <span class="admin-btn-icon">
+                                +
+                            </span>
+
+                            <span>
+                                افزودن سخنران
+                            </span>
+
+                        </button>
+
+
+                        <a asp-area="Admin"
+                           asp-controller="Speakers"
+                           asp-action="Index"
+                           class="admin-btn admin-btn-secondary admin-btn-lg w-100 mt-2">
+
+                            انصراف
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

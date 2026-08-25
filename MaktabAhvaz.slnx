@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/API/">
+    <Project Path="MaktabAhvaz.API/MaktabAhvaz.API.csproj" />
+  </Folder>
+  <Folder Name="/Application/">
+    <Project Path="MaktabAhvaz.Application/MaktabAhvaz.Application.csproj" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="MaktabAhvaz.Domain/MaktabAhvaz.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="MaktabAhvaz.Infrastructure/MaktabAhvaz.Infrastructure.csproj" />
+  </Folder>
+  <Project Path="Web/Web.csproj" />
+</Solution>

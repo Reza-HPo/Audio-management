@@ -1,0 +1,629 @@
+﻿@model IEnumerable<MaktabAhvaz.Domain.Entities.AudioFile>
+
+@{
+    ViewData["Title"] = "فایل‌های صوتی";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="audio-page">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="audio-page-header">
+
+        <div class="audio-page-heading">
+
+            <div class="audio-page-icon">
+                ♫
+            </div>
+
+            <div>
+
+                <h1 class="audio-page-title">
+                    فایل‌های صوتی
+                </h1>
+
+                <p class="audio-page-description">
+                    مدیریت و سازمان‌دهی سخنرانی‌های صوتی
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a href="@Url.Action("Create", "AudioFiles", new { area = "Admin" })"
+           class="admin-btn admin-btn-primary">
+
+            <span class="admin-btn-icon">
+                +
+            </span>
+
+            <span>
+                افزودن فایل صوتی
+            </span>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SUCCESS MESSAGE
+         ===================================================== -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="audio-alert audio-alert-success">
+
+            <span class="audio-alert-icon">
+                ✓
+            </span>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         STATISTICS
+         ===================================================== -->
+
+    <div class="audio-stat-grid">
+
+
+        <div class="audio-stat-card">
+
+            <div class="audio-stat-icon">
+                ♫
+            </div>
+
+            <div class="audio-stat-content">
+
+                <span class="audio-stat-label">
+                    مجموع فایل‌ها
+                </span>
+
+                <strong class="audio-stat-value">
+                    @Model.Count()
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="audio-stat-card">
+
+            <div class="audio-stat-icon audio-stat-icon-success">
+                ✓
+            </div>
+
+            <div class="audio-stat-content">
+
+                <span class="audio-stat-label">
+                    منتشر شده
+                </span>
+
+                <strong class="audio-stat-value">
+                    @Model.Count(x => x.IsPublished)
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="audio-stat-card">
+
+            <div class="audio-stat-icon audio-stat-icon-warning">
+                ◷
+            </div>
+
+            <div class="audio-stat-content">
+
+                <span class="audio-stat-label">
+                    پیش‌نویس
+                </span>
+
+                <strong class="audio-stat-value">
+                    @Model.Count(x => !x.IsPublished)
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="audio-stat-card">
+
+            <div class="audio-stat-icon audio-stat-icon-info">
+                ↓
+            </div>
+
+            <div class="audio-stat-content">
+
+                <span class="audio-stat-label">
+                    حجم کل
+                </span>
+
+                <strong class="audio-stat-value">
+                    @FormatTotalSize(Model.Sum(x => x.FileSize))
+                </strong>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         AUDIO LIST
+         ===================================================== -->
+
+    <div class="audio-card">
+
+
+        <div class="audio-card-header">
+
+            <div>
+
+                <h2>
+                    آرشیو فایل‌های صوتی
+                </h2>
+
+                <p>
+                    تمام سخنرانی‌های ثبت‌شده در سیستم
+                </p>
+
+            </div>
+
+
+            @if (Model.Any())
+            {
+                <span class="audio-count-badge">
+
+                    @Model.Count() فایل
+
+                </span>
+            }
+
+        </div>
+
+
+
+        @if (Model.Any())
+        {
+
+            <div class="audio-table-wrapper">
+
+                <table class="audio-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                فایل
+                            </th>
+
+                            <th>
+                                سخنران
+                            </th>
+
+                            <th>
+                                دسته‌بندی
+                            </th>
+
+                            <th>
+                                وضعیت
+                            </th>
+
+                            <th>
+                                حجم
+                            </th>
+
+                            <th>
+                                تاریخ
+                            </th>
+
+                            <th class="audio-actions-column">
+                                عملیات
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        @foreach (var audio in Model)
+                        {
+
+                            <tr>
+
+
+                                <!-- FILE -->
+
+                                <td>
+
+                                    <div class="audio-file-cell">
+
+
+                                        @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
+                                        {
+
+                                            <div class="audio-cover">
+
+                                                <img src="@audio.CoverImageUrl"
+                                                     alt="@audio.Title" />
+
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+
+                                            <div class="audio-cover audio-cover-placeholder">
+
+                                                ♫
+
+                                            </div>
+
+                                        }
+
+
+                                        <div class="audio-file-info">
+
+                                            <strong>
+                                                @audio.Title
+                                            </strong>
+
+
+                                            @if (!string.IsNullOrWhiteSpace(audio.Description))
+                                            {
+
+                                                <span>
+                                                    @(audio.Description.Length > 70
+                                                        ? audio.Description.Substring(0, 70) + "..."
+                                                        : audio.Description)
+                                                </span>
+
+                                            }
+                                            else
+                                            {
+
+                                                <span class="audio-muted">
+                                                    بدون توضیحات
+                                                </span>
+
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- SPEAKER -->
+
+                                <td>
+
+                                    @if (audio.Speaker != null)
+                                    {
+
+                                        <div class="audio-speaker">
+
+                                            <div class="audio-speaker-avatar">
+
+                                                @(audio.Speaker.Name.Length > 0
+                                                    ? audio.Speaker.Name.Substring(0, 1)
+                                                    : "?")
+
+                                            </div>
+
+                                            <span>
+                                                @audio.Speaker.Name
+                                            </span>
+
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+
+                                        <span class="audio-muted">
+                                            بدون سخنران
+                                        </span>
+
+                                    }
+
+                                </td>
+
+
+
+                                <!-- CATEGORIES -->
+
+                                <td>
+
+                                    @if (audio.AudioCategories != null &&
+                                         audio.AudioCategories.Any())
+                                    {
+
+                                        <div class="audio-categories">
+
+                                            @foreach (var category in audio.AudioCategories.Take(2))
+                                            {
+
+                                                <span class="audio-category">
+
+                                                    @category.Category.Name
+
+                                                </span>
+
+                                            }
+
+
+                                            @if (audio.AudioCategories.Count() > 2)
+                                            {
+
+                                                <span class="audio-category-more">
+
+                                                    +@(audio.AudioCategories.Count() - 2)
+
+                                                </span>
+
+                                            }
+
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+
+                                        <span class="audio-muted">
+                                            بدون دسته‌بندی
+                                        </span>
+
+                                    }
+
+                                </td>
+
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    @if (audio.IsPublished)
+                                    {
+
+                                        <span class="audio-status audio-status-published">
+
+                                            <span class="audio-status-dot"></span>
+
+                                            منتشر شده
+
+                                        </span>
+
+                                    }
+                                    else
+                                    {
+
+                                        <span class="audio-status audio-status-draft">
+
+                                            <span class="audio-status-dot"></span>
+
+                                            پیش‌نویس
+
+                                        </span>
+
+                                    }
+
+                                </td>
+
+
+
+                                <!-- SIZE -->
+
+                                <td>
+
+                                    <span class="audio-file-size">
+
+                                        @FormatFileSize(audio.FileSize)
+
+                                    </span>
+
+                                </td>
+
+
+
+                                <!-- DATE -->
+
+                                <td>
+
+                                    <span class="audio-date">
+
+                                        @audio.CreatedAt.ToLocalTime().ToString("yyyy/MM/dd")
+
+                                    </span>
+
+                                </td>
+
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="audio-actions">
+
+
+                                        <!-- PLAY -->
+
+                                        <a href="@audio.FileName"
+                                           target="_blank"
+                                           class="audio-action audio-action-play"
+                                           title="پخش فایل">
+
+                                            ▶
+
+                                        </a>
+
+
+                                        <!-- EDIT -->
+
+                                        <a href="@Url.Action(
+                                                                                       "Edit",
+                                                                                       "AudioFiles",
+                                                                                       new
+                                                                                       {
+                                                                                           area = "Admin",
+                                                                                           id = audio.Id
+                                                                                       })"
+                                           class="audio-action audio-action-edit"
+                                           title="ویرایش">
+
+                                            ✎
+
+                                        </a>
+
+                                        <!-- DELETE -->
+
+                                        <form asp-area="Admin"
+                                              asp-controller="AudioFiles"
+                                              asp-action="Delete"
+                                              asp-route-id="@audio.Id"
+                                              method="post"
+                                              style="display:inline;"
+                                              onsubmit="return confirm('آیا از حذف این فایل صوتی مطمئن هستید؟');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="audio-action audio-action-delete"
+                                                    title="حذف">
+
+                                                ×
+
+                                            </button>
+
+                                        </form>
+
+
+                                    </div>
+
+                                </td>
+
+
+                            </tr>
+
+                        }
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        }
+        else
+        {
+
+            <!-- =================================================
+                 EMPTY STATE
+                 ================================================= -->
+
+            <div class="audio-empty">
+
+                <div class="audio-empty-icon">
+                    ♫
+                </div>
+
+                <h3>
+                    هنوز فایل صوتی‌ای ثبت نشده است
+                </h3>
+
+                <p>
+                    اولین سخنرانی صوتی خود را به آرشیو اضافه کنید.
+                </p>
+
+
+                <a href="@Url.Action("Create", "AudioFiles", new { area = "Admin" })"
+                   class="admin-btn admin-btn-primary">
+
+                    <span class="admin-btn-icon">
+                        +
+                    </span>
+
+                    افزودن فایل صوتی
+
+                </a>
+
+            </div>
+
+        }
+
+
+    </div>
+
+
+</div>
+
+
+
+@functions
+{
+
+    private static string FormatFileSize(long bytes)
+    {
+
+        if (bytes < 1024)
+            return $"{bytes} B";
+
+
+        if (bytes < 1024 * 1024)
+            return $"{bytes / 1024.0:N1} KB";
+
+
+        if (bytes < 1024 * 1024 * 1024)
+            return $"{bytes / (1024.0 * 1024.0):N1} MB";
+
+
+        return $"{bytes / (1024.0 * 1024.0 * 1024.0):N1} GB";
+
+    }
+
+
+    private static string FormatTotalSize(long bytes)
+    {
+
+        if (bytes < 1024 * 1024)
+            return $"{bytes / 1024.0:N1} KB";
+
+
+        if (bytes < 1024 * 1024 * 1024)
+            return $"{bytes / (1024.0 * 1024.0):N1} MB";
+
+
+        return $"{bytes / (1024.0 * 1024.0 * 1024.0):N1} GB";
+
+    }
+
+}

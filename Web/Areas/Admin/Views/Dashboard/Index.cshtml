@@ -1,0 +1,435 @@
+﻿@{
+    ViewData["Title"] = "داشبورد";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-dashboard">
+
+    <!-- Header -->
+
+    <div class="dashboard-header">
+
+        <div>
+            <h1 class="dashboard-title">
+                خوش آمدید 👋
+            </h1>
+
+            <p class="dashboard-subtitle">
+                به پنل مدیریت مکتب اهواز خوش آمدید.
+                از اینجا می‌توانید محتوای سایت را مدیریت کنید.
+            </p>
+        </div>
+
+        <div class="dashboard-date">
+
+            <span class="dashboard-date-label">
+                امروز
+            </span>
+
+            <strong>
+                @DateTime.Now.ToString("yyyy/MM/dd")
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- Statistics -->
+
+    <div class="dashboard-stats">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-icon audio">
+                ♫
+            </div>
+
+            <div class="dashboard-stat-content">
+
+                <span>
+                    فایل‌های صوتی
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+            <a asp-area="Admin"
+               asp-controller="AudioFiles"
+               asp-action="Index"
+               class="dashboard-stat-link">
+
+                مدیریت
+
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-icon speaker">
+                ◉
+            </div>
+
+            <div class="dashboard-stat-content">
+
+                <span>
+                    سخنران‌ها
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+            <a asp-area="Admin"
+               asp-controller="Speakers"
+               asp-action="Index"
+               class="dashboard-stat-link">
+
+                مدیریت
+
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-icon category">
+                ▦
+            </div>
+
+            <div class="dashboard-stat-content">
+
+                <span>
+                    دسته‌بندی‌ها
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+            <a asp-area="Admin"
+               asp-controller="Categories"
+               asp-action="Index"
+               class="dashboard-stat-link">
+
+                مدیریت
+
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-icon pages">
+                ▤
+            </div>
+
+            <div class="dashboard-stat-content">
+
+                <span>
+                    صفحات سایت
+                </span>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+            <a asp-area="Admin"
+               asp-controller="Pages"
+               asp-action="Index"
+               class="dashboard-stat-link">
+
+                مدیریت
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Grid -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- Quick Actions -->
+
+        <div class="dashboard-panel">
+
+            <div class="dashboard-panel-header">
+
+                <div>
+
+                    <h2>
+                        دسترسی سریع
+                    </h2>
+
+                    <p>
+                        عملیات پرکاربرد مدیریت سایت
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-actions">
+
+                <a asp-area="Admin"
+                   asp-controller="AudioFiles"
+                   asp-action="Create"
+                   class="dashboard-action">
+
+                    <div class="dashboard-action-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            افزودن فایل صوتی
+                        </strong>
+
+                        <span>
+                            اضافه کردن سخنرانی جدید
+                        </span>
+
+                    </div>
+
+                    <span class="dashboard-action-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+
+                <a asp-area="Admin"
+                   asp-controller="Speakers"
+                   asp-action="Create"
+                   class="dashboard-action">
+
+                    <div class="dashboard-action-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            افزودن سخنران
+                        </strong>
+
+                        <span>
+                            ثبت سخنران جدید
+                        </span>
+
+                    </div>
+
+                    <span class="dashboard-action-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+
+                <a asp-area="Admin"
+                   asp-controller="Categories"
+                   asp-action="Create"
+                   class="dashboard-action">
+
+                    <div class="dashboard-action-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            افزودن دسته‌بندی
+                        </strong>
+
+                        <span>
+                            ایجاد دسته‌بندی جدید
+                        </span>
+
+                    </div>
+
+                    <span class="dashboard-action-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+
+                <a asp-area="Admin"
+                   asp-controller="Pages"
+                   asp-action="Index"
+                   class="dashboard-action">
+
+                    <div class="dashboard-action-icon">
+                        ▤
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            مدیریت صفحات
+                        </strong>
+
+                        <span>
+                            ویرایش محتوای صفحات سایت
+                        </span>
+
+                    </div>
+
+                    <span class="dashboard-action-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- System Status -->
+
+        <div class="dashboard-panel">
+
+            <div class="dashboard-panel-header">
+
+                <div>
+
+                    <h2>
+                        وضعیت سیستم
+                    </h2>
+
+                    <p>
+                        وضعیت بخش‌های اصلی پنل
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-status-list">
+
+                <div class="dashboard-status-item">
+
+                    <div class="dashboard-status-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            پایگاه داده
+                        </strong>
+
+                        <span>
+                            اتصال برقرار است
+                        </span>
+
+                    </div>
+
+                    <span class="dashboard-status-badge">
+                        فعال
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-status-item">
+
+                    <div class="dashboard-status-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            سیستم مدیریت محتوا
+                        </strong>
+
+                        <span>
+                            آماده استفاده
+                        </span>
+
+                    </div>
+
+                    <span class="dashboard-status-badge">
+                        فعال
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-status-item">
+
+                    <div class="dashboard-status-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            فضای آپلود
+                        </strong>
+
+                        <span>
+                            آماده دریافت فایل
+                        </span>
+
+                    </div>
+
+                    <span class="dashboard-status-badge">
+                        آماده
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Welcome -->
+
+    <div class="dashboard-welcome">
+
+        <div class="dashboard-welcome-icon">
+            م
+        </div>
+
+        <div>
+
+            <h2>
+                مدیریت مکتب اهواز
+            </h2>
+
+            <p>
+                محتوای سایت، سخنرانی‌ها، سخنران‌ها و
+                دسته‌بندی‌ها را از طریق منوی سمت راست مدیریت کنید.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>

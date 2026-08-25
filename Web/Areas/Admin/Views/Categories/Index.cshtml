@@ -1,0 +1,1568 @@
+﻿@model IEnumerable<MaktabAhvaz.Domain.Entities.Category>
+
+@{
+    ViewData["Title"] = "دسته‌بندی‌ها";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="admin-page-header">
+
+        <div>
+
+            <h1 class="admin-page-title">
+                دسته‌بندی‌ها
+            </h1>
+
+            <p class="admin-page-description">
+                مدیریت دسته‌بندی‌های فایل‌های صوتی
+            </p>
+
+        </div>
+
+
+        <button type="button"
+                class="admin-btn admin-btn-primary"
+                onclick="openCreateCategoryModal()">
+
+            <span class="admin-btn-icon">
+                +
+            </span>
+
+            <span>
+                افزودن دسته‌بندی
+            </span>
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         ALERT CONTAINER
+         ===================================================== -->
+
+    <div id="categoryAlertContainer"></div>
+
+
+    <!-- =====================================================
+         CATEGORY TABLE
+         ===================================================== -->
+
+    <div class="admin-card">
+
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="admin-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                دسته‌بندی
+                            </th>
+
+                            <th>
+                                Slug
+                            </th>
+
+                            <th>
+                                فایل‌های صوتی
+                            </th>
+
+                            <th>
+                                وضعیت
+                            </th>
+
+                            <th>
+                                ترتیب
+                            </th>
+
+                            <th class="text-end">
+                                عملیات
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="categoriesTableBody">
+
+                        @foreach (var category in Model)
+                        {
+                            <tr id="category-row-@category.Id">
+
+
+                                <!-- CATEGORY -->
+
+                                <td>
+
+                                    <div class="category-cell">
+
+                                        <div class="category-icon">
+
+                                            ▦
+
+                                        </div>
+
+
+                                        <div class="category-info">
+
+                                            <strong class="category-name">
+                                                @category.Name
+                                            </strong>
+
+
+                                            @if (!string.IsNullOrWhiteSpace(category.Description))
+                                            {
+                                                <span class="category-description">
+
+                                                    @{
+                                                        var description =
+                                                            category.Description.Length > 70
+                                                                ? category.Description[..70] + "..."
+                                                                : category.Description;
+                                                    }
+
+                                                    @description
+
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="category-description muted">
+                                                    توضیحی ثبت نشده
+                                                </span>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- SLUG -->
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(category.Slug))
+                                    {
+                                        <code class="category-slug">
+                                            @category.Slug
+                                        </code>
+                                    }
+                                    else
+                                    {
+                                        <span class="admin-muted">
+                                            —
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- AUDIO COUNT -->
+
+                                <td>
+
+                                    @if (category.AudioCategories.Any())
+                                    {
+                                        <span class="category-count">
+
+                                            @category.AudioCategories.Count
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="admin-muted">
+                                            ۰ فایل
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    @if (category.IsActive)
+                                    {
+                                        <span class="admin-status admin-status-success">
+
+                                            <span class="admin-status-dot"></span>
+
+                                            فعال
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="admin-status admin-status-muted">
+
+                                            <span class="admin-status-dot"></span>
+
+                                            غیرفعال
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- ORDER -->
+
+                                <td>
+
+                                    <span class="category-order">
+
+                                        @category.DisplayOrder
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td class="text-end">
+
+                                    <div class="admin-actions">
+
+
+                                        <button type="button"
+                                                class="admin-action admin-action-edit"
+                                                onclick="openEditCategoryModal(
+                                            @category.Id,
+                                            '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(category.Name))',
+                                            '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(category.Slug ?? ""))',
+                                            '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(category.Description ?? ""))',
+                                            @category.DisplayOrder,
+                                            @category.IsActive.ToString().ToLower()
+                                            )">
+
+                                            ویرایش
+
+                                        </button>
+
+
+                                        <button type="button"
+                                                class="admin-action admin-action-delete"
+                                                onclick="openDeleteCategoryModal(
+                                            @category.Id,
+                                            '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(category.Name))',
+                                            @category.AudioCategories.Count
+                                            )">
+
+                                            حذف
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <!-- =================================================
+                 EMPTY STATE
+                 ================================================= -->
+
+            <div class="admin-empty">
+
+                <div class="admin-empty-icon">
+                    ▦
+                </div>
+
+
+                <h3>
+                    هنوز دسته‌بندی‌ای ثبت نشده است
+                </h3>
+
+
+                <p>
+                    برای مرتب‌سازی فایل‌های صوتی، اولین دسته‌بندی خود را ایجاد کنید.
+                </p>
+
+
+                <button type="button"
+                        class="admin-btn admin-btn-primary"
+                        onclick="openCreateCategoryModal()">
+
+                    <span class="admin-btn-icon">
+                        +
+                    </span>
+
+                    افزودن اولین دسته‌بندی
+
+                </button>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CREATE MODAL
+     ========================================================= -->
+
+<div class="modal fade"
+     id="createCategoryModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content admin-modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5 class="modal-title">
+                        افزودن دسته‌بندی
+                    </h5>
+
+                    <p class="modal-description">
+                        یک دسته‌بندی جدید ایجاد کنید.
+                    </p>
+
+                </div>
+
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="بستن">
+                </button>
+
+            </div>
+
+
+            <form id="createCategoryForm">
+
+                @Html.AntiForgeryToken()
+
+
+                <div class="modal-body">
+
+
+                    <!-- NAME -->
+
+                    <div class="admin-form-group">
+
+                        <label class="admin-form-label">
+                            نام دسته‌بندی
+                            <span class="admin-required">*</span>
+                        </label>
+
+
+                        <input type="text"
+                               id="createName"
+                               name="Name"
+                               class="admin-form-control"
+                               placeholder="مثلاً سخنرانی‌های مذهبی"
+                               required />
+
+
+                        <div class="admin-form-error"
+                             id="createNameError">
+                        </div>
+
+                    </div>
+
+
+                    <!-- SLUG -->
+
+                    <div class="admin-form-group">
+
+                        <label class="admin-form-label">
+                            Slug
+                        </label>
+
+
+                        <input type="text"
+                               id="createSlug"
+                               name="Slug"
+                               class="admin-form-control"
+                               dir="ltr"
+                               placeholder="religious-speeches" />
+
+
+                        <div class="admin-form-help">
+                            در صورت خالی بودن، به صورت خودکار ساخته می‌شود.
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="admin-form-group">
+
+                        <label class="admin-form-label">
+                            توضیحات
+                        </label>
+
+
+                        <textarea id="createDescription"
+                                  name="Description"
+                                  class="admin-form-control"
+                                  rows="4"
+                                  placeholder="توضیح کوتاه درباره دسته‌بندی..."></textarea>
+
+                    </div>
+
+
+                    <div class="row">
+
+
+                        <!-- ORDER -->
+
+                        <div class="col-md-6">
+
+                            <div class="admin-form-group">
+
+                                <label class="admin-form-label">
+                                    ترتیب نمایش
+                                </label>
+
+
+                                <input type="number"
+                                       id="createDisplayOrder"
+                                       name="DisplayOrder"
+                                       value="0"
+                                       min="0"
+                                       class="admin-form-control" />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="col-md-6">
+
+                            <div class="admin-form-group">
+
+                                <label class="admin-form-label">
+                                    وضعیت
+                                </label>
+
+
+                                <label class="admin-checkbox">
+
+                                    <input type="checkbox"
+                                           id="createIsActive"
+                                           name="IsActive"
+                                           value="true"
+                                           checked />
+
+                                    <span>
+                                        فعال
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                    <button type="button"
+                            class="admin-btn admin-btn-secondary"
+                            data-bs-dismiss="modal">
+
+                        انصراف
+
+                    </button>
+
+
+                    <button type="submit"
+                            id="createSubmitButton"
+                            class="admin-btn admin-btn-primary">
+
+                        <span>
+                            ذخیره دسته‌بندی
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     EDIT MODAL
+     ========================================================= -->
+
+<div class="modal fade"
+     id="editCategoryModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content admin-modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5 class="modal-title">
+                        ویرایش دسته‌بندی
+                    </h5>
+
+                    <p class="modal-description">
+                        اطلاعات دسته‌بندی را ویرایش کنید.
+                    </p>
+
+                </div>
+
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="بستن">
+                </button>
+
+            </div>
+
+
+            <form id="editCategoryForm">
+
+                @Html.AntiForgeryToken()
+
+
+                <input type="hidden"
+                       id="editId"
+                       name="Id" />
+
+
+                <div class="modal-body">
+
+
+                    <!-- NAME -->
+
+                    <div class="admin-form-group">
+
+                        <label class="admin-form-label">
+                            نام دسته‌بندی
+                            <span class="admin-required">*</span>
+                        </label>
+
+
+                        <input type="text"
+                               id="editName"
+                               name="Name"
+                               class="admin-form-control"
+                               required />
+
+
+                        <div class="admin-form-error"
+                             id="editNameError">
+                        </div>
+
+                    </div>
+
+
+                    <!-- SLUG -->
+
+                    <div class="admin-form-group">
+
+                        <label class="admin-form-label">
+                            Slug
+                        </label>
+
+
+                        <input type="text"
+                               id="editSlug"
+                               name="Slug"
+                               class="admin-form-control"
+                               dir="ltr" />
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="admin-form-group">
+
+                        <label class="admin-form-label">
+                            توضیحات
+                        </label>
+
+
+                        <textarea id="editDescription"
+                                  name="Description"
+                                  class="admin-form-control"
+                                  rows="4"></textarea>
+
+                    </div>
+
+
+                    <div class="row">
+
+
+                        <!-- ORDER -->
+
+                        <div class="col-md-6">
+
+                            <div class="admin-form-group">
+
+                                <label class="admin-form-label">
+                                    ترتیب نمایش
+                                </label>
+
+
+                                <input type="number"
+                                       id="editDisplayOrder"
+                                       name="DisplayOrder"
+                                       min="0"
+                                       class="admin-form-control" />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="col-md-6">
+
+                            <div class="admin-form-group">
+
+                                <label class="admin-form-label">
+                                    وضعیت
+                                </label>
+
+
+                                <label class="admin-checkbox">
+
+                                    <input type="checkbox"
+                                           id="editIsActive"
+                                           name="IsActive"
+                                           value="true" />
+
+                                    <span>
+                                        فعال
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                    <button type="button"
+                            class="admin-btn admin-btn-secondary"
+                            data-bs-dismiss="modal">
+
+                        انصراف
+
+                    </button>
+
+
+                    <button type="submit"
+                            id="editSubmitButton"
+                            class="admin-btn admin-btn-primary">
+
+                        ذخیره تغییرات
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     DELETE MODAL
+     ========================================================= -->
+
+
+<div class="modal fade"
+     id="deleteCategoryModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+
+        <div class="modal-content admin-modal">
+
+
+            <div class="modal-body text-center">
+
+
+                <div class="category-delete-modal-icon">
+                    !
+                </div>
+
+
+                <h5 class="category-delete-modal-title">
+
+                    حذف دسته‌بندی
+
+                </h5>
+
+
+                <p class="category-delete-modal-text">
+
+                    آیا مطمئن هستید که می‌خواهید دسته‌بندی
+
+                    <strong id="deleteCategoryName">
+                    </strong>
+
+                    را حذف کنید؟
+
+                </p>
+
+
+                <div id="deleteCategoryWarning"
+                     class="admin-alert admin-alert-warning text-start">
+                </div>
+
+
+                <form id="deleteCategoryForm">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           id="deleteCategoryId" />
+
+                </form>
+
+
+                <div class="d-flex gap-2 justify-content-center mt-4">
+
+
+                    <button type="button"
+                            class="admin-btn admin-btn-secondary"
+                            data-bs-dismiss="modal">
+
+                        انصراف
+
+                    </button>
+
+
+                    <button type="button"
+                            id="deleteCategoryButton"
+                            class="admin-btn admin-btn-danger"
+                            onclick="deleteCategory()">
+
+                        حذف دسته‌بندی
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+
+    <script>
+
+        /* =========================================================
+           HELPERS
+           ========================================================= */
+
+        function getAntiForgeryToken(form) {
+
+            return form.querySelector(
+                'input[name="__RequestVerificationToken"]'
+            ).value;
+
+        }
+
+
+        function showCategoryAlert(message, type = "success") {
+
+            const container =
+                document.getElementById("categoryAlertContainer");
+
+            const alert =
+                document.createElement("div");
+
+            alert.className =
+                `admin-alert admin-alert-${type}`;
+
+            alert.innerHTML = `
+
+                <span class="admin-alert-icon">
+                    ${type === "success" ? "✓" : "!"}
+                </span>
+
+                <span>
+                    ${escapeHtml(message)}
+                </span>
+
+            `;
+
+            container.appendChild(alert);
+
+
+            setTimeout(function () {
+
+                alert.style.opacity = "0";
+
+                setTimeout(function () {
+
+                    alert.remove();
+
+                }, 300);
+
+            }, 4000);
+
+        }
+
+
+        function escapeHtml(value) {
+
+            if (value === null || value === undefined)
+                return "";
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================================================
+           CREATE
+           ========================================================= */
+
+        function openCreateCategoryModal() {
+
+            const form =
+                document.getElementById("createCategoryForm");
+
+            form.reset();
+
+            document.getElementById("createDisplayOrder").value = 0;
+
+            document.getElementById("createIsActive").checked = true;
+
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById("createCategoryModal")
+                );
+
+            modal.show();
+
+        }
+
+
+        document
+            .getElementById("createCategoryForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+
+                const form = this;
+
+                const button =
+                    document.getElementById("createSubmitButton");
+
+
+                button.disabled = true;
+
+                button.innerHTML = "در حال ذخیره...";
+
+
+                try {
+
+                    const formData =
+                        new FormData(form);
+
+
+                    const response =
+                        await fetch(
+                            '@Url.Action("Create", "Categories", new { area = "Admin" })',
+                            {
+                                method: "POST",
+
+                                body: formData,
+
+                                headers: {
+                                    "X-Requested-With": "XMLHttpRequest"
+                                }
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok || !data.success) {
+
+                        throw new Error(
+                            data.message ||
+                            "خطایی در ایجاد دسته‌بندی رخ داد."
+                        );
+
+                    }
+
+
+                    bootstrap.Modal
+                        .getInstance(
+                            document.getElementById("createCategoryModal")
+                        )
+                        .hide();
+
+
+                    addCategoryRow(data);
+
+
+                    showCategoryAlert(
+                        data.message,
+                        "success"
+                    );
+
+                }
+                catch (error) {
+
+                    showCategoryAlert(
+                        error.message,
+                        "danger"
+                    );
+
+                }
+                finally {
+
+                    button.disabled = false;
+
+                    button.innerHTML =
+                        "ذخیره دسته‌بندی";
+
+                }
+
+            });
+
+
+        /* =========================================================
+           ADD ROW
+           ========================================================= */
+
+        function addCategoryRow(category) {
+
+            const tbody =
+                document.getElementById("categoriesTableBody");
+
+
+            if (!tbody) {
+
+                window.location.reload();
+
+                return;
+
+            }
+
+
+            const emptyState =
+                document.querySelector(".admin-empty");
+
+            if (emptyState) {
+
+                window.location.reload();
+
+                return;
+
+            }
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.id =
+                `category-row-${category.id}`;
+
+
+            row.innerHTML = buildCategoryRow(category);
+
+
+            tbody.prepend(row);
+
+        }
+
+
+        /* =========================================================
+           EDIT
+           ========================================================= */
+
+        function openEditCategoryModal(
+            id,
+            name,
+            slug,
+            description,
+            displayOrder,
+            isActive
+        ) {
+
+            document.getElementById("editId").value =
+                id;
+
+            document.getElementById("editName").value =
+                JSON.parse(name);
+
+            document.getElementById("editSlug").value =
+                JSON.parse(slug);
+
+            document.getElementById("editDescription").value =
+                JSON.parse(description);
+
+            document.getElementById("editDisplayOrder").value =
+                displayOrder;
+
+            document.getElementById("editIsActive").checked =
+                isActive === true;
+
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById("editCategoryModal")
+                );
+
+            modal.show();
+
+        }
+
+
+        document
+            .getElementById("editCategoryForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+
+                const form = this;
+
+                const button =
+                    document.getElementById("editSubmitButton");
+
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    "در حال ذخیره...";
+
+
+                try {
+
+                    const formData =
+                        new FormData(form);
+
+
+                    const response =
+                        await fetch(
+                            '@Url.Action("Edit", "Categories", new { area = "Admin" })',
+                            {
+                                method: "POST",
+
+                                body: formData,
+
+                                headers: {
+                                    "X-Requested-With": "XMLHttpRequest"
+                                }
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok || !data.success) {
+
+                        throw new Error(
+                            data.message ||
+                            "خطایی در ویرایش دسته‌بندی رخ داد."
+                        );
+
+                    }
+
+
+                    bootstrap.Modal
+                        .getInstance(
+                            document.getElementById("editCategoryModal")
+                        )
+                        .hide();
+
+
+                    updateCategoryRow(data);
+
+
+                    showCategoryAlert(
+                        data.message,
+                        "success"
+                    );
+
+                }
+                catch (error) {
+
+                    showCategoryAlert(
+                        error.message,
+                        "danger"
+                    );
+
+                }
+                finally {
+
+                    button.disabled = false;
+
+                    button.innerHTML =
+                        "ذخیره تغییرات";
+
+                }
+
+            });
+
+
+        /* =========================================================
+           UPDATE ROW
+           ========================================================= */
+
+        function updateCategoryRow(category) {
+
+            const row =
+                document.getElementById(
+                    `category-row-${category.id}`
+                );
+
+
+            if (!row)
+                return;
+
+
+            row.innerHTML =
+                buildCategoryRow(category);
+
+        }
+
+
+        /* =========================================================
+           BUILD ROW
+           ========================================================= */
+
+        function buildCategoryRow(category) {
+
+            const description =
+                category.description
+                    ? (
+                        category.description.length > 70
+                            ? category.description.substring(0, 70) + "..."
+                            : category.description
+                    )
+                    : "";
+
+
+            return `
+
+                <td>
+
+                    <div class="category-cell">
+
+                        <div class="category-icon">
+                            ▦
+                        </div>
+
+                        <div class="category-info">
+
+                            <strong class="category-name">
+                                ${escapeHtml(category.name)}
+                            </strong>
+
+                            ${
+                                description
+                                    ? `
+                                        <span class="category-description">
+                                            ${escapeHtml(description)}
+                                        </span>
+                                      `
+                                    : `
+                                        <span class="category-description muted">
+                                            توضیحی ثبت نشده
+                                        </span>
+                                      `
+                            }
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    ${
+                        category.slug
+                            ? `
+                                <code class="category-slug">
+                                    ${escapeHtml(category.slug)}
+                                </code>
+                              `
+                            : `
+                                <span class="admin-muted">
+                                    —
+                                </span>
+                              `
+                    }
+
+                </td>
+
+
+                <td>
+
+                    <span class="admin-muted">
+                        ۰ فایل
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    ${
+                        category.isActive
+                            ? `
+                                <span class="admin-status admin-status-success">
+
+                                    <span class="admin-status-dot"></span>
+
+                                    فعال
+
+                                </span>
+                              `
+                            : `
+                                <span class="admin-status admin-status-muted">
+
+                                    <span class="admin-status-dot"></span>
+
+                                    غیرفعال
+
+                                </span>
+                              `
+                    }
+
+                </td>
+
+
+                <td>
+
+                    <span class="category-order">
+                        ${category.displayOrder}
+                    </span>
+
+                </td>
+
+
+                <td class="text-end">
+
+                    <div class="admin-actions">
+
+
+                        <button type="button"
+                                class="admin-action admin-action-edit"
+                                onclick="openEditCategoryModal(
+                                    ${category.id},
+                                    '${JSON.stringify(category.name).replace(/'/g, "\\'")}',
+                                    '${JSON.stringify(category.slug || "").replace(/'/g, "\\'")}',
+                                    '${JSON.stringify(category.description || "").replace(/'/g, "\\'")}',
+                                    ${category.displayOrder},
+                                    ${category.isActive}
+                                )">
+
+                            ویرایش
+
+                        </button>
+
+
+                        <button type="button"
+                                class="admin-action admin-action-delete"
+                                onclick="openDeleteCategoryModal(
+                                    ${category.id},
+                                    '${JSON.stringify(category.name).replace(/'/g, "\\'")}',
+                                    0
+                                )">
+
+                            حذف
+
+                        </button>
+
+
+                    </div>
+
+                </td>
+
+            `;
+
+        }
+
+
+        /* =========================================================
+           DELETE
+           ========================================================= */
+
+
+        function openDeleteCategoryModal(
+            id,
+            name,
+            audioCount
+        ) {
+
+            document.getElementById("deleteCategoryId").value =
+                id;
+
+
+            document.getElementById("deleteCategoryName").textContent =
+                JSON.parse(name);
+
+
+            const warning =
+                document.getElementById(
+                    "deleteCategoryWarning"
+                );
+
+
+            const button =
+                document.getElementById(
+                    "deleteCategoryButton"
+                );
+
+
+            if (audioCount > 0) {
+
+                warning.className =
+                    "admin-alert admin-alert-danger text-start";
+
+                warning.innerHTML = `
+
+                    این دسته‌بندی به
+                    <strong>${audioCount}</strong>
+                    فایل صوتی متصل است و قابل حذف نیست.
+
+                `;
+
+                button.disabled = true;
+
+            }
+            else {
+
+                warning.className =
+                    "admin-alert admin-alert-warning text-start";
+
+                warning.innerHTML = `
+
+                    این عملیات قابل بازگشت نیست.
+
+                `;
+
+                button.disabled = false;
+
+            }
+
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById("deleteCategoryModal")
+                );
+
+            modal.show();
+
+        }
+
+
+        async function deleteCategory() {
+
+            const id =
+                document.getElementById(
+                    "deleteCategoryId"
+                ).value;
+
+
+            const button =
+                document.getElementById(
+                    "deleteCategoryButton"
+                );
+
+
+            button.disabled = true;
+
+            button.innerHTML =
+                "در حال حذف...";
+
+
+            try {
+
+
+                const token =
+                    document.querySelector(
+                        '#deleteCategoryModal input[name="__RequestVerificationToken"]'
+                    )?.value;
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "id",
+                    id
+                );
+
+
+                formData.append(
+                    "__RequestVerificationToken",
+                    token
+                );
+
+
+                const response =
+                    await fetch(
+                        '@Url.Action("Delete", "Categories", new { area = "Admin" })',
+                        {
+                            method: "POST",
+
+                            body: formData,
+
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "حذف دسته‌بندی انجام نشد."
+                    );
+
+                }
+
+
+                const row =
+                    document.getElementById(
+                        `category-row-${id}`
+                    );
+
+
+                if (row) {
+
+                    row.remove();
+
+                }
+
+
+                bootstrap.Modal
+                    .getInstance(
+                        document.getElementById("deleteCategoryModal")
+                    )
+                    .hide();
+
+
+                showCategoryAlert(
+                    data.message,
+                    "success"
+                );
+
+
+            }
+            catch (error) {
+
+                showCategoryAlert(
+                    error.message,
+                    "danger"
+                );
+
+            }
+            finally {
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    "حذف دسته‌بندی";
+
+            }
+
+        }
+
+    </script>
+
+}
+

@@ -1,0 +1,247 @@
+﻿@model Web.Areas.Admin.Models.AudioFiles.AudioFileCreateViewModel
+
+@{
+    ViewData["Title"] = "افزودن فایل صوتی";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-2">افزودن فایل صوتی</h1>
+        <p class="text-muted mb-0">
+            یک سخنرانی جدید به آرشیو اضافه کنید.
+        </p>
+    </div>
+
+
+    <form asp-area="Admin"
+          asp-controller="AudioFiles"
+          asp-action="Create"
+          method="post"
+          enctype="multipart/form-data">
+
+        @Html.AntiForgeryToken()
+
+        <div class="row g-4">
+
+            <!-- اطلاعات اصلی -->
+
+            <div class="col-lg-8">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-4">
+                            اطلاعات فایل
+                        </h5>
+
+
+                        <div class="mb-3">
+
+                            <label asp-for="Title"
+                                   class="form-label">
+                                عنوان
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="form-control"
+                                   placeholder="عنوان سخنرانی" />
+
+                            <span asp-validation-for="Title"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label asp-for="Description"
+                                   class="form-label">
+                                توضیحات
+                            </label>
+
+                            <textarea asp-for="Description"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="توضیحات سخنرانی..."></textarea>
+
+                        </div>
+
+
+                        <div class="mb-4">
+
+                            <label asp-for="Audio"
+                                   class="form-label">
+                                فایل صوتی
+                            </label>
+
+                            <input asp-for="Audio"
+                                   type="file"
+                                   class="form-control"
+                                   accept=".mp3,.m4a,audio/mpeg,audio/mp4" />
+
+                            <div class="form-text">
+                                فرمت‌های مجاز: MP3 و M4A
+                            </div>
+
+                            <span asp-validation-for="Audio"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label asp-for="CoverImage"
+                                   class="form-label">
+                                تصویر کاور
+                            </label>
+
+                            <input asp-for="CoverImage"
+                                   type="file"
+                                   class="form-control"
+                                   accept="image/*" />
+
+                            <div class="form-text">
+                                تصویر کاور اختیاری است.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- تنظیمات -->
+
+            <div class="col-lg-4">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-4">
+                            تنظیمات
+                        </h5>
+
+
+                        <div class="mb-4">
+
+                            <label asp-for="SpeakerId"
+                                   class="form-label">
+                                سخنران
+                            </label>
+
+                            <select asp-for="SpeakerId"
+                                    class="form-select">
+
+                                <option value="">
+                                    انتخاب سخنران
+                                </option>
+
+                                @foreach (var speaker in ViewBag.Speakers)
+                                {
+                                    <option value="@speaker.Id">
+                                        @speaker.Name
+                                    </option>
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="SpeakerId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                دسته‌بندی‌ها
+                            </label>
+
+                            <div class="border rounded p-3">
+
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <div class="form-check mb-2">
+
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               name="CategoryIds"
+                                               value="@category.Id"
+                                               id="category_@category.Id" />
+
+                                        <label class="form-check-label"
+                                               for="category_@category.Id">
+                                            @category.Name
+                                        </label>
+
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-check form-switch mb-3">
+
+                            <input asp-for="IsPublished"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="IsPublished"
+                                   class="form-check-label">
+                                انتشار فایل
+                            </label>
+
+                        </div>
+
+
+                        <div class="form-check form-switch mb-4">
+
+                            <input asp-for="IsDownloadable"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="IsDownloadable"
+                                   class="form-check-label">
+                                امکان دانلود
+                            </label>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+
+                            افزودن فایل صوتی
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

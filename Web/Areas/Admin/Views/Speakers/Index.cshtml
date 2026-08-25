@@ -1,0 +1,287 @@
+﻿@model IEnumerable<MaktabAhvaz.Domain.Entities.Speaker>
+
+@{
+    ViewData["Title"] = "سخنران‌ها";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page">
+
+    <!-- Page Header -->
+    <div class="admin-page-header">
+
+        <div class="admin-page-heading">
+
+            <div class="admin-page-icon">
+                ◉
+            </div>
+
+            <div>
+                <h1 class="admin-page-title">
+                    سخنران‌ها
+                </h1>
+
+                <p class="admin-page-description">
+                    مدیریت سخنران‌های مجموعه و اطلاعات آن‌ها
+                </p>
+            </div>
+
+        </div>
+
+
+        <a asp-area="Admin"
+           asp-controller="Speakers"
+           asp-action="Create"
+           class="admin-btn admin-btn-primary">
+
+            <span class="admin-btn-icon">
+                +
+            </span>
+
+            <span>
+                افزودن سخنران
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- Success Message -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="admin-alert admin-alert-success">
+
+            <span class="admin-alert-icon">
+                ✓
+            </span>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+
+    <!-- Main Card -->
+    <div class="admin-card speaker-list-card">
+
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+
+                <table class="admin-table speakers-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th class="speaker-column">
+                                سخنران
+                            </th>
+
+                            <th class="bio-column">
+                                درباره
+                            </th>
+
+                            <th class="status-column">
+                                وضعیت
+                            </th>
+
+                            <th class="actions-column">
+                                عملیات
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var speaker in Model)
+                        {
+                            <tr>
+
+                                <!-- Speaker -->
+                                <td>
+
+                                    <div class="speaker-cell">
+
+                                        @if (!string.IsNullOrWhiteSpace(speaker.ImageUrl))
+                                        {
+                                            <div class="speaker-image-wrapper">
+
+                                                <img src="@speaker.ImageUrl"
+                                                     alt="@speaker.Name"
+                                                     class="speaker-image"
+                                                     loading="lazy" />
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="speaker-image-wrapper speaker-image-placeholder">
+
+                                                <span>
+                                                    @speaker.Name.FirstOrDefault()
+                                                </span>
+
+                                            </div>
+                                        }
+
+
+                                        <div class="speaker-info">
+
+                                            <strong class="speaker-name">
+                                                @speaker.Name
+                                            </strong>
+
+                                            <span class="speaker-id">
+                                                شناسه #@speaker.Id
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Bio -->
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(speaker.Bio))
+                                    {
+                                        <div class="speaker-bio">
+
+                                            @{
+                                                var bio = speaker.Bio.Length > 110
+                                                    ? speaker.Bio[..110] + "..."
+                                                    : speaker.Bio;
+                                            }
+
+                                            @bio
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="admin-muted">
+                                            توضیحی ثبت نشده
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- Status -->
+                                <td>
+
+                                    @if (speaker.IsActive)
+                                    {
+                                        <span class="admin-status admin-status-success">
+
+                                            <span class="admin-status-dot"></span>
+
+                                            فعال
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="admin-status admin-status-muted">
+
+                                            <span class="admin-status-dot"></span>
+
+                                            غیرفعال
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- Actions -->
+                                <td>
+
+                                    <div class="admin-actions">
+
+                                        <a asp-area="Admin"
+                                           asp-controller="Speakers"
+                                           asp-action="Edit"
+                                           asp-route-id="@speaker.Id"
+                                           class="admin-action admin-action-edit">
+
+                                            <span>
+                                                ویرایش
+                                            </span>
+
+                                        </a>
+
+
+                                        <a asp-area="Admin"
+                                           asp-controller="Speakers"
+                                           asp-action="Delete"
+                                           asp-route-id="@speaker.Id"
+                                           class="admin-action admin-action-delete">
+
+                                            <span>
+                                                حذف
+                                            </span>
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <!-- Empty State -->
+
+            <div class="admin-empty">
+
+                <div class="admin-empty-icon">
+                    ◉
+                </div>
+
+                <h3>
+                    هنوز سخنرانی ثبت نشده است
+                </h3>
+
+                <p>
+                    اولین سخنران را به مجموعه اضافه کنید.
+                </p>
+
+                <a asp-area="Admin"
+                   asp-controller="Speakers"
+                   asp-action="Create"
+                   class="admin-btn admin-btn-primary">
+
+                    <span class="admin-btn-icon">
+                        +
+                    </span>
+
+                    <span>
+                        افزودن اولین سخنران
+                    </span>
+
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</div>
