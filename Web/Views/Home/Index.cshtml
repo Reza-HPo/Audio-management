@@ -2,87 +2,218 @@
     ViewData["Title"] = "خانه";
 }
 
-<section class="hero-section">
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="home-hero">
 
     <div class="container">
 
         <div class="row align-items-center g-5">
 
+            <!-- Hero Content -->
+
             <div class="col-lg-7">
 
-                <span class="hero-badge">
-                    آرشیو صوتی مکتب اهواز
-                </span>
+                <div class="home-hero-content">
 
-                <h1 class="hero-title">
+                    <span class="home-hero-eyebrow">
+                        آرشیو صوتی مکتب اهواز
+                    </span>
 
-                    جایی برای
-                    <span>شنیدن</span>
-                    و یادگیری
+                    <h1 class="home-hero-title">
 
-                </h1>
+                        جایی برای
+                        <span>شنیدن</span>
+                        و یادگیری
 
-                <p class="hero-description">
+                    </h1>
 
-                    مجموعه‌ای از سخنرانی‌ها و محتوای صوتی
-                    که برای دسترسی آسان‌تر، در یک آرشیو
-                    منظم و کاربردی گردآوری شده است.
+                    <p class="home-hero-description">
 
-                </p>
+                        مجموعه‌ای از سخنرانی‌ها، معارف اسلامی و
+                        محتوای صوتی که با هدف دسترسی آسان‌تر،
+                        در یک آرشیو منظم و کاربردی گردآوری شده است.
 
-                <div class="hero-actions">
+                    </p>
 
-                    <a href="#audio"
-                       class="btn btn-primary hero-primary-button">
 
-                        مشاهده آرشیو صوتی
+                    <div class="home-hero-actions">
 
-                    </a>
+                        <a asp-controller="Archive"
+                           asp-action="Index"
+                           class="home-btn home-btn-primary">
 
-                    <a href="#categories"
-                       class="btn hero-secondary-button">
+                            <span>
+                                مشاهده آرشیو
+                            </span>
 
-                        مرور دسته‌بندی‌ها
+                            <span class="home-btn-arrow">
+                                ←
+                            </span>
 
-                    </a>
+                        </a>
+
+
+                        <a href="#categories"
+                           class="home-btn home-btn-secondary">
+
+                            دسته‌بندی‌ها
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Hero Stats -->
+
+                    <div class="home-hero-stats">
+
+                        <div class="hero-stat">
+
+                            <strong>
+                                +۱۰۰
+                            </strong>
+
+                            <span>
+                                فایل صوتی
+                            </span>
+
+                        </div>
+
+
+                        <div class="hero-stat-divider"></div>
+
+
+                        <div class="hero-stat">
+
+                            <strong>
+                                +۲۰
+                            </strong>
+
+                            <span>
+                                سخنران
+                            </span>
+
+                        </div>
+
+
+                        <div class="hero-stat-divider"></div>
+
+
+                        <div class="hero-stat">
+
+                            <strong>
+                                رایگان
+                            </strong>
+
+                            <span>
+                                دسترسی به محتوا
+                            </span>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
 
+            <!-- Hero Visual -->
+
             <div class="col-lg-5">
 
-                <div class="hero-visual">
+                <div class="home-hero-visual">
 
-                    <div class="hero-circle hero-circle-one"></div>
+                    <div class="hero-decoration hero-decoration-one"></div>
 
-                    <div class="hero-circle hero-circle-two"></div>
+                    <div class="hero-decoration hero-decoration-two"></div>
 
-                    <div class="hero-audio-card">
 
-                        <div class="hero-audio-icon">
-                            ♪
+                    <div class="hero-main-card">
+
+                        <div class="hero-card-header">
+
+                            <div class="hero-card-icon">
+                                ♪
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    آرشیو صوتی
+                                </span>
+
+                                <strong>
+                                    مکتب اهواز
+                                </strong>
+
+                            </div>
+
                         </div>
 
-                        <div class="hero-audio-content">
+
+                        <div class="hero-wave">
+
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                        </div>
+
+
+                        <div class="hero-card-footer">
 
                             <span>
-                                محتوای صوتی
+                                برای شنیدن آماده است
                             </span>
 
-                            <strong>
-                                برای شنیدن آماده است
-                            </strong>
+                            <div class="hero-card-play">
+                                ▶
+                            </div>
 
                         </div>
 
-                        <button type="button"
-                                class="hero-play-button">
+                    </div>
 
-                            ▶
 
-                        </button>
+                    <div class="hero-floating-card">
+
+                        <div class="floating-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                دسترسی آسان
+                            </strong>
+
+                            <span>
+                                محتوای مورد علاقه‌تان را پیدا کنید
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -96,14 +227,21 @@
 
 </section>
 
-<section class="audio-section" id="audio">
+
+
+<!-- =========================================================
+     LATEST AUDIO
+========================================================= -->
+
+<section class="home-audio-section">
 
     <div class="container">
 
-        <div class="section-heading">
+        <div class="home-section-heading">
 
             <div>
-                <span class="section-eyebrow">
+
+                <span class="home-section-eyebrow">
                     آرشیو صوتی
                 </span>
 
@@ -112,15 +250,21 @@
                 </h2>
 
                 <p>
-                    جدیدترین فایل‌های صوتی اضافه‌شده به آرشیو
+                    جدیدترین محتوای صوتی اضافه‌شده به آرشیو
                 </p>
+
             </div>
 
-            <a href="#"
-               class="section-more">
+
+            <a asp-controller="Archive"
+               asp-action="Index"
+               class="home-section-more">
 
                 مشاهده همه
-                <span>←</span>
+
+                <span>
+                    ←
+                </span>
 
             </a>
 
@@ -129,15 +273,16 @@
 
         <div class="row g-4">
 
+
             <!-- Audio Card -->
 
             <div class="col-md-6 col-xl-4">
 
-                <article class="audio-card">
+                <article class="home-audio-card">
 
-                    <div class="audio-card-top">
+                    <div class="home-audio-card-top">
 
-                        <div class="audio-cover">
+                        <div class="home-audio-cover">
 
                             <span>
                                 ♪
@@ -146,9 +291,9 @@
                         </div>
 
 
-                        <div class="audio-card-info">
+                        <div class="home-audio-info">
 
-                            <span class="audio-category">
+                            <span class="home-audio-category">
                                 سخنرانی
                             </span>
 
@@ -157,8 +302,7 @@
                             </h3>
 
                             <p>
-                                حجت‌الاسلام و المسلمین
-                                نمونه
+                                حجت‌الاسلام و المسلمین نمونه
                             </p>
 
                         </div>
@@ -166,10 +310,10 @@
                     </div>
 
 
-                    <div class="audio-card-meta">
+                    <div class="home-audio-meta">
 
                         <span>
-                            🎧 ۴۵ دقیقه
+                            ۴۵ دقیقه
                         </span>
 
                         <span>
@@ -179,10 +323,10 @@
                     </div>
 
 
-                    <div class="audio-card-footer">
+                    <div class="home-audio-player">
 
-                        <button class="audio-play-button"
-                                type="button"
+                        <button type="button"
+                                class="home-audio-play"
                                 aria-label="پخش">
 
                             ▶
@@ -190,14 +334,14 @@
                         </button>
 
 
-                        <div class="audio-progress">
+                        <div class="home-audio-progress">
 
-                            <div class="audio-progress-bar"></div>
+                            <div class="home-audio-progress-fill"></div>
 
                         </div>
 
 
-                        <span class="audio-duration">
+                        <span class="home-audio-duration">
                             45:20
                         </span>
 
@@ -212,11 +356,11 @@
 
             <div class="col-md-6 col-xl-4">
 
-                <article class="audio-card">
+                <article class="home-audio-card">
 
-                    <div class="audio-card-top">
+                    <div class="home-audio-card-top">
 
-                        <div class="audio-cover">
+                        <div class="home-audio-cover">
 
                             <span>
                                 ♪
@@ -225,9 +369,9 @@
                         </div>
 
 
-                        <div class="audio-card-info">
+                        <div class="home-audio-info">
 
-                            <span class="audio-category">
+                            <span class="home-audio-category">
                                 اخلاق
                             </span>
 
@@ -244,10 +388,10 @@
                     </div>
 
 
-                    <div class="audio-card-meta">
+                    <div class="home-audio-meta">
 
                         <span>
-                            🎧 ۳۲ دقیقه
+                            ۳۲ دقیقه
                         </span>
 
                         <span>
@@ -257,10 +401,10 @@
                     </div>
 
 
-                    <div class="audio-card-footer">
+                    <div class="home-audio-player">
 
-                        <button class="audio-play-button"
-                                type="button"
+                        <button type="button"
+                                class="home-audio-play"
                                 aria-label="پخش">
 
                             ▶
@@ -268,14 +412,14 @@
                         </button>
 
 
-                        <div class="audio-progress">
+                        <div class="home-audio-progress">
 
-                            <div class="audio-progress-bar"></div>
+                            <div class="home-audio-progress-fill"></div>
 
                         </div>
 
 
-                        <span class="audio-duration">
+                        <span class="home-audio-duration">
                             32:14
                         </span>
 
@@ -290,11 +434,11 @@
 
             <div class="col-md-6 col-xl-4">
 
-                <article class="audio-card">
+                <article class="home-audio-card">
 
-                    <div class="audio-card-top">
+                    <div class="home-audio-card-top">
 
-                        <div class="audio-cover">
+                        <div class="home-audio-cover">
 
                             <span>
                                 ♪
@@ -303,9 +447,9 @@
                         </div>
 
 
-                        <div class="audio-card-info">
+                        <div class="home-audio-info">
 
-                            <span class="audio-category">
+                            <span class="home-audio-category">
                                 معارف
                             </span>
 
@@ -322,10 +466,10 @@
                     </div>
 
 
-                    <div class="audio-card-meta">
+                    <div class="home-audio-meta">
 
                         <span>
-                            🎧 ۵۸ دقیقه
+                            ۵۸ دقیقه
                         </span>
 
                         <span>
@@ -335,10 +479,10 @@
                     </div>
 
 
-                    <div class="audio-card-footer">
+                    <div class="home-audio-player">
 
-                        <button class="audio-play-button"
-                                type="button"
+                        <button type="button"
+                                class="home-audio-play"
                                 aria-label="پخش">
 
                             ▶
@@ -346,14 +490,14 @@
                         </button>
 
 
-                        <div class="audio-progress">
+                        <div class="home-audio-progress">
 
-                            <div class="audio-progress-bar"></div>
+                            <div class="home-audio-progress-fill"></div>
 
                         </div>
 
 
-                        <span class="audio-duration">
+                        <span class="home-audio-duration">
                             58:02
                         </span>
 
@@ -369,33 +513,45 @@
 
 </section>
 
-<section class="categories-section" id="categories">
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section class="home-categories-section"
+         id="categories">
 
     <div class="container">
 
-        <div class="section-heading">
+        <div class="home-section-heading">
 
             <div>
 
-                <span class="section-eyebrow">
+                <span class="home-section-eyebrow">
                     کشف محتوا
                 </span>
 
                 <h2>
-                    دسته‌بندی‌ها
+                    موضوع مورد علاقه‌تان را پیدا کنید
                 </h2>
 
                 <p>
-                    محتوای مورد علاقه‌تان را بر اساس موضوع پیدا کنید
+                    محتوای آرشیو را بر اساس موضوع مرور کنید
                 </p>
 
             </div>
 
-            <a href="#"
-               class="section-more">
+
+            <a asp-controller="Archive"
+               asp-action="Index"
+               class="home-section-more">
 
                 همه دسته‌بندی‌ها
-                <span>←</span>
+
+                <span>
+                    ←
+                </span>
 
             </a>
 
@@ -410,13 +566,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        🎙
+                    <div class="home-category-icon">
+                        <span>01</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             سخنرانی
@@ -428,7 +584,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -442,13 +598,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        📖
+                    <div class="home-category-icon">
+                        <span>02</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             معارف
@@ -460,7 +616,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -474,13 +630,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        🌱
+                    <div class="home-category-icon">
+                        <span>03</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             اخلاق
@@ -492,7 +648,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -506,13 +662,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        🕌
+                    <div class="home-category-icon">
+                        <span>04</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             مناسبت‌ها
@@ -524,7 +680,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -538,13 +694,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        📚
+                    <div class="home-category-icon">
+                        <span>05</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             عقاید
@@ -556,7 +712,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -570,13 +726,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        ✨
+                    <div class="home-category-icon">
+                        <span>06</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             تربیتی
@@ -588,7 +744,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -602,13 +758,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        🎓
+                    <div class="home-category-icon">
+                        <span>07</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             آموزشی
@@ -620,7 +776,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -634,13 +790,13 @@
             <div class="col-6 col-md-4 col-lg-3">
 
                 <a href="#"
-                   class="category-card">
+                   class="home-category-card">
 
-                    <div class="category-icon">
-                        💭
+                    <div class="home-category-icon">
+                        <span>08</span>
                     </div>
 
-                    <div class="category-content">
+                    <div class="home-category-content">
 
                         <h3>
                             پرسش و پاسخ
@@ -652,7 +808,7 @@
 
                     </div>
 
-                    <span class="category-arrow">
+                    <span class="home-category-arrow">
                         ←
                     </span>
 
@@ -666,15 +822,22 @@
 
 </section>
 
-<section class="speakers-section" id="speakers">
+
+
+<!-- =========================================================
+     SPEAKERS
+========================================================= -->
+
+<section class="home-speakers-section"
+         id="speakers">
 
     <div class="container">
 
-        <div class="section-heading">
+        <div class="home-section-heading">
 
             <div>
 
-                <span class="section-eyebrow">
+                <span class="home-section-eyebrow">
                     سخنران‌ها
                 </span>
 
@@ -683,40 +846,41 @@
                 </h2>
 
                 <p>
-                    سخنران مورد نظر خود را پیدا کنید و سخنرانی‌های او را بشنوید
+                    سخنران مورد نظر خود را پیدا کنید و محتوای او را بشنوید
                 </p>
 
             </div>
 
+
             <a href="#"
-               class="section-more">
+               class="home-section-more">
 
                 همه سخنران‌ها
-                <span>←</span>
+
+                <span>
+                    ←
+                </span>
 
             </a>
 
         </div>
 
 
-        <div class="row g-4">
+        <div class="row g-3">
+
 
             <!-- Speaker -->
 
             <div class="col-6 col-lg-3">
 
                 <a href="#"
-                   class="speaker-card">
+                   class="home-speaker-card">
 
-                    <div class="speaker-avatar">
-
-                        <span>
-                            م
-                        </span>
-
+                    <div class="home-speaker-avatar">
+                        م
                     </div>
 
-                    <div class="speaker-info">
+                    <div class="home-speaker-info">
 
                         <h3>
                             استاد نمونه
@@ -728,7 +892,7 @@
 
                     </div>
 
-                    <span class="speaker-arrow">
+                    <span class="home-speaker-arrow">
                         ←
                     </span>
 
@@ -742,17 +906,13 @@
             <div class="col-6 col-lg-3">
 
                 <a href="#"
-                   class="speaker-card">
+                   class="home-speaker-card">
 
-                    <div class="speaker-avatar">
-
-                        <span>
-                            ح
-                        </span>
-
+                    <div class="home-speaker-avatar">
+                        ح
                     </div>
 
-                    <div class="speaker-info">
+                    <div class="home-speaker-info">
 
                         <h3>
                             حجت‌الاسلام نمونه
@@ -764,7 +924,7 @@
 
                     </div>
 
-                    <span class="speaker-arrow">
+                    <span class="home-speaker-arrow">
                         ←
                     </span>
 
@@ -778,17 +938,13 @@
             <div class="col-6 col-lg-3">
 
                 <a href="#"
-                   class="speaker-card">
+                   class="home-speaker-card">
 
-                    <div class="speaker-avatar">
-
-                        <span>
-                            ع
-                        </span>
-
+                    <div class="home-speaker-avatar">
+                        ع
                     </div>
 
-                    <div class="speaker-info">
+                    <div class="home-speaker-info">
 
                         <h3>
                             استاد نمونه دوم
@@ -800,7 +956,7 @@
 
                     </div>
 
-                    <span class="speaker-arrow">
+                    <span class="home-speaker-arrow">
                         ←
                     </span>
 
@@ -814,17 +970,13 @@
             <div class="col-6 col-lg-3">
 
                 <a href="#"
-                   class="speaker-card">
+                   class="home-speaker-card">
 
-                    <div class="speaker-avatar">
-
-                        <span>
-                            س
-                        </span>
-
+                    <div class="home-speaker-avatar">
+                        س
                     </div>
 
-                    <div class="speaker-info">
+                    <div class="home-speaker-info">
 
                         <h3>
                             سخنران نمونه
@@ -836,13 +988,61 @@
 
                     </div>
 
-                    <span class="speaker-arrow">
+                    <span class="home-speaker-arrow">
                         ←
                     </span>
 
                 </a>
 
             </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="home-cta-section">
+
+    <div class="container">
+
+        <div class="home-cta">
+
+            <div class="home-cta-content">
+
+                <span>
+                    مکتب اهواز
+                </span>
+
+                <h2>
+                    چیزی برای شنیدن پیدا کن
+                </h2>
+
+                <p>
+                    در میان مجموعه‌ای از سخنرانی‌ها و محتوای صوتی
+                    جست‌وجو کن و آنچه را می‌خواهی بشنو.
+                </p>
+
+            </div>
+
+
+            <a asp-controller="Archive"
+               asp-action="Index"
+               class="home-cta-button">
+
+                ورود به آرشیو
+
+                <span>
+                    ←
+                </span>
+
+            </a>
 
         </div>
 

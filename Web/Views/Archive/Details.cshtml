@@ -2,26 +2,57 @@
 
 @{
     ViewData["Title"] = Model.Title;
+
+    var audioUrl = Model.FileName;
+
+    if (!string.IsNullOrWhiteSpace(audioUrl))
+    {
+        if (!audioUrl.StartsWith("/"))
+        {
+            audioUrl = "/" + audioUrl;
+        }
+
+        if (!audioUrl.StartsWith(
+            "/uploads/",
+            StringComparison.OrdinalIgnoreCase))
+        {
+            audioUrl = "/uploads/audio/" + audioUrl.TrimStart('/');
+        }
+    }
+
+    string? durationText = null;
+
+    if (Model.Duration.HasValue)
+    {
+        durationText =
+            Model.Duration.Value.ToString(@"hh\:mm\:ss");
+    }
 }
 
 <section class="audio-details-page">
 
     <div class="container">
 
+        <!-- Back -->
         <div class="audio-details-back">
 
             <a asp-controller="Archive"
                asp-action="Index">
 
-                ← بازگشت به آرشیو
+                <span class="back-icon">→</span>
+
+                بازگشت به آرشیو
 
             </a>
 
         </div>
 
 
+        <!-- Main Card -->
         <article class="audio-details-card">
 
+
+            <!-- Cover -->
             <div class="audio-details-cover">
 
                 @if (!string.IsNullOrWhiteSpace(Model.CoverImageUrl))
@@ -32,22 +63,28 @@
                 else
                 {
                     <div class="audio-details-cover-placeholder">
-                        ♪
+
+                        <span>♪</span>
+
                     </div>
                 }
 
             </div>
 
 
+            <!-- Content -->
             <div class="audio-details-content">
 
-                @if (Model.Categories.Any())
+
+                <!-- Categories -->
+                @if (Model.Categories != null &&
+                     Model.Categories.Any())
                 {
                     <div class="audio-details-categories">
 
                         @foreach (var category in Model.Categories)
                         {
-                            <span>
+                            <span class="audio-category">
                                 @category
                             </span>
                         }
@@ -56,48 +93,63 @@
                 }
 
 
-                <h1>
+                <!-- Title -->
+                <h1 class="audio-details-title">
                     @Model.Title
                 </h1>
 
 
+                <!-- Speaker -->
                 @if (!string.IsNullOrWhiteSpace(Model.SpeakerName))
                 {
                     <div class="audio-details-speaker">
 
-                        <span>
-                            سخنران:
+                        <span class="speaker-label">
+                            سخنران
                         </span>
 
-                        <strong>
+                        <span class="speaker-name">
                             @Model.SpeakerName
-                        </strong>
+                        </span>
 
                     </div>
                 }
 
 
+                <!-- Meta -->
                 <div class="audio-details-meta">
 
                     @if (Model.PublishedAt.HasValue)
                     {
-                        <span>
-                            📅
+                        <span class="audio-meta-item">
+
+                            <span class="meta-icon">
+                                📅
+                            </span>
+
                             @Model.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd")
+
                         </span>
                     }
 
-                    @if (Model.Duration.HasValue)
+
+                    @if (!string.IsNullOrWhiteSpace(durationText))
                     {
-                        <span>
-                            🎧
-                            @Model.Duration.Value.ToString(@"hh\:mm\:ss")
+                        <span class="audio-meta-item">
+
+                            <span class="meta-icon">
+                                ◷
+                            </span>
+
+                            @durationText
+
                         </span>
                     }
 
                 </div>
 
 
+                <!-- Description -->
                 @if (!string.IsNullOrWhiteSpace(Model.Description))
                 {
                     <div class="audio-details-description">
@@ -114,60 +166,137 @@
                 }
 
 
-                <div class="audio-details-player">
-
-                    <audio controls
-                           preload="metadata"
-                           class="w-100">
-
-                        @{
-                            var audioUrl = Model.FileName;
-
-                            if (!string.IsNullOrWhiteSpace(audioUrl))
-                            {
-                                if (!audioUrl.StartsWith("/"))
-                                {
-                                    audioUrl = "/" + audioUrl;
-                                }
-
-                                if (!audioUrl.StartsWith(
-                                    "/uploads/",
-                                    StringComparison.OrdinalIgnoreCase))
-                                {
-                                    audioUrl =
-                                        "/uploads/audio/" +
-                                        audioUrl.TrimStart('/');
-                                }
-                            }
-                        }
-
-                        @if (!string.IsNullOrWhiteSpace(audioUrl))
-                        {
-                            <source src="@audioUrl" />
-                        }
-
-                        مرورگر شما از پخش فایل صوتی پشتیبانی نمی‌کند.
-
-                    </audio>
-
-                </div>
-
-
-                @if (Model.IsDownloadable &&
-                     !string.IsNullOrWhiteSpace(Model.FileName))
+                <!-- ================================
+                     Custom Audio Player
+                     ================================ -->
+                @if (!string.IsNullOrWhiteSpace(Model.FileName))
                 {
-                    <div class="audio-details-actions">
+                    <div class="custom-audio-player"
+                         data-audio-player>
 
-                        <a href="@audioUrl"
-                           download
-                           class="admin-btn admin-btn-primary">
+                        <audio id="audioElement"
+                               preload="metadata">
 
-                            ↓ دانلود فایل صوتی
+                            <source src="@audioUrl"
+                                    type="audio/mpeg" />
 
-                        </a>
+                            مرورگر شما از پخش فایل صوتی پشتیبانی نمی‌کند.
+
+                        </audio>
+
+                        <div class="player-top">
+
+                            <div class="player-cover">
+
+                                @if (!string.IsNullOrWhiteSpace(Model.CoverImageUrl))
+                                {
+                                    <img src="@Model.CoverImageUrl"
+                                         alt="@Model.Title" />
+                                }
+                                else
+                                {
+                                    <div class="player-cover-placeholder">
+                                        ♪
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="player-info">
+
+                                <span class="player-label">
+                                    در حال پخش
+                                </span>
+
+                                <strong class="player-title">
+                                    @Model.Title
+                                </strong>
+
+                            </div>
+
+                            <button type="button"
+                                    class="player-play-button"
+                                    id="playButton"
+                                    aria-label="پخش">
+
+                                <span class="play-icon">
+                                    ▶
+                                </span>
+
+                                <span class="pause-icon">
+                                    ❚❚
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="player-progress-area">
+
+                            <span class="player-time"
+                                  id="currentTime">
+                                00:00
+                            </span>
+
+                            <div class="player-progress">
+
+                                <input type="range"
+                                       id="progressBar"
+                                       min="0"
+                                       max="100"
+                                       value="0"
+                                       step="0.1" />
+
+                            </div>
+
+                            <span class="player-time"
+                                  id="duration">
+                                00:00
+                            </span>
+
+                        </div>
+
+
+                        <div class="player-bottom">
+
+                            <div class="player-volume">
+
+                                <button type="button"
+                                        id="volumeButton"
+                                        class="player-control">
+
+                                    🔊
+
+                                </button>
+
+                                <input type="range"
+                                       id="volumeBar"
+                                       min="0"
+                                       max="1"
+                                       value="1"
+                                       step="0.05" />
+
+                            </div>
+
+
+                            @if (Model.IsDownloadable)
+                            {
+                                <a href="@audioUrl"
+                                   download
+                                   class="player-download">
+
+                                    <span>↓</span>
+                                    دانلود
+
+                                </a>
+                            }
+
+                        </div>
 
                     </div>
                 }
+
 
             </div>
 
@@ -176,3 +305,238 @@
     </div>
 
 </section>
+
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const player = document.querySelector("[data-audio-player]");
+
+            if (!player) {
+                return;
+            }
+
+            const audio = document.getElementById("audioElement");
+
+            const playButton =
+                document.getElementById("playButton");
+
+            const progressBar =
+                document.getElementById("progressBar");
+
+            const volumeBar =
+                document.getElementById("volumeBar");
+
+            const volumeButton =
+                document.getElementById("volumeButton");
+
+            const currentTimeElement =
+                document.getElementById("currentTime");
+
+            const durationElement =
+                document.getElementById("duration");
+
+
+            /*
+             * Format Time
+             */
+
+            function formatTime(seconds) {
+
+                if (!isFinite(seconds)) {
+                    return "00:00";
+                }
+
+                const minutes =
+                    Math.floor(seconds / 60);
+
+                const remainingSeconds =
+                    Math.floor(seconds % 60);
+
+                return String(minutes).padStart(2, "0")
+                    + ":"
+                    + String(remainingSeconds).padStart(2, "0");
+            }
+
+
+            /*
+             * Play / Pause
+             */
+
+            playButton.addEventListener("click", function () {
+
+                if (audio.paused) {
+
+                    audio.play();
+
+                } else {
+
+                    audio.pause();
+
+                }
+
+            });
+
+
+            /*
+             * Update Play Button
+             */
+
+            audio.addEventListener("play", function () {
+
+                player.classList.add("is-playing");
+
+                playButton.setAttribute(
+                    "aria-label",
+                    "توقف"
+                );
+
+            });
+
+
+            audio.addEventListener("pause", function () {
+
+                player.classList.remove("is-playing");
+
+                playButton.setAttribute(
+                    "aria-label",
+                    "پخش"
+                );
+
+            });
+
+
+            /*
+             * Metadata Loaded
+             */
+
+            audio.addEventListener(
+                "loadedmetadata",
+                function () {
+
+                    durationElement.textContent =
+                        formatTime(audio.duration);
+
+                }
+            );
+
+
+            /*
+             * Progress
+             */
+
+            audio.addEventListener(
+                "timeupdate",
+                function () {
+
+                    if (!audio.duration) {
+                        return;
+                    }
+
+                    const percentage =
+                        (audio.currentTime /
+                            audio.duration) * 100;
+
+                    progressBar.value =
+                        percentage;
+
+                    currentTimeElement.textContent =
+                        formatTime(audio.currentTime);
+
+                }
+            );
+
+
+            /*
+             * Seek
+             */
+
+            progressBar.addEventListener(
+                "input",
+                function () {
+
+                    if (!audio.duration) {
+                        return;
+                    }
+
+                    audio.currentTime =
+                        (progressBar.value / 100)
+                        * audio.duration;
+
+                }
+            );
+
+
+            /*
+             * Volume
+             */
+
+            volumeBar.addEventListener(
+                "input",
+                function () {
+
+                    audio.volume =
+                        volumeBar.value;
+
+                    if (audio.volume === 0) {
+
+                        volumeButton.textContent = "🔇";
+
+                    } else {
+
+                        volumeButton.textContent = "🔊";
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * Mute
+             */
+
+            volumeButton.addEventListener(
+                "click",
+                function () {
+
+                    audio.muted =
+                        !audio.muted;
+
+                    volumeButton.textContent =
+                        audio.muted
+                            ? "🔇"
+                            : "🔊";
+
+                }
+            );
+
+
+            /*
+             * Reset when finished
+             */
+
+            audio.addEventListener(
+                "ended",
+                function () {
+
+                    player.classList.remove(
+                        "is-playing"
+                    );
+
+                    progressBar.value = 0;
+
+                    currentTimeElement.textContent =
+                        "00:00";
+
+                }
+            );
+
+        });
+
+    </script>
+
+}
