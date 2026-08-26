@@ -2,8 +2,8 @@
     var title = ViewData["Title"]?.ToString();
 
     var pageTitle = string.IsNullOrWhiteSpace(title)
-        ? "مکتب اهواز"
-        : $"{title} | مکتب اهواز";
+        ? "مکتب وحی رفقای اهواز"
+        : $"{title} | مکتب وحی رفقای اهواز";
 }
 
 <!DOCTYPE html>
@@ -17,22 +17,27 @@
           content="width=device-width, initial-scale=1.0" />
 
     <meta name="description"
-          content="مکتب اهواز؛ آرشیو محتوای صوتی و سخنرانی‌ها" />
+          content="مکتب ,وحی رفقای اهواز؛ آرشیو محتوای صوتی و سخنرانی‌ها" />
 
     <title>@pageTitle</title>
+
+    <!-- Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet" />
 
 
     <!-- Bootstrap -->
 
     <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
-          asp-append-version="true" />
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
 
-    <!-- Site CSS -->
+    <!-- Admin CSS -->
 
     <link rel="stylesheet"
-          href="~/css/site.css"
+          href="~/css/Site.css"
           asp-append-version="true" />
 
 
