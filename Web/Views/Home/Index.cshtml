@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Web.Models.ViewModels.Home.HomeViewModel
+
+@{
     ViewData["Title"] = "خانه";
 }
 
@@ -73,7 +75,7 @@
                         <div class="hero-stat">
 
                             <strong>
-                                +۱۰۰
+                                @Model.AudioCount
                             </strong>
 
                             <span>
@@ -89,7 +91,7 @@
                         <div class="hero-stat">
 
                             <strong>
-                                +۲۰
+                                @Model.SpeakerCount
                             </strong>
 
                             <span>
@@ -157,27 +159,10 @@
 
                         <div class="hero-wave">
 
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                            @for (var i = 0; i < 20; i++)
+                            {
+                                <span></span>
+                            }
 
                         </div>
 
@@ -273,239 +258,144 @@
 
         <div class="row g-4">
 
+            @if (Model.LatestAudios.Any())
+            {
+                foreach (var audio in Model.LatestAudios)
+                {
+                    <div class="col-md-6 col-xl-4">
 
-            <!-- Audio Card -->
+                        <article class="home-audio-card">
 
-            <div class="col-md-6 col-xl-4">
+                            <div class="home-audio-card-top">
 
-                <article class="home-audio-card">
+                                <div class="home-audio-cover">
 
-                    <div class="home-audio-card-top">
+                                    @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
+                                    {
+                                        <img src="@audio.CoverImageUrl"
+                                             alt="@audio.Title" />
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            ♪
+                                        </span>
+                                    }
 
-                        <div class="home-audio-cover">
+                                </div>
 
-                            <span>
-                                ♪
-                            </span>
 
+                                <div class="home-audio-info">
+
+                                    @if (audio.Categories.Any())
+                                    {
+                                        <span class="home-audio-category">
+
+                                            @audio.Categories.First()
+
+                                        </span>
+                                    }
+
+                                    <h3>
+                                        @audio.Title
+                                    </h3>
+
+                                    @if (!string.IsNullOrWhiteSpace(audio.SpeakerName))
+                                    {
+                                        <p>
+                                            @audio.SpeakerName
+                                        </p>
+                                    }
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="home-audio-meta">
+
+                                @if (audio.Duration.HasValue)
+                                {
+                                    <span>
+                                        🎧
+                                        @audio.Duration.Value.ToString(@"hh\:mm\:ss")
+                                    </span>
+                                }
+
+                                @if (audio.PublishedAt.HasValue)
+                                {
+                                    <span>
+                                        @audio.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd")
+                                    </span>
+                                }
+
+                            </div>
+
+
+                            <div class="home-audio-player">
+
+                                <button type="button"
+                                        class="home-audio-play"
+                                        aria-label="پخش">
+
+                                    ▶
+
+                                </button>
+
+
+                                <div class="home-audio-progress">
+
+                                    <div class="home-audio-progress-fill"></div>
+
+                                </div>
+
+
+                                @if (audio.Duration.HasValue)
+                                {
+                                    <span class="home-audio-duration">
+                                        @audio.Duration.Value.ToString(@"mm\:ss")
+                                    </span>
+                                }
+
+
+                                @if (!string.IsNullOrWhiteSpace(audio.FileName))
+                                {
+                                    <audio preload="metadata"
+                                           class="home-audio-element"
+                                           src="@audio.FileName">
+                                    </audio>
+                                }
+
+                            </div>
+
+                        </article>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+
+                    <div class="archive-empty">
+
+                        <div class="archive-empty-icon">
+                            ♪
                         </div>
 
+                        <h3>
+                            هنوز فایل صوتی‌ای ثبت نشده است
+                        </h3>
 
-                        <div class="home-audio-info">
-
-                            <span class="home-audio-category">
-                                سخنرانی
-                            </span>
-
-                            <h3>
-                                عنوان نمونه سخنرانی
-                            </h3>
-
-                            <p>
-                                حجت‌الاسلام و المسلمین نمونه
-                            </p>
-
-                        </div>
+                        <p>
+                            به محض اضافه شدن فایل‌های صوتی،
+                            جدیدترین محتوا در این بخش نمایش داده می‌شود.
+                        </p>
 
                     </div>
 
-
-                    <div class="home-audio-meta">
-
-                        <span>
-                            ۴۵ دقیقه
-                        </span>
-
-                        <span>
-                            ۱۴۰۵/۰۵/۲۰
-                        </span>
-
-                    </div>
-
-
-                    <div class="home-audio-player">
-
-                        <button type="button"
-                                class="home-audio-play"
-                                aria-label="پخش">
-
-                            ▶
-
-                        </button>
-
-
-                        <div class="home-audio-progress">
-
-                            <div class="home-audio-progress-fill"></div>
-
-                        </div>
-
-
-                        <span class="home-audio-duration">
-                            45:20
-                        </span>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <!-- Audio Card -->
-
-            <div class="col-md-6 col-xl-4">
-
-                <article class="home-audio-card">
-
-                    <div class="home-audio-card-top">
-
-                        <div class="home-audio-cover">
-
-                            <span>
-                                ♪
-                            </span>
-
-                        </div>
-
-
-                        <div class="home-audio-info">
-
-                            <span class="home-audio-category">
-                                اخلاق
-                            </span>
-
-                            <h3>
-                                اخلاق و زندگی مؤمنانه
-                            </h3>
-
-                            <p>
-                                استاد نمونه
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="home-audio-meta">
-
-                        <span>
-                            ۳۲ دقیقه
-                        </span>
-
-                        <span>
-                            ۱۴۰۵/۰۵/۱۸
-                        </span>
-
-                    </div>
-
-
-                    <div class="home-audio-player">
-
-                        <button type="button"
-                                class="home-audio-play"
-                                aria-label="پخش">
-
-                            ▶
-
-                        </button>
-
-
-                        <div class="home-audio-progress">
-
-                            <div class="home-audio-progress-fill"></div>
-
-                        </div>
-
-
-                        <span class="home-audio-duration">
-                            32:14
-                        </span>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <!-- Audio Card -->
-
-            <div class="col-md-6 col-xl-4">
-
-                <article class="home-audio-card">
-
-                    <div class="home-audio-card-top">
-
-                        <div class="home-audio-cover">
-
-                            <span>
-                                ♪
-                            </span>
-
-                        </div>
-
-
-                        <div class="home-audio-info">
-
-                            <span class="home-audio-category">
-                                معارف
-                            </span>
-
-                            <h3>
-                                معرفت و خودسازی
-                            </h3>
-
-                            <p>
-                                استاد نمونه
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="home-audio-meta">
-
-                        <span>
-                            ۵۸ دقیقه
-                        </span>
-
-                        <span>
-                            ۱۴۰۵/۰۵/۱۵
-                        </span>
-
-                    </div>
-
-
-                    <div class="home-audio-player">
-
-                        <button type="button"
-                                class="home-audio-play"
-                                aria-label="پخش">
-
-                            ▶
-
-                        </button>
-
-
-                        <div class="home-audio-progress">
-
-                            <div class="home-audio-progress-fill"></div>
-
-                        </div>
-
-
-                        <span class="home-audio-duration">
-                            58:02
-                        </span>
-
-                    </div>
-
-                </article>
-
-            </div>
+                </div>
+            }
 
         </div>
 
@@ -560,261 +450,62 @@
 
         <div class="row g-3">
 
+            @if (Model.Categories.Any())
+            {
+                var categoryIndex = 1;
 
-            <!-- Category -->
+                foreach (var category in Model.Categories)
+                {
+                    <div class="col-6 col-md-4 col-lg-3">
 
-            <div class="col-6 col-md-4 col-lg-3">
+                        <a asp-controller="Archive"
+                           asp-action="Index"
+                           asp-route-categoryId="@category.Id"
+                           class="home-category-card">
 
-                <a href="#"
-                   class="home-category-card">
+                            <div class="home-category-icon">
 
-                    <div class="home-category-icon">
-                        <span>01</span>
-                    </div>
+                                <span>
+                                    @categoryIndex.ToString("00")
+                                </span>
 
-                    <div class="home-category-content">
-
-                        <h3>
-                            سخنرانی
-                        </h3>
-
-                        <span>
-                            ۱۲۴ فایل
-                        </span>
-
-                    </div>
-
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
+                            </div>
 
 
-            <!-- Category -->
+                            <div class="home-category-content">
 
-            <div class="col-6 col-md-4 col-lg-3">
+                                <h3>
+                                    @category.Name
+                                </h3>
 
-                <a href="#"
-                   class="home-category-card">
+                                <span>
+                                    @category.AudioCount فایل
+                                </span>
 
-                    <div class="home-category-icon">
-                        <span>02</span>
-                    </div>
+                            </div>
 
-                    <div class="home-category-content">
 
-                        <h3>
-                            معارف
-                        </h3>
+                            <span class="home-category-arrow">
+                                ←
+                            </span>
 
-                        <span>
-                            ۸۷ فایل
-                        </span>
+                        </a>
 
                     </div>
 
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Category -->
-
-            <div class="col-6 col-md-4 col-lg-3">
-
-                <a href="#"
-                   class="home-category-card">
-
-                    <div class="home-category-icon">
-                        <span>03</span>
-                    </div>
-
-                    <div class="home-category-content">
-
-                        <h3>
-                            اخلاق
-                        </h3>
-
-                        <span>
-                            ۶۳ فایل
-                        </span>
-
-                    </div>
-
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Category -->
-
-            <div class="col-6 col-md-4 col-lg-3">
-
-                <a href="#"
-                   class="home-category-card">
-
-                    <div class="home-category-icon">
-                        <span>04</span>
-                    </div>
-
-                    <div class="home-category-content">
-
-                        <h3>
-                            مناسبت‌ها
-                        </h3>
-
-                        <span>
-                            ۵۱ فایل
-                        </span>
-
-                    </div>
-
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Category -->
-
-            <div class="col-6 col-md-4 col-lg-3">
-
-                <a href="#"
-                   class="home-category-card">
-
-                    <div class="home-category-icon">
-                        <span>05</span>
-                    </div>
-
-                    <div class="home-category-content">
-
-                        <h3>
-                            عقاید
-                        </h3>
-
-                        <span>
-                            ۴۲ فایل
-                        </span>
-
-                    </div>
-
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Category -->
-
-            <div class="col-6 col-md-4 col-lg-3">
-
-                <a href="#"
-                   class="home-category-card">
-
-                    <div class="home-category-icon">
-                        <span>06</span>
-                    </div>
-
-                    <div class="home-category-content">
-
-                        <h3>
-                            تربیتی
-                        </h3>
-
-                        <span>
-                            ۳۸ فایل
-                        </span>
-
-                    </div>
-
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Category -->
-
-            <div class="col-6 col-md-4 col-lg-3">
-
-                <a href="#"
-                   class="home-category-card">
-
-                    <div class="home-category-icon">
-                        <span>07</span>
-                    </div>
-
-                    <div class="home-category-content">
-
-                        <h3>
-                            آموزشی
-                        </h3>
-
-                        <span>
-                            ۲۹ فایل
-                        </span>
-
-                    </div>
-
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Category -->
-
-            <div class="col-6 col-md-4 col-lg-3">
-
-                <a href="#"
-                   class="home-category-card">
-
-                    <div class="home-category-icon">
-                        <span>08</span>
-                    </div>
-
-                    <div class="home-category-content">
-
-                        <h3>
-                            پرسش و پاسخ
-                        </h3>
-
-                        <span>
-                            ۲۱ فایل
-                        </span>
-
-                    </div>
-
-                    <span class="home-category-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
+                    categoryIndex++;
+                }
+            }
+            else
+            {
+                <div class="col-12">
+
+                    <p>
+                        هنوز دسته‌بندی‌ای ثبت نشده است.
+                    </p>
+
+                </div>
+            }
 
         </div>
 
@@ -852,7 +543,8 @@
             </div>
 
 
-            <a href="#"
+            <a asp-controller="Archive"
+               asp-action="Index"
                class="home-section-more">
 
                 همه سخنران‌ها
@@ -868,133 +560,65 @@
 
         <div class="row g-3">
 
+            @if (Model.Speakers.Any())
+            {
+                foreach (var speaker in Model.Speakers)
+                {
+                    <div class="col-6 col-lg-3">
 
-            <!-- Speaker -->
-
-            <div class="col-6 col-lg-3">
-
-                <a href="#"
-                   class="home-speaker-card">
-
-                    <div class="home-speaker-avatar">
-                        م
-                    </div>
-
-                    <div class="home-speaker-info">
-
-                        <h3>
-                            استاد نمونه
-                        </h3>
-
-                        <span>
-                            ۳۲ سخنرانی
-                        </span>
-
-                    </div>
-
-                    <span class="home-speaker-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
+                        <a asp-controller="Archive"
+                           asp-action="Index"
+                           asp-route-speakerId="@speaker.Id"
+                           class="home-speaker-card">
 
 
-            <!-- Speaker -->
+                            <div class="home-speaker-avatar">
 
-            <div class="col-6 col-lg-3">
+                                @if (!string.IsNullOrWhiteSpace(speaker.ImageUrl))
+                                {
+                                    <img src="@speaker.ImageUrl"
+                                         alt="@speaker.Name" />
+                                }
+                                else
+                                {
+                                    @speaker.Name.FirstOrDefault()
+                                }
 
-                <a href="#"
-                   class="home-speaker-card">
+                            </div>
 
-                    <div class="home-speaker-avatar">
-                        ح
-                    </div>
 
-                    <div class="home-speaker-info">
+                            <div class="home-speaker-info">
 
-                        <h3>
-                            حجت‌الاسلام نمونه
-                        </h3>
+                                <h3>
+                                    @speaker.Name
+                                </h3>
 
-                        <span>
-                            ۲۷ سخنرانی
-                        </span>
+                                <span>
+                                    @speaker.AudioCount سخنرانی
+                                </span>
+
+                            </div>
+
+
+                            <span class="home-speaker-arrow">
+                                ←
+                            </span>
+
+                        </a>
 
                     </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
 
-                    <span class="home-speaker-arrow">
-                        ←
-                    </span>
+                    <p>
+                        هنوز سخنرانی ثبت نشده است.
+                    </p>
 
-                </a>
-
-            </div>
-
-
-            <!-- Speaker -->
-
-            <div class="col-6 col-lg-3">
-
-                <a href="#"
-                   class="home-speaker-card">
-
-                    <div class="home-speaker-avatar">
-                        ع
-                    </div>
-
-                    <div class="home-speaker-info">
-
-                        <h3>
-                            استاد نمونه دوم
-                        </h3>
-
-                        <span>
-                            ۲۱ سخنرانی
-                        </span>
-
-                    </div>
-
-                    <span class="home-speaker-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Speaker -->
-
-            <div class="col-6 col-lg-3">
-
-                <a href="#"
-                   class="home-speaker-card">
-
-                    <div class="home-speaker-avatar">
-                        س
-                    </div>
-
-                    <div class="home-speaker-info">
-
-                        <h3>
-                            سخنران نمونه
-                        </h3>
-
-                        <span>
-                            ۱۸ سخنرانی
-                        </span>
-
-                    </div>
-
-                    <span class="home-speaker-arrow">
-                        ←
-                    </span>
-
-                </a>
-
-            </div>
+                </div>
+            }
 
         </div>
 
@@ -1049,3 +673,110 @@
     </div>
 
 </section>
+
+
+
+@section Scripts {
+
+    <script>
+
+        document
+            .querySelectorAll(".home-audio-card")
+            .forEach(function (card) {
+
+                const button =
+                    card.querySelector(".home-audio-play");
+
+                const audio =
+                    card.querySelector(".home-audio-element");
+
+                const progress =
+                    card.querySelector(".home-audio-progress-fill");
+
+
+                if (!button || !audio)
+                    return;
+
+
+                button.addEventListener("click", function () {
+
+                    // Stop other audios
+
+                    document
+                        .querySelectorAll(".home-audio-element")
+                        .forEach(function (otherAudio) {
+
+                            if (otherAudio !== audio) {
+
+                                otherAudio.pause();
+
+                                const otherCard =
+                                    otherAudio.closest(".home-audio-card");
+
+                                if (otherCard) {
+
+                                    const otherButton =
+                                        otherCard.querySelector(".home-audio-play");
+
+                                    if (otherButton) {
+                                        otherButton.textContent = "▶";
+                                    }
+
+                                }
+
+                            }
+
+                        });
+
+
+                    if (audio.paused) {
+
+                        audio.play();
+
+                        button.textContent = "❚❚";
+
+                    }
+                    else {
+
+                        audio.pause();
+
+                        button.textContent = "▶";
+
+                    }
+
+                });
+
+
+                audio.addEventListener("timeupdate", function () {
+
+                    if (!audio.duration)
+                        return;
+
+                    const percentage =
+                        (audio.currentTime / audio.duration) * 100;
+
+                    if (progress) {
+
+                        progress.style.width =
+                            percentage + "%";
+
+                    }
+
+                });
+
+
+                audio.addEventListener("ended", function () {
+
+                    button.textContent = "▶";
+
+                    if (progress) {
+                        progress.style.width = "0%";
+                    }
+
+                });
+
+            });
+
+    </script>
+
+}
