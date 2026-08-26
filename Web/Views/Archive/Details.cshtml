@@ -1,0 +1,181 @@
+﻿@model Web.Models.ViewModels.Archive.AudioItemViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="audio-details-page">
+
+    <div class="container">
+
+        <div class="audio-details-back">
+
+            <a asp-controller="Archive"
+               asp-action="Index">
+
+                ← بازگشت به آرشیو
+
+            </a>
+
+        </div>
+
+
+        <article class="audio-details-card">
+
+            <div class="audio-details-cover">
+
+                @if (!string.IsNullOrWhiteSpace(Model.CoverImageUrl))
+                {
+                    <img src="@Model.CoverImageUrl"
+                         alt="@Model.Title" />
+                }
+                else
+                {
+                    <div class="audio-details-cover-placeholder">
+                        ♪
+                    </div>
+                }
+
+            </div>
+
+
+            <div class="audio-details-content">
+
+                @if (Model.Categories.Any())
+                {
+                    <div class="audio-details-categories">
+
+                        @foreach (var category in Model.Categories)
+                        {
+                            <span>
+                                @category
+                            </span>
+                        }
+
+                    </div>
+                }
+
+
+                <h1>
+                    @Model.Title
+                </h1>
+
+
+                @if (!string.IsNullOrWhiteSpace(Model.SpeakerName))
+                {
+                    <div class="audio-details-speaker">
+
+                        <span>
+                            سخنران:
+                        </span>
+
+                        <strong>
+                            @Model.SpeakerName
+                        </strong>
+
+                    </div>
+                }
+
+
+                <div class="audio-details-meta">
+
+                    @if (Model.PublishedAt.HasValue)
+                    {
+                        <span>
+                            📅
+                            @Model.PublishedAt
+                            .Value
+                            .ToLocalTime()
+                            .ToString("yyyy/MM/dd")
+                        </span>
+                    }
+
+                    @if (Model.Duration.HasValue)
+                    {
+                        <span>
+                            🎧
+                            @Model.Duration.Value.ToString(@"hh\:mm\:ss")
+                        </span>
+                    }
+
+                </div>
+
+
+                @if (!string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <div class="audio-details-description">
+
+                        <h2>
+                            درباره این سخنرانی
+                        </h2>
+
+                        <p>
+                            @Model.Description
+                        </p>
+
+                    </div>
+                }
+
+
+                <div class="audio-details-player">
+
+                    <audio controls
+                           preload="metadata"
+                           class="w-100">
+
+                        @{
+                            var audioUrl = Model.FileName;
+
+                            if (!string.IsNullOrWhiteSpace(audioUrl))
+                            {
+                                if (!audioUrl.StartsWith("/"))
+                                {
+                                    audioUrl = "/" + audioUrl;
+                                }
+
+                                if (!audioUrl.StartsWith(
+                                    "/uploads/",
+                                    StringComparison.OrdinalIgnoreCase))
+                                {
+                                    audioUrl =
+                                        "/uploads/audio/" +
+                                        audioUrl.TrimStart('/');
+                                }
+                            }
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(audioUrl))
+                        {
+                            <source src="@audioUrl" />
+                        }
+
+                        مرورگر شما از پخش فایل صوتی پشتیبانی نمی‌کند.
+
+                    </audio>
+
+                </div>
+
+
+                @if (Model.IsDownloadable &&
+                     !string.IsNullOrWhiteSpace(Model.FileName))
+                {
+                    <div class="audio-details-actions">
+
+                        <a href="@audioUrl"
+                           download
+                           class="admin-btn admin-btn-primary">
+
+                            ↓ دانلود فایل صوتی
+
+                        </a>
+
+                    </div>
+                }
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>

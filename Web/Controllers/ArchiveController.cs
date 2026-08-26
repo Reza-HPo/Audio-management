@@ -16,12 +16,7 @@ public class ArchiveController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index(
-        string? search,
-        int? categoryId,
-        int? speakerId,
-        string sort = "newest",
-        int page = 1)
+    public async Task<IActionResult> Index(string? search, int? categoryId, int? speakerId, string sort = "newest", int page = 1)
     {
         if (page < 1)
             page = 1;
@@ -166,6 +161,50 @@ public class ArchiveController : Controller
                 .ToListAsync()
         };
 
+
+        return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(int id)
+    {
+        var audio = await _context.AudioFiles
+            .AsNoTracking()
+            .Include(a => a.Speaker)
+            .Include(a => a.AudioCategories)
+                .ThenInclude(ac => ac.Category)
+            .FirstOrDefaultAsync(a =>
+                a.Id == id &&
+                a.IsPublished);
+
+        if (audio == null)
+            return NotFound();
+
+        var model = new AudioItemViewModel
+        {
+            Id = audio.Id,
+
+            Title = audio.Title,
+
+            Description = audio.Description,
+
+            SpeakerName = audio.Speaker?.Name,
+
+            CoverImageUrl = audio.CoverImageUrl,
+
+            FileName = audio.FileName,
+
+            Duration = audio.Duration,
+
+            PublishedAt = audio.PublishedAt,
+
+            IsDownloadable = audio.IsDownloadable,
+
+            Categories = audio.AudioCategories
+                .Where(ac => ac.Category != null)
+                .Select(ac => ac.Category.Name)
+                .ToList()
+        };
 
         return View(model);
     }

@@ -41,6 +41,8 @@ public class AudioItemViewModel
 
     public DateTime? PublishedAt { get; set; }
 
+    public bool IsDownloadable { get; set; }
+
     public List<string> Categories { get; set; } = [];
 }
 

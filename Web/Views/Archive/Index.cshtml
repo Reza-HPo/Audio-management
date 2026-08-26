@@ -281,7 +281,13 @@
                                     }
 
                                     <h3>
-                                        @audio.Title
+                                        <a asp-controller="Archive"
+                                           asp-action="Details"
+                                           asp-route-id="@audio.Id">
+
+                                            @audio.Title
+
+                                        </a>
                                     </h3>
 
                                     @if (!string.IsNullOrWhiteSpace(audio.SpeakerName))
