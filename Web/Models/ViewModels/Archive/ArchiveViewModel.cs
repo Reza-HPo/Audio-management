@@ -35,12 +35,13 @@ public class AudioItemViewModel
 
     public string? CoverImageUrl { get; set; }
 
+    public string? FileName { get; set; }
+
     public TimeSpan? Duration { get; set; }
 
     public DateTime? PublishedAt { get; set; }
 
     public List<string> Categories { get; set; } = [];
-    public object? FileName { get; internal set; }
 }
 
 public class CategoryFilterViewModel

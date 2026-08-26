@@ -124,17 +124,19 @@ public class ArchiveController : Controller
 
                 Description = a.Description,
 
-                SpeakerName = a.Speaker.Name,
+                SpeakerName = a.Speaker?.Name,
 
                 CoverImageUrl = a.CoverImageUrl,
+
+                FileName = a.FileName,
 
                 Duration = a.Duration,
 
                 PublishedAt = a.PublishedAt,
 
                 Categories = a.AudioCategories
-                    .Select(ac => ac.Category.Name)
-                    .ToList()
+        .Select(ac => ac.Category.Name)
+        .ToList()
 
             }).ToList(),
 
