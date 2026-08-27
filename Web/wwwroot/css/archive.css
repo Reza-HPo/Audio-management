@@ -296,3 +296,264 @@
             height: 34px;
         }
 }
+
+/* =========================================================
+   AUDIO CARD
+   ========================================================= */
+
+.audio-card {
+    position: relative;
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid #e7eee9;
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 8px 30px rgba(20, 70, 45, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    overflow: hidden;
+}
+
+
+    .audio-card:hover {
+        transform: translateY(-4px);
+        border-color: #d5e5db;
+        box-shadow: 0 16px 40px rgba(20, 70, 45, 0.10);
+    }
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.audio-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   COVER
+   ========================================================= */
+
+.audio-card-cover {
+    width: 82px;
+    height: 82px;
+    flex: 0 0 82px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient( 145deg, #edf7f0, #dcefe3 );
+    border: 1px solid #dcebe1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+    .audio-card-cover img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+
+/* =========================================================
+   COVER PLACEHOLDER
+   ========================================================= */
+
+.audio-card-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+    .audio-card-cover-placeholder span {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        color: #16834b;
+        font-size: 23px;
+        box-shadow: 0 5px 16px rgba(20, 90, 50, 0.10);
+    }
+
+
+/* =========================================================
+   INFO
+   ========================================================= */
+
+.audio-card-info {
+    min-width: 0;
+    padding-top: 3px;
+}
+
+
+/* =========================================================
+   CATEGORY
+   ========================================================= */
+
+.audio-card-category {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    margin-bottom: 9px;
+    border-radius: 999px;
+    background: #edf8f1;
+    color: #17834b;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.audio-card-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.7;
+    letter-spacing: -0.2px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+
+    .audio-card-title a {
+        color: #18251e;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+
+        .audio-card-title a:hover {
+            color: #16834b;
+        }
+
+
+/* =========================================================
+   SPEAKER
+   ========================================================= */
+
+.audio-card-speaker {
+    margin-top: 7px;
+    color: #78857e;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+    .audio-card-speaker::before {
+        content: "•";
+        color: #16834b;
+        margin-left: 7px;
+        font-weight: 900;
+    }
+
+
+/* =========================================================
+   META
+   ========================================================= */
+
+.audio-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #edf1ee;
+    color: #7b8780;
+    font-size: 12px;
+}
+
+
+.audio-card-date,
+.audio-card-duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+
+    /* Date icon */
+
+    .audio-card-date::before {
+        content: "◷";
+        color: #16834b;
+        font-size: 14px;
+    }
+
+
+    /* Duration icon */
+
+    .audio-card-duration::before {
+        content: "◉";
+        color: #16834b;
+        font-size: 9px;
+    }
+
+
+/* =========================================================
+   PLAYER SPACE
+   ========================================================= */
+
+.custom-audio-player {
+    margin-top: 16px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .audio-card {
+        padding: 16px;
+        border-radius: 20px;
+    }
+
+
+    .audio-card-cover {
+        width: 70px;
+        height: 70px;
+        flex-basis: 70px;
+        border-radius: 15px;
+    }
+
+
+    .audio-card-title {
+        font-size: 15px;
+    }
+
+
+    .audio-card-category {
+        font-size: 10px;
+    }
+
+
+    .audio-card-speaker {
+        font-size: 12px;
+    }
+}

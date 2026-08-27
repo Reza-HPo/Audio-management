@@ -5,8 +5,8 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/archive.css" />
-    <link rel="stylesheet" href="~/css/player.css" />
+    <link rel="stylesheet" href="~/css/archive.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/player.css" asp-append-version="true" />
 }
 
 <section class="archive-page">
@@ -14,10 +14,10 @@
     <div class="container">
 
         <!-- =====================================================
-             HEADER
+             PAGE HEADER
              ===================================================== -->
 
-        <div class="archive-header">
+        <header class="archive-header">
 
             <span class="section-eyebrow">
                 آرشیو مکتب اهواز
@@ -31,7 +31,7 @@
                 سخنرانی‌ها و محتوای صوتی مورد نظر خود را پیدا کنید.
             </p>
 
-        </div>
+        </header>
 
 
         <!-- =====================================================
@@ -46,7 +46,8 @@
 
                 <div class="archive-search-box">
 
-                    <span class="archive-search-icon">
+                    <span class="archive-search-icon"
+                          aria-hidden="true">
                         ⌕
                     </span>
 
@@ -54,7 +55,8 @@
                            name="search"
                            value="@Model.Search"
                            placeholder="جستجو در سخنرانی‌ها..."
-                           autocomplete="off" />
+                           autocomplete="off"
+                           aria-label="جستجو در آرشیو صوتی" />
 
                     <button type="submit">
                         جستجو
@@ -73,7 +75,8 @@
 
         <form asp-controller="Archive"
               asp-action="Index"
-              method="get">
+              method="get"
+              class="archive-filter-form">
 
             <input type="hidden"
                    name="search"
@@ -100,18 +103,10 @@
 
                         @foreach (var category in Model.Categories)
                         {
-                            if (Model.CategoryId == category.Id)
-                            {
-                                <option value="@category.Id" selected>
-                                    @category.Name
-                                </option>
-                            }
-                            else
-                            {
-                                <option value="@category.Id">
-                                    @category.Name
-                                </option>
-                            }
+                            <option value="@category.Id"
+                                    selected="@(Model.CategoryId == category.Id)">
+                                @category.Name
+                            </option>
                         }
 
                     </select>
@@ -137,18 +132,10 @@
 
                         @foreach (var speaker in Model.Speakers)
                         {
-                            if (Model.SpeakerId == speaker.Id)
-                            {
-                                <option value="@speaker.Id" selected>
-                                    @speaker.Name
-                                </option>
-                            }
-                            else
-                            {
-                                <option value="@speaker.Id">
-                                    @speaker.Name
-                                </option>
-                            }
+                            <option value="@speaker.Id"
+                                    selected="@(Model.SpeakerId == speaker.Id)">
+                                @speaker.Name
+                            </option>
                         }
 
                     </select>
@@ -168,44 +155,20 @@
                             name="sort"
                             onchange="this.form.submit()">
 
-                        @if (Model.Sort == "newest")
-                        {
-                            <option value="newest" selected>
-                                جدیدترین
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="newest">
-                                جدیدترین
-                            </option>
-                        }
+                        <option value="newest"
+                                selected="@(Model.Sort == "newest")">
+                            جدیدترین
+                        </option>
 
-                        @if (Model.Sort == "oldest")
-                        {
-                            <option value="oldest" selected>
-                                قدیمی‌ترین
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="oldest">
-                                قدیمی‌ترین
-                            </option>
-                        }
+                        <option value="oldest"
+                                selected="@(Model.Sort == "oldest")">
+                            قدیمی‌ترین
+                        </option>
 
-                        @if (Model.Sort == "alphabetical")
-                        {
-                            <option value="alphabetical" selected>
-                                الفبایی
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="alphabetical">
-                                الفبایی
-                            </option>
-                        }
+                        <option value="alphabetical"
+                                selected="@(Model.Sort == "alphabetical")">
+                            الفبایی
+                        </option>
 
                     </select>
 
@@ -230,7 +193,7 @@
 
 
         <!-- =====================================================
-             AUDIO CARDS
+             AUDIO GRID
              ===================================================== -->
 
         <div class="row g-4">
@@ -246,15 +209,15 @@
 
 
                             <!-- =================================================
-                                 CARD TOP
+                                 CARD HEADER
                                  ================================================= -->
 
-                            <div class="audio-card-top">
+                            <div class="audio-card-header">
 
 
                                 <!-- Cover -->
 
-                                <div class="audio-cover">
+                                <div class="audio-card-cover">
 
                                     @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
                                     {
@@ -264,9 +227,13 @@
                                     }
                                     else
                                     {
-                                        <span>
-                                            ♪
-                                        </span>
+                                        <div class="audio-card-cover-placeholder">
+
+                                            <span aria-hidden="true">
+                                                ♪
+                                            </span>
+
+                                        </div>
                                     }
 
                                 </div>
@@ -276,16 +243,23 @@
 
                                 <div class="audio-card-info">
 
+
+                                    <!-- Category -->
+
                                     @if (audio.Categories.Any())
                                     {
-                                        <span class="audio-category">
+                                        <div class="audio-card-category">
 
                                             @string.Join(" • ", audio.Categories)
 
-                                        </span>
+                                        </div>
                                     }
 
-                                    <h3>
+
+                                    <!-- Title -->
+
+                                    <h3 class="audio-card-title">
+
                                         <a asp-controller="Archive"
                                            asp-action="Details"
                                            asp-route-id="@audio.Id">
@@ -293,13 +267,19 @@
                                             @audio.Title
 
                                         </a>
+
                                     </h3>
+
+
+                                    <!-- Speaker -->
 
                                     @if (!string.IsNullOrWhiteSpace(audio.SpeakerName))
                                     {
-                                        <p>
+                                        <div class="audio-card-speaker">
+
                                             @audio.SpeakerName
-                                        </p>
+
+                                        </div>
                                     }
 
                                 </div>
@@ -313,18 +293,23 @@
 
                             <div class="audio-card-meta">
 
-                                @if (audio.Duration.HasValue)
-                                {
-                                    <span>
-                                        🎧
-                                        @audio.Duration.Value.ToString(@"hh\:mm\:ss")
-                                    </span>
-                                }
 
                                 @if (audio.PublishedAt.HasValue)
                                 {
-                                    <span>
+                                    <span class="audio-card-date">
+
                                         @audio.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd")
+
+                                    </span>
+                                }
+
+
+                                @if (audio.Duration.HasValue)
+                                {
+                                    <span class="audio-card-duration">
+
+                                        @audio.Duration.Value.ToString(@"hh\:mm\:ss")
+
                                     </span>
                                 }
 
@@ -332,81 +317,39 @@
 
 
                             <!-- =================================================
-                                 PLAYER
+                                 AUDIO PLAYER
                                  ================================================= -->
 
-                            <div class="audio-card-footer">
+                            @{
+                                var audioUrl = audio.FileName;
 
-
-                                <!-- Play button -->
-
-                                <button type="button"
-                                        class="audio-play-button"
-                                        aria-label="پخش @audio.Title"
-                                        title="پخش">
-
-                                    <span class="audio-play-icon">
-                                        ▶
-                                    </span>
-
-                                </button>
-
-
-                                <!-- Progress -->
-
-                                <div class="audio-progress"
-                                     role="slider"
-                                     aria-label="موقعیت پخش">
-
-                                    <div class="audio-progress-bar"></div>
-
-                                </div>
-
-
-                                <!-- Current / Total time -->
-
-                                <span class="audio-duration">
-
-                                    <span class="audio-current-time">
-                                        00:00
-                                    </span>
-
-                                    <span>
-                                        /
-                                    </span>
-
-                                    <span class="audio-total-time">
-
-                                        @if (audio.Duration.HasValue)
-                                        {
-                                            @audio.Duration.Value.ToString(@"mm\:ss")
-                                        }
-                                        else
-                                        {
-                                            <text>00:00</text>
-                                        }
-
-                                    </span>
-
-                                </span>
-
-
-                                <!-- Actual audio element -->
-                                @if (!string.IsNullOrWhiteSpace(audio.FileName))
+                                if (!string.IsNullOrWhiteSpace(audioUrl))
                                 {
-                                    var audioUrl = audio.FileName;
-
                                     if (!audioUrl.StartsWith("/"))
                                     {
                                         audioUrl = "/" + audioUrl;
                                     }
 
-                                    if (!audioUrl.StartsWith("/uploads/",
+                                    if (!audioUrl.StartsWith(
+                                        "/uploads/",
                                         StringComparison.OrdinalIgnoreCase))
                                     {
-                                        audioUrl = "/uploads/audio/" + audioUrl.TrimStart('/');
+                                        audioUrl =
+                                            "/uploads/audio/"
+                                            + audioUrl.TrimStart('/');
                                     }
+                                }
+                            }
 
+
+                            <div class="custom-audio-player"
+                                 data-player>
+
+
+                                <!-- Native Audio -->
+
+                                @if (!string.IsNullOrWhiteSpace(audioUrl))
+                                {
                                     <audio class="audio-player"
                                            preload="metadata"
                                            src="@audioUrl">
@@ -419,8 +362,171 @@
                                     </audio>
                                 }
 
-                            </div>
 
+                                <!-- =================================================
+                                     PLAYER HEADER
+                                     ================================================= -->
+
+                                <div class="player-top">
+
+
+                                    <!-- Player Cover -->
+
+                                    <div class="player-cover">
+
+                                        @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
+                                        {
+                                            <img src="@audio.CoverImageUrl"
+                                                 alt="@audio.Title"
+                                                 loading="lazy" />
+                                        }
+                                        else
+                                        {
+                                            <div class="player-cover-placeholder">
+
+                                                <span aria-hidden="true">
+                                                    ♪
+                                                </span>
+
+                                            </div>
+                                        }
+
+                                    </div>
+
+
+                                    <!-- Player Info -->
+
+                                    <div class="player-info">
+
+                                        <span class="player-label">
+                                            پخش صوت
+                                        </span>
+
+                                        <span class="player-title">
+                                            @audio.Title
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- Play Button -->
+
+                                    <button type="button"
+                                            class="player-play-button"
+                                            aria-label="پخش @audio.Title"
+                                            title="پخش">
+
+                                        <span class="play-icon"
+                                              aria-hidden="true">
+                                            ▶
+                                        </span>
+
+                                        <span class="pause-icon"
+                                              aria-hidden="true">
+                                            ❚❚
+                                        </span>
+
+                                    </button>
+
+                                </div>
+
+
+                                <!-- =================================================
+                                     PROGRESS
+                                     ================================================= -->
+
+                                <div class="player-progress-area">
+
+
+                                    <span class="player-time current-time">
+                                        00:00
+                                    </span>
+
+
+                                    <div class="player-progress">
+
+                                        <input type="range"
+                                               class="progress-range"
+                                               min="0"
+                                               max="100"
+                                               value="0"
+                                               step="0.1"
+                                               aria-label="موقعیت پخش" />
+
+                                    </div>
+
+
+                                    <span class="player-time total-time">
+
+                                        @if (audio.Duration.HasValue)
+                                        {
+                                            @audio.Duration.Value.ToString(@"mm\:ss")
+                                        }
+                                        else
+                                        {
+                                            <text>00:00</text>
+                                        }
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- =================================================
+                                     PLAYER FOOTER
+                                     ================================================= -->
+
+                                <div class="player-bottom">
+
+
+                                    <!-- Volume -->
+
+                                    <div class="player-volume">
+
+                                        <button type="button"
+                                                class="player-control volume-button"
+                                                aria-label="قطع صدا"
+                                                title="صدا">
+
+                                            <span aria-hidden="true">
+                                                🔊
+                                            </span>
+
+                                        </button>
+
+                                        <input type="range"
+                                               class="volume-range"
+                                               min="0"
+                                               max="1"
+                                               step="0.01"
+                                               value="1"
+                                               aria-label="میزان صدا" />
+
+                                    </div>
+
+
+                                    <!-- Download -->
+
+                                    @if (!string.IsNullOrWhiteSpace(audioUrl))
+                                    {
+                                        <a class="player-download"
+                                           href="@audioUrl"
+                                           download>
+
+                                            <span aria-hidden="true">
+                                                ↓
+                                            </span>
+
+                                            <span>
+                                                دانلود
+                                            </span>
+
+                                        </a>
+                                    }
+
+                                </div>
+
+                            </div>
 
                         </article>
 
@@ -430,14 +536,15 @@
             else
             {
                 <!-- =================================================
-                     EMPTY
+                     EMPTY STATE
                      ================================================= -->
 
                 <div class="col-12">
 
                     <div class="archive-empty">
 
-                        <div class="archive-empty-icon">
+                        <div class="archive-empty-icon"
+                             aria-hidden="true">
                             ♪
                         </div>
 
@@ -460,11 +567,14 @@
         <!-- =====================================================
              PAGINATION
              ===================================================== -->
+
         @if (Model.TotalPages > 1)
         {
             <nav class="archive-pagination"
-                 aria-label="صفحه‌بندی">
+                 aria-label="صفحه‌بندی آرشیو">
 
+
+                <!-- Previous -->
 
                 @if (Model.CurrentPage > 1)
                 {
@@ -475,13 +585,16 @@
                        asp-route-speakerId="@Model.SpeakerId"
                        asp-route-sort="@Model.Sort"
                        asp-route-page="@(Model.CurrentPage - 1)"
-                       class="pagination-arrow">
+                       class="pagination-arrow"
+                       aria-label="صفحه قبل">
 
                         →
 
                     </a>
                 }
 
+
+                <!-- Pages -->
 
                 @for (var i = 1; i <= Model.TotalPages; i++)
                 {
@@ -492,13 +605,16 @@
                        asp-route-speakerId="@Model.SpeakerId"
                        asp-route-sort="@Model.Sort"
                        asp-route-page="@i"
-                       class="@(i == Model.CurrentPage ? "active" : "")">
+                       class="@(i == Model.CurrentPage ? "active" : "")"
+                       aria-label="صفحه @i">
 
                         @i
 
                     </a>
                 }
 
+
+                <!-- Next -->
 
                 @if (Model.CurrentPage < Model.TotalPages)
                 {
@@ -509,7 +625,8 @@
                        asp-route-speakerId="@Model.SpeakerId"
                        asp-route-sort="@Model.Sort"
                        asp-route-page="@(Model.CurrentPage + 1)"
-                       class="pagination-arrow">
+                       class="pagination-arrow"
+                       aria-label="صفحه بعد">
 
                         ←
 
@@ -526,342 +643,7 @@
 
 @section Scripts {
 
-    <script>
-
-        document.addEventListener("DOMContentLoaded", function() {
-
-
-            /*
-             * ============================================================
-             * AUDIO PLAYERS
-             * ============================================================
-             */
-
-            const cards =
-                document.querySelectorAll(".audio-card");
-
-
-            cards.forEach(function(card) {
-
-
-                const audio =
-                    card.querySelector(".audio-player");
-
-
-                const button =
-                    card.querySelector(".audio-play-button");
-
-
-                const playIcon =
-                    card.querySelector(".audio-play-icon");
-
-
-                const progress =
-                    card.querySelector(".audio-progress");
-
-
-                const progressBar =
-                    card.querySelector(".audio-progress-bar");
-
-
-                const currentTime =
-                    card.querySelector(".audio-current-time");
-
-
-                const totalTime =
-                    card.querySelector(".audio-total-time");
-
-
-                if (!audio || !button) {
-                    return;
-                }
-
-
-                /*
-                 * ========================================================
-                 * PLAY / PAUSE
-                 * ========================================================
-                 */
-
-                button.addEventListener("click", function() {
-
-
-                    /*
-                     * Stop all other players
-                     */
-
-                    document
-                        .querySelectorAll(".audio-player")
-                        .forEach(function(otherAudio) {
-
-                            if (otherAudio !== audio) {
-
-                                otherAudio.pause();
-
-                                const otherCard =
-                                    otherAudio.closest(".audio-card");
-
-                                if (otherCard) {
-
-                                    const otherIcon =
-                                        otherCard.querySelector(".audio-play-icon");
-
-                                    if (otherIcon) {
-                                        otherIcon.textContent = "▶";
-                                    }
-
-                                    otherCard.classList.remove("is-playing");
-                                }
-
-                            }
-
-                        });
-
-
-                    /*
-                     * Play current
-                     */
-
-                    if (audio.paused) {
-
-                        const playPromise =
-                            audio.play();
-
-
-                        if (playPromise !== undefined) {
-
-                            playPromise
-                                .then(function() {
-
-                                    playIcon.textContent = "❚❚";
-
-                                    card.classList.add("is-playing");
-
-                                })
-                                .catch(function(error) {
-
-                                    console.error(
-                                        "Audio playback error:",
-                                        error
-                                    );
-
-                                });
-
-                        }
-
-                    }
-                    else {
-
-                        audio.pause();
-
-                    }
-
-                });
-
-
-                /*
-                 * ========================================================
-                 * PLAY EVENT
-                 * ========================================================
-                 */
-
-                audio.addEventListener("play", function() {
-
-                    playIcon.textContent = "❚❚";
-
-                    card.classList.add("is-playing");
-
-                });
-
-
-                /*
-                 * ========================================================
-                 * PAUSE EVENT
-                 * ========================================================
-                 */
-
-                audio.addEventListener("pause", function() {
-
-                    playIcon.textContent = "▶";
-
-                    card.classList.remove("is-playing");
-
-                });
-
-
-                /*
-                 * ========================================================
-                 * LOADED METADATA
-                 * ========================================================
-                 */
-
-                audio.addEventListener("loadedmetadata", function() {
-
-
-                    if (Number.isFinite(audio.duration)) {
-
-                        totalTime.textContent =
-                            formatTime(audio.duration);
-
-                    }
-
-                });
-
-
-                /*
-                 * ========================================================
-                 * TIME UPDATE
-                 * ========================================================
-                 */
-
-                audio.addEventListener("timeupdate", function() {
-
-
-                    if (!Number.isFinite(audio.duration) ||
-                        audio.duration <= 0) {
-
-                        return;
-
-                    }
-
-
-                    const percent =
-                        (audio.currentTime / audio.duration) * 100;
-
-
-                    progressBar.style.width =
-                        percent + "%";
-
-
-                    currentTime.textContent =
-                        formatTime(audio.currentTime);
-
-                });
-
-
-                /*
-                 * ========================================================
-                 * ENDED
-                 * ========================================================
-                 */
-
-                audio.addEventListener("ended", function() {
-
-
-                    playIcon.textContent = "▶";
-
-                    card.classList.remove("is-playing");
-
-
-                    progressBar.style.width = "0%";
-
-
-                    currentTime.textContent =
-                        "00:00";
-
-                });
-
-
-                /*
-                 * ========================================================
-                 * ERROR
-                 * ========================================================
-                 */
-
-                audio.addEventListener("error", function() {
-
-                    console.error(
-                        "Unable to load audio:",
-                        audio.src
-                    );
-
-                });
-
-
-                /*
-                 * ========================================================
-                 * PROGRESS CLICK
-                 * ========================================================
-                 */
-
-                if (progress) {
-
-                    progress.addEventListener("click", function(event) {
-
-
-                        if (!Number.isFinite(audio.duration) ||
-                            audio.duration <= 0) {
-
-                            return;
-
-                        }
-
-
-                        const rect =
-                            progress.getBoundingClientRect();
-
-
-                        const clickPosition =
-                            event.clientX - rect.left;
-
-
-                        const percent =
-                            Math.max(
-                                0,
-                                Math.min(
-                                    1,
-                                    clickPosition / rect.width
-                                )
-                            );
-
-
-                        audio.currentTime =
-                            percent * audio.duration;
-
-                    });
-
-                }
-
-            });
-
-
-            /*
-             * ============================================================
-             * FORMAT TIME
-             * ============================================================
-             */
-
-            function formatTime(seconds) {
-
-
-                if (!Number.isFinite(seconds) ||
-                    seconds < 0) {
-
-                    return "00:00";
-
-                }
-
-
-                seconds =
-                    Math.floor(seconds);
-
-
-                const minutes =
-                    Math.floor(seconds / 60);
-
-
-                const remainingSeconds =
-                    seconds % 60;
-
-
-                return String(minutes).padStart(2, "0")
-                    + ":"
-                    + String(remainingSeconds).padStart(2, "0");
-
-            }
-
-        });
-
-    </script>
+    <script src="~/js/archive-player.js"
+            asp-append-version="true"></script>
 
 }
