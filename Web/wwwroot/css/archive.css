@@ -1,2 +1,298 @@
-﻿body {
+﻿/* =========================================================
+   MAKTAB AHVAZ — ARCHIVE
+   White / Emerald Green
+========================================================= */
+
+
+/* =========================================================
+   ARCHIVE PAGE
+========================================================= */
+
+.archive-page {
+    padding: 70px 0 90px;
+    background: var(--background-color);
+    direction: rtl;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.archive-header {
+    margin-bottom: 35px;
+}
+
+    .archive-header h1 {
+        margin: 8px 0 10px;
+        color: var(--text-color);
+        font-size: 38px;
+        font-weight: 850;
+        line-height: 1.5;
+    }
+
+    .archive-header p {
+        margin: 0;
+        color: var(--muted-color);
+        font-size: 14px;
+        line-height: 2;
+    }
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.archive-search {
+    margin-bottom: 25px;
+}
+
+.archive-search-box {
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(20, 50, 35, .035);
+}
+
+.archive-search-icon {
+    padding: 0 12px;
+    color: var(--muted-color);
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.archive-search-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 13px;
+}
+
+    .archive-search-box input::placeholder {
+        color: #a0aaa4;
+    }
+
+.archive-search-box button {
+    flex-shrink: 0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 11px;
+    background: var(--primary-color);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+    .archive-search-box button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+    }
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.archive-filters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+    .filter-group label {
+        color: var(--text-color);
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .filter-group select {
+        width: 100%;
+        padding: 11px 13px;
+        border: 1px solid var(--border-color);
+        border-radius: 11px;
+        background: #ffffff;
+        color: var(--text-color);
+        outline: none;
+        font-family: inherit;
+        font-size: 11px;
+        cursor: pointer;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+        .filter-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(25, 135, 84, .08);
+        }
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.archive-results-header {
+    margin-bottom: 18px;
+    color: var(--muted-color);
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.archive-empty {
+    padding: 70px 20px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(20, 50, 35, .025);
+}
+
+.archive-empty-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary-color);
+    font-size: 24px;
+}
+
+.archive-empty h3 {
+    margin: 0 0 8px;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.archive-empty p {
+    margin: 0;
+    color: var(--muted-color);
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.archive-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 50px;
+}
+
+    .archive-pagination a,
+    .archive-pagination span {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        color: var(--muted-color);
+        font-size: 11px;
+        text-decoration: none;
+    }
+
+    .archive-pagination a {
+        border: 1px solid var(--border-color);
+        background: #ffffff;
+        transition: border-color .2s ease, color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+        .archive-pagination a:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .archive-pagination a.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+    .archive-pagination .pagination-arrow {
+        font-size: 15px;
+    }
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .archive-page {
+        padding: 50px 0 65px;
+    }
+
+    .archive-header h1 {
+        font-size: 31px;
+    }
+
+    .archive-filters {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .archive-search-box {
+        padding: 5px;
+    }
+
+    .archive-search-icon {
+        padding: 0 8px;
+        font-size: 20px;
+    }
+
+    .archive-search-box button {
+        padding: 10px 14px;
+    }
+
+    .archive-empty {
+        padding: 55px 15px;
+    }
+
+    .archive-pagination {
+        gap: 4px;
+        margin-top: 40px;
+    }
+
+        .archive-pagination a,
+        .archive-pagination span {
+            width: 34px;
+            height: 34px;
+        }
 }

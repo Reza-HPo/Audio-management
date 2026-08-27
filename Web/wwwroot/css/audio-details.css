@@ -1,2 +1,278 @@
-﻿body {
+﻿/* =========================================================
+   MAKTAB AHVAZ — AUDIO DETAILS
+   ========================================================= */
+
+.audio-details-page {
+    padding: 45px 0 80px;
+    direction: rtl;
+}
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+.audio-details-back {
+    margin-bottom: 25px;
+}
+
+    .audio-details-back a {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: #16834b;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: all .25s ease;
+    }
+
+        .audio-details-back a:hover {
+            color: #0d6338;
+        }
+
+.back-icon {
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.audio-details-card {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 42px;
+    max-width: 1100px;
+    margin: auto;
+    padding: 35px;
+    background: #fff;
+    border: 1px solid #e6eee9;
+    border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(20, 70, 40, .07);
+}
+
+
+/* =========================================================
+   COVER
+   ========================================================= */
+
+.audio-details-cover {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 23px;
+    background: #eaf7ef;
+    box-shadow: 0 15px 35px rgba(22, 131, 75, .13);
+}
+
+    .audio-details-cover img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+
+/* =========================================================
+   COVER PLACEHOLDER
+   ========================================================= */
+
+.audio-details-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient( circle, #f7fcf9 0%, #dff2e7 100% );
+    color: #16834b;
+    font-size: 90px;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.audio-details-content {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CATEGORIES
+   ========================================================= */
+
+.audio-details-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 15px;
+}
+
+.audio-category {
+    padding: 6px 12px;
+    border-radius: 50px;
+    background: #eaf7ef;
+    border: 1px solid #d8eee0;
+    color: #16834b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.audio-details-title {
+    margin: 0 0 17px;
+    color: #18231d;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.55;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+
+/* =========================================================
+   SPEAKER
+   ========================================================= */
+
+.audio-details-speaker {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.speaker-label {
+    color: #7b857f;
+}
+
+.speaker-name {
+    color: #16834b;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   META
+   ========================================================= */
+
+.audio-details-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf1ee;
+    color: #737d77;
+    font-size: 13px;
+}
+
+.audio-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta-icon {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.audio-details-description {
+    margin-top: 22px;
+    margin-bottom: 25px;
+}
+
+    .audio-details-description h2 {
+        margin: 0 0 10px;
+        color: #1c2921;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .audio-details-description p {
+        margin: 0;
+        color: #68736d;
+        font-size: 14px;
+        line-height: 2.2;
+        white-space: pre-line;
+    }
+
+
+/* =========================================================
+   AUDIO NOT FOUND
+   ========================================================= */
+
+.audio-not-found {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px;
+    border-radius: 15px;
+    background: #fff7f7;
+    border: 1px solid #f2dddd;
+    color: #a35b5b;
+    font-size: 13px;
+}
+
+    .audio-not-found span {
+        font-size: 22px;
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .audio-details-card {
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 28px;
+        padding: 28px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .audio-details-page {
+        padding: 25px 0 50px;
+    }
+
+    .audio-details-card {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 20px;
+        border-radius: 22px;
+    }
+
+    .audio-details-cover {
+        width: min(100%, 330px);
+        margin: auto;
+    }
+
+    .audio-details-title {
+        font-size: 25px;
+    }
+}
+
+
+@media (max-width: 430px) {
+
+    .audio-details-card {
+        padding: 15px;
+    }
+
+    .audio-details-title {
+        font-size: 22px;
+    }
 }
