@@ -20,6 +20,10 @@ public class HomeController : Controller
             .AsNoTracking()
             .Where(a => a.IsPublished);
 
+        var settings = await _context.SiteSettings.AsNoTracking()
+            .Where(x => x.Group == "Home" || x.Group == "Footer")
+            .ToListAsync();
+
 
         var model = new HomeViewModel
         {

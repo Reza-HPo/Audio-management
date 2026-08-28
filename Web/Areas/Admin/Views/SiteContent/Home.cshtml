@@ -1,0 +1,640 @@
+﻿@model Web.Areas.Admin.Models.SiteContent.HomeContentViewModel
+
+@{
+    ViewData["Title"] = "مدیریت صفحه اصلی";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="h3 mb-2">
+                مدیریت صفحه اصلی
+            </h1>
+
+            <p class="text-muted mb-0">
+                محتوای قابل نمایش در صفحه اصلی سایت را مدیریت کنید.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         SUCCESS MESSAGE
+         ========================================================= -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success border-0 shadow-sm mb-4">
+            @TempData["Success"]
+        </div>
+    }
+
+
+    <form asp-area="Admin"
+          asp-controller="SiteContent"
+          asp-action="Home"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+
+        <div class="row g-4">
+
+
+            <!-- =====================================================
+                 HERO
+                 ===================================================== -->
+
+            <div class="col-12">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4">
+
+                        <div class="mb-4">
+
+                            <h5 class="mb-1">
+                                بخش اصلی صفحه
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                محتوای بخش Hero که در ابتدای صفحه اصلی نمایش داده می‌شود.
+                            </p>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- Hero Title -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="HeroTitle"
+                                       class="form-label">
+                                    عنوان اصلی
+                                </label>
+
+                                <input asp-for="HeroTitle"
+                                       class="form-control"
+                                       placeholder="مثلاً: مکتب اهواز؛ آرشیو دانش و معرفت" />
+
+                                <span asp-validation-for="HeroTitle"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Hero Subtitle -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="HeroSubtitle"
+                                       class="form-label">
+                                    زیرعنوان
+                                </label>
+
+                                <input asp-for="HeroSubtitle"
+                                       class="form-control"
+                                       placeholder="زیرعنوان اصلی صفحه" />
+
+                                <span asp-validation-for="HeroSubtitle"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Hero Description -->
+
+                            <div class="col-12">
+
+                                <label asp-for="HeroDescription"
+                                       class="form-label">
+                                    توضیحات
+                                </label>
+
+                                <textarea asp-for="HeroDescription"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="توضیحات کوتاه درباره مکتب اهواز..."></textarea>
+
+                                <span asp-validation-for="HeroDescription"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Button Text -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="HeroButtonText"
+                                       class="form-label">
+                                    متن دکمه
+                                </label>
+
+                                <input asp-for="HeroButtonText"
+                                       class="form-control"
+                                       placeholder="مشاهده آرشیو" />
+
+                            </div>
+
+
+                            <!-- Button URL -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="HeroButtonUrl"
+                                       class="form-label">
+                                    لینک دکمه
+                                </label>
+
+                                <input asp-for="HeroButtonUrl"
+                                       class="form-control"
+                                       placeholder="/Archive" />
+
+                            </div>
+
+
+                            <!-- Hero Image -->
+
+                            <div class="col-12">
+
+                                <label asp-for="HeroImageUrl"
+                                       class="form-label">
+                                    آدرس تصویر Hero
+                                </label>
+
+                                <input asp-for="HeroImageUrl"
+                                       class="form-control"
+                                       placeholder="/images/home/hero.jpg" />
+
+                                <div class="form-text">
+                                    فعلاً آدرس تصویر را وارد کنید. سیستم آپلود تصویر را در مرحله بعد اضافه می‌کنیم.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 INTRODUCTION
+                 ===================================================== -->
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-1">
+                            معرفی
+                        </h5>
+
+                        <p class="text-muted small mb-4">
+                            بخش معرفی مکتب اهواز در صفحه اصلی.
+                        </p>
+
+
+                        <div class="mb-3">
+
+                            <label asp-for="IntroTitle"
+                                   class="form-label">
+                                عنوان
+                            </label>
+
+                            <input asp-for="IntroTitle"
+                                   class="form-control"
+                                   placeholder="درباره مکتب اهواز" />
+
+                        </div>
+
+
+                        <div>
+
+                            <label asp-for="IntroText"
+                                   class="form-label">
+                                متن معرفی
+                            </label>
+
+                            <textarea asp-for="IntroText"
+                                      class="form-control"
+                                      rows="7"
+                                      placeholder="متن معرفی مکتب اهواز..."></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 SPEAKERS
+                 ===================================================== -->
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-1">
+                            بخش سخنرانان
+                        </h5>
+
+                        <p class="text-muted small mb-4">
+                            عنوان و توضیحات بخش سخنرانان.
+                        </p>
+
+
+                        <div class="mb-3">
+
+                            <label asp-for="SpeakersTitle"
+                                   class="form-label">
+                                عنوان بخش
+                            </label>
+
+                            <input asp-for="SpeakersTitle"
+                                   class="form-control"
+                                   placeholder="سخنرانان" />
+
+                        </div>
+
+
+                        <div>
+
+                            <label asp-for="SpeakersDescription"
+                                   class="form-label">
+                                توضیحات
+                            </label>
+
+                            <textarea asp-for="SpeakersDescription"
+                                      class="form-control"
+                                      rows="7"
+                                      placeholder="توضیح کوتاه درباره سخنرانان..."></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 ARCHIVE
+                 ===================================================== -->
+
+            <div class="col-12">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4">
+
+                        <div class="mb-4">
+
+                            <h5 class="mb-1">
+                                بخش آرشیو صوتی
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                محتوای معرفی آرشیو صوتی در صفحه اصلی.
+                            </p>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- Title -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="ArchiveTitle"
+                                       class="form-label">
+                                    عنوان
+                                </label>
+
+                                <input asp-for="ArchiveTitle"
+                                       class="form-control"
+                                       placeholder="آرشیو صوتی" />
+
+                            </div>
+
+
+                            <!-- Button Text -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="ArchiveButtonText"
+                                       class="form-label">
+                                    متن دکمه
+                                </label>
+
+                                <input asp-for="ArchiveButtonText"
+                                       class="form-control"
+                                       placeholder="مشاهده آرشیو" />
+
+                            </div>
+
+
+                            <!-- Description -->
+
+                            <div class="col-12">
+
+                                <label asp-for="ArchiveDescription"
+                                       class="form-label">
+                                    توضیحات
+                                </label>
+
+                                <textarea asp-for="ArchiveDescription"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="توضیحات مربوط به آرشیو صوتی..."></textarea>
+
+                            </div>
+
+
+                            <!-- URL -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="ArchiveButtonUrl"
+                                       class="form-label">
+                                    لینک دکمه
+                                </label>
+
+                                <input asp-for="ArchiveButtonUrl"
+                                       class="form-control"
+                                       placeholder="/Archive" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 FOOTER
+                 ===================================================== -->
+
+            <div class="col-12">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4">
+
+                        <div class="mb-4">
+
+                            <h5 class="mb-1">
+                                فوتر سایت
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                اطلاعاتی که در پایین تمام صفحات سایت نمایش داده می‌شوند.
+                            </p>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- Description -->
+
+                            <div class="col-12">
+
+                                <label asp-for="FooterDescription"
+                                       class="form-label">
+                                    توضیحات
+                                </label>
+
+                                <textarea asp-for="FooterDescription"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="توضیحات کوتاه درباره مکتب اهواز..."></textarea>
+
+                            </div>
+
+
+                            <!-- Phone -->
+
+                            <div class="col-lg-4">
+
+                                <label asp-for="Phone"
+                                       class="form-label">
+                                    شماره تماس
+                                </label>
+
+                                <input asp-for="Phone"
+                                       class="form-control"
+                                       placeholder="0912..." />
+
+                            </div>
+
+
+                            <!-- Email -->
+
+                            <div class="col-lg-4">
+
+                                <label asp-for="Email"
+                                       class="form-label">
+                                    ایمیل
+                                </label>
+
+                                <input asp-for="Email"
+                                       type="email"
+                                       class="form-control"
+                                       placeholder="info@example.com" />
+
+                            </div>
+
+
+                            <!-- Address -->
+
+                            <div class="col-lg-4">
+
+                                <label asp-for="Address"
+                                       class="form-label">
+                                    آدرس
+                                </label>
+
+                                <input asp-for="Address"
+                                       class="form-control"
+                                       placeholder="اهواز، خوزستان" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 SOCIAL MEDIA
+                 ===================================================== -->
+
+            <div class="col-12">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4">
+
+                        <div class="mb-4">
+
+                            <h5 class="mb-1">
+                                شبکه‌های اجتماعی
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                لینک شبکه‌های اجتماعی مکتب اهواز.
+                            </p>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- Bale -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="BaleUrl"
+                                       class="form-label">
+                                    بله
+                                </label>
+
+                                <input asp-for="BaleUrl"
+                                       class="form-control"
+                                       placeholder="https://ble.ir/..." />
+
+                            </div>
+
+
+                            <!-- Eitaa -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="EitaaUrl"
+                                       class="form-label">
+                                    ایتا
+                                </label>
+
+                                <input asp-for="EitaaUrl"
+                                       class="form-control"
+                                       placeholder="https://eitaa.com/..." />
+
+                            </div>
+
+
+                            <!-- Instagram -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="InstagramUrl"
+                                       class="form-label">
+                                    اینستاگرام
+                                </label>
+
+                                <input asp-for="InstagramUrl"
+                                       class="form-control"
+                                       placeholder="https://instagram.com/..." />
+
+                            </div>
+
+
+                            <!-- Telegram -->
+
+                            <div class="col-lg-6">
+
+                                <label asp-for="TelegramUrl"
+                                       class="form-label">
+                                    تلگرام
+                                </label>
+
+                                <input asp-for="TelegramUrl"
+                                       class="form-control"
+                                       placeholder="https://t.me/..." />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 SAVE
+                 ===================================================== -->
+
+            <div class="col-12">
+
+                <div class="d-flex justify-content-end">
+
+                    <button type="submit"
+                            class="btn btn-primary px-5">
+
+                        ذخیره تغییرات
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

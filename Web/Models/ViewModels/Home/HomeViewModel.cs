@@ -2,11 +2,96 @@
 
 public class HomeViewModel
 {
+    public HomeContentViewModel Content { get; set; } = new();
+
+    // =========================================================
+    // Statistics
+    // =========================================================
+
     public int AudioCount { get; set; }
 
     public int SpeakerCount { get; set; }
 
     public int CategoryCount { get; set; }
+
+
+    // =========================================================
+    // Hero
+    // =========================================================
+
+    public string? HeroTitle { get; set; }
+
+    public string? HeroSubtitle { get; set; }
+
+    public string? HeroDescription { get; set; }
+
+    public string? HeroButtonText { get; set; }
+
+    public string? HeroButtonUrl { get; set; }
+
+    public string? HeroImageUrl { get; set; }
+
+
+    // =========================================================
+    // Introduction
+    // =========================================================
+
+    public string? IntroTitle { get; set; }
+
+    public string? IntroText { get; set; }
+
+
+    // =========================================================
+    // Archive
+    // =========================================================
+
+    public string? ArchiveTitle { get; set; }
+
+    public string? ArchiveDescription { get; set; }
+
+    public string? ArchiveButtonText { get; set; }
+
+    public string? ArchiveButtonUrl { get; set; }
+
+
+    // =========================================================
+    // Speakers
+    // =========================================================
+
+    public string? SpeakersTitle { get; set; }
+
+    public string? SpeakersDescription { get; set; }
+
+
+    // =========================================================
+    // Footer
+    // =========================================================
+
+    public string? FooterDescription { get; set; }
+
+    public string? Phone { get; set; }
+
+    public string? Email { get; set; }
+
+    public string? Address { get; set; }
+
+
+    // =========================================================
+    // Social Media
+    // =========================================================
+
+    public string? BaleUrl { get; set; }
+
+    public string? EitaaUrl { get; set; }
+
+    public string? InstagramUrl { get; set; }
+
+    public string? TelegramUrl { get; set; }
+
+
+    // =========================================================
+    // Dynamic Content
+    // =========================================================
 
     public List<HomeAudioViewModel> LatestAudios { get; set; } = [];
 
@@ -55,4 +140,42 @@ public class HomeSpeakerViewModel
     public string? ImageUrl { get; set; }
 
     public int AudioCount { get; set; }
+}
+
+public class HomeContentViewModel
+{
+    // Hero
+    public string? HeroTitle { get; set; }
+
+    public string? HeroSubtitle { get; set; }
+
+    public string? HeroDescription { get; set; }
+
+    public string? HeroButtonText { get; set; }
+
+    public string? HeroButtonUrl { get; set; }
+
+    public string? HeroImageUrl { get; set; }
+
+
+    // Introduction
+    public string? IntroTitle { get; set; }
+
+    public string? IntroText { get; set; }
+
+
+    // Archive
+    public string? ArchiveTitle { get; set; }
+
+    public string? ArchiveDescription { get; set; }
+
+    public string? ArchiveButtonText { get; set; }
+
+    public string? ArchiveButtonUrl { get; set; }
+
+
+    // Speakers
+    public string? SpeakersTitle { get; set; }
+
+    public string? SpeakersDescription { get; set; }
 }
