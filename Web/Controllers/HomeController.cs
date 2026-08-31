@@ -14,8 +14,9 @@ public class HomeController : Controller
         _context = context;
     }
 
+
     // =========================================================
-    // HOME
+    // INDEX
     // =========================================================
 
     [HttpGet]
@@ -31,7 +32,7 @@ public class HomeController : Controller
 
 
         // -----------------------------------------------------
-        // Site Content
+        // Site Settings
         // -----------------------------------------------------
 
         var settings = await _context.SiteSettings
@@ -43,7 +44,7 @@ public class HomeController : Controller
 
 
         // -----------------------------------------------------
-        // ViewModel
+        // Home Model
         // -----------------------------------------------------
 
         var model = new HomeViewModel
@@ -54,6 +55,10 @@ public class HomeController : Controller
 
             Content = new HomeContentViewModel
             {
+                // -------------------------------------------------
+                // Hero
+                // -------------------------------------------------
+
                 HeroTitle = GetValue(
                     settings,
                     "Home.HeroTitle"),
@@ -78,6 +83,11 @@ public class HomeController : Controller
                     settings,
                     "Home.HeroImageUrl"),
 
+
+                // -------------------------------------------------
+                // Introduction
+                // -------------------------------------------------
+
                 IntroTitle = GetValue(
                     settings,
                     "Home.IntroTitle"),
@@ -85,6 +95,11 @@ public class HomeController : Controller
                 IntroText = GetValue(
                     settings,
                     "Home.IntroText"),
+
+
+                // -------------------------------------------------
+                // Archive
+                // -------------------------------------------------
 
                 ArchiveTitle = GetValue(
                     settings,
@@ -102,13 +117,60 @@ public class HomeController : Controller
                     settings,
                     "Home.ArchiveButtonUrl"),
 
+
+                // -------------------------------------------------
+                // Speakers
+                // -------------------------------------------------
+
                 SpeakersTitle = GetValue(
                     settings,
                     "Home.SpeakersTitle"),
 
                 SpeakersDescription = GetValue(
                     settings,
-                    "Home.SpeakersDescription")
+                    "Home.SpeakersDescription"),
+
+
+                // -------------------------------------------------
+                // Footer
+                // -------------------------------------------------
+
+                FooterDescription = GetValue(
+                    settings,
+                    "Footer.Description"),
+
+                Phone = GetValue(
+                    settings,
+                    "Footer.Phone"),
+
+                Email = GetValue(
+                    settings,
+                    "Footer.Email"),
+
+                Address = GetValue(
+                    settings,
+                    "Footer.Address"),
+
+
+                // -------------------------------------------------
+                // Social Media
+                // -------------------------------------------------
+
+                BaleUrl = GetValue(
+                    settings,
+                    "Footer.BaleUrl"),
+
+                EitaaUrl = GetValue(
+                    settings,
+                    "Footer.EitaaUrl"),
+
+                InstagramUrl = GetValue(
+                    settings,
+                    "Footer.InstagramUrl"),
+
+                TelegramUrl = GetValue(
+                    settings,
+                    "Footer.TelegramUrl")
             },
 
 
@@ -116,139 +178,101 @@ public class HomeController : Controller
             // STATISTICS
             // =================================================
 
-            AudioCount =
-                await audioQuery.CountAsync(),
+            AudioCount = await audioQuery.CountAsync(),
 
-            SpeakerCount =
-                await _context.Speakers
-                    .AsNoTracking()
-                    .CountAsync(s => s.IsActive),
+            SpeakerCount = await _context.Speakers
+                .AsNoTracking()
+                .CountAsync(s => s.IsActive),
 
-            CategoryCount =
-                await _context.Categories
-                    .AsNoTracking()
-                    .CountAsync(c => c.IsActive),
+            CategoryCount = await _context.Categories
+                .AsNoTracking()
+                .CountAsync(c => c.IsActive),
 
 
             // =================================================
             // LATEST AUDIOS
             // =================================================
 
-            LatestAudios =
-                await audioQuery
+            LatestAudios = await audioQuery
+                .Include(a => a.Speaker)
+                .Include(a => a.AudioCategories)
+                    .ThenInclude(ac => ac.Category)
+                .OrderByDescending(a =>
+                    a.PublishedAt ?? a.CreatedAt)
+                .Take(6)
+                .Select(a => new HomeAudioViewModel
+                {
+                    Id = a.Id,
 
-                    .Include(a => a.Speaker)
+                    Title = a.Title,
 
-                    .Include(a => a.AudioCategories)
-                        .ThenInclude(ac => ac.Category)
+                    SpeakerName = a.Speaker != null
+                        ? a.Speaker.Name
+                        : null,
 
-                    .OrderByDescending(a =>
-                        a.PublishedAt ?? a.CreatedAt)
+                    CoverImageUrl = a.CoverImageUrl,
 
-                    .Take(6)
+                    FileName = a.FileName,
 
-                    .Select(a => new HomeAudioViewModel
-                    {
-                        Id = a.Id,
+                    Duration = a.Duration,
 
-                        Title = a.Title,
+                    PublishedAt = a.PublishedAt,
 
-                        SpeakerName =
-                            a.Speaker != null
-                                ? a.Speaker.Name
-                                : null,
-
-                        CoverImageUrl =
-                            a.CoverImageUrl,
-
-                        FileName =
-                            a.FileName,
-
-                        Duration =
-                            a.Duration,
-
-                        PublishedAt =
-                            a.PublishedAt,
-
-                        Categories =
-                            a.AudioCategories
-                                .Where(ac =>
-                                    ac.Category != null)
-                                .Select(ac =>
-                                    ac.Category!.Name)
-                                .ToList()
-                    })
-
-                    .ToListAsync(),
+                    Categories = a.AudioCategories
+                        .Where(ac => ac.Category != null)
+                        .Select(ac => ac.Category.Name)
+                        .ToList()
+                })
+                .ToListAsync(),
 
 
             // =================================================
             // CATEGORIES
             // =================================================
 
-            Categories =
-                await _context.Categories
+            Categories = await _context.Categories
+                .AsNoTracking()
+                .Where(c => c.IsActive)
+                .OrderBy(c => c.DisplayOrder)
+                .ThenBy(c => c.Name)
+                .Select(c => new HomeCategoryViewModel
+                {
+                    Id = c.Id,
 
-                    .AsNoTracking()
+                    Name = c.Name,
 
-                    .Where(c => c.IsActive)
-
-                    .OrderBy(c => c.DisplayOrder)
-
-                    .ThenBy(c => c.Name)
-
-                    .Select(c => new HomeCategoryViewModel
-                    {
-                        Id = c.Id,
-
-                        Name = c.Name,
-
-                        AudioCount =
-                            c.AudioCategories
-                                .Count(ac =>
-                                    ac.AudioFile.IsPublished)
-                    })
-
-                    .Take(8)
-
-                    .ToListAsync(),
+                    AudioCount = c.AudioCategories
+                        .Count(ac =>
+                            ac.AudioFile.IsPublished)
+                })
+                .Take(8)
+                .ToListAsync(),
 
 
             // =================================================
             // SPEAKERS
             // =================================================
 
-            Speakers =
-                await _context.Speakers
+            Speakers = await _context.Speakers
+                .AsNoTracking()
+                .Where(s => s.IsActive)
+                .Select(s => new HomeSpeakerViewModel
+                {
+                    Id = s.Id,
 
-                    .AsNoTracking()
+                    Name = s.Name,
 
-                    .Where(s => s.IsActive)
+                    ImageUrl = s.ImageUrl,
 
-                    .Select(s => new HomeSpeakerViewModel
-                    {
-                        Id = s.Id,
-
-                        Name = s.Name,
-
-                        ImageUrl = s.ImageUrl,
-
-                        AudioCount =
-                            _context.AudioFiles
-                                .Count(a =>
-                                    a.IsPublished &&
-                                    a.SpeakerId == s.Id)
-                    })
-
-                    .OrderByDescending(s =>
-                        s.AudioCount)
-
-                    .ThenBy(s =>
-                        s.Name)
-
-                    .Take(4)
-
-                    .ToListAsync()
+                    AudioCount = _context.AudioFiles
+                        .Count(a =>
+                            a.IsPublished &&
+                            a.SpeakerId == s.Id)
+                })
+                .OrderByDescending(s => s.AudioCount)
+                .ThenBy(s => s.Name)
+                .Take(4)
+                .ToListAsync()
         };
 
 

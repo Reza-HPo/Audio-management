@@ -7,35 +7,81 @@
 
 <div class="container-fluid">
 
+    
+    <div class="mb-4">
+        <h1 class="h3 mb-2">
+            حذف فایل صوتی
+        </h1>
+
+        <p class="text-muted mb-0">
+            حذف فایل صوتی از آرشیو
+        </p>
+    </div>
+
+
     <div class="card shadow-sm border-0">
 
         <div class="card-body p-4">
 
-            <h4 class="mb-3">
-                حذف فایل صوتی
-            </h4>
+            <div class="alert alert-danger">
 
-            <p>
-                آیا از حذف این فایل صوتی مطمئن هستید؟
-            </p>
+                <h5 class="mb-3">
+                    آیا از حذف این فایل صوتی مطمئن هستید؟
+                </h5>
 
-            <div class="alert alert-warning">
+                <p class="mb-2">
+                    این عملیات قابل بازگشت نیست.
+                </p>
 
-                <strong>
+            </div>
+
+
+            <div class="border rounded p-3 mb-4">
+
+                <div class="mb-2">
+
+                    <strong>
+                        عنوان:
+                    </strong>
+
                     @Model.Title
-                </strong>
 
-                <br />
+                </div>
 
-                سخنران:
-                @Model.Speaker?.Name
+
+                @if (Model.Speaker != null)
+                {
+                    <div class="mb-2">
+
+                        <strong>
+                            سخنران:
+                        </strong>
+
+                        @Model.Speaker.Name
+
+                    </div>
+                }
+
+
+                @if (!string.IsNullOrWhiteSpace(Model.FileName))
+                {
+                    <div>
+
+                        <strong>
+                            فایل:
+                        </strong>
+
+                        موجود
+
+                    </div>
+                }
 
             </div>
 
 
             <form asp-area="Admin"
                   asp-controller="AudioFiles"
-                  asp-action="DeleteConfirmed"
+                  asp-action="Delete"
                   method="post">
 
                 @Html.AntiForgeryToken()
@@ -45,22 +91,26 @@
                        value="@Model.Id" />
 
 
-                <a asp-area="Admin"
-                   asp-controller="AudioFiles"
-                   asp-action="Index"
-                   class="btn btn-secondary">
+                <div class="d-flex gap-2">
 
-                    انصراف
+                    <a asp-area="Admin"
+                       asp-controller="AudioFiles"
+                       asp-action="Index"
+                       class="btn btn-secondary">
 
-                </a>
+                        انصراف
+
+                    </a>
 
 
-                <button type="submit"
-                        class="btn btn-danger">
+                    <button type="submit"
+                            class="btn btn-danger">
 
-                    حذف فایل
+                        حذف فایل صوتی
 
-                </button>
+                    </button>
+
+                </div>
 
             </form>
 

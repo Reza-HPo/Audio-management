@@ -25,10 +25,7 @@ public class SpeakersController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var speakers = await _context.Speakers
-            .AsNoTracking()
-            .OrderBy(s => s.Name)
-            .ToListAsync();
+        var speakers = await _context.Speakers.AsNoTracking().OrderBy(s => s.Name).ToListAsync();
 
         return View(speakers);
     }
@@ -127,4 +124,103 @@ public class SpeakersController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+// =========================================================
+// DELETE - GET
+// =========================================================
+
+// GET: /Admin/Speakers/Delete/5
+[HttpGet]
+public async Task<IActionResult> Delete(int id)
+    {
+        var speaker = await _context.Speakers
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (speaker == null)
+        {
+            return NotFound();
+        }
+
+        return View(speaker);
+    }
+
+
+    // =========================================================
+    // DELETE - POST
+    // =========================================================
+
+    // POST: /Admin/Speakers/Delete
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [ActionName("Delete")]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var speaker = await _context.Speakers
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (speaker == null)
+        {
+            return NotFound();
+        }
+
+
+        // ---------------------------------------------------------
+        // بررسی فایل‌های صوتی وابسته
+        // ---------------------------------------------------------
+
+        var hasAudioFiles = await _context.AudioFiles
+            .AnyAsync(a => a.SpeakerId == id);
+
+        if (hasAudioFiles)
+        {
+            TempData["Error"] =
+                "این سخنران دارای فایل صوتی است و نمی‌توان آن را حذف کرد.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // ---------------------------------------------------------
+        // حذف تصویر سخنران
+        // ---------------------------------------------------------
+
+        if (!string.IsNullOrWhiteSpace(speaker.ImageUrl))
+        {
+            var imagePath = Path.Combine(
+                _environment.WebRootPath,
+                speaker.ImageUrl
+                    .TrimStart('/')
+                    .Replace(
+                        "/",
+                        Path.DirectorySeparatorChar.ToString()
+                    )
+            );
+
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+        }
+
+
+        // ---------------------------------------------------------
+        // حذف رکورد
+        // ---------------------------------------------------------
+
+        _context.Speakers.Remove(speaker);
+
+        await _context.SaveChangesAsync();
+
+
+        // ---------------------------------------------------------
+        // پیام موفقیت
+        // ---------------------------------------------------------
+
+        TempData["Success"] =
+            "سخنران با موفقیت حذف شد.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
 }
