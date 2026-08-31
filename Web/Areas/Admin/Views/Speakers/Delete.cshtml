@@ -1,0 +1,163 @@
+﻿@model MaktabAhvaz.Domain.Entities.Speaker
+
+@{
+    ViewData["Title"] = "حذف سخنران";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/Delete.css"
+          asp-append-version="true" />
+}
+
+<div class="admin-page">
+
+    <!-- Page Header -->
+    <div class="admin-page-header">
+
+        <div>
+            <h1 class="admin-page-title">
+                <i class="bi bi-trash3"></i>
+                حذف سخنران
+            </h1>
+
+            <p class="admin-page-description">
+                حذف سخنران از سیستم
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="admin-btn admin-btn-secondary">
+
+            <i class="bi bi-arrow-right"></i>
+            بازگشت
+
+        </a>
+
+    </div>
+
+
+    <!-- Delete Card -->
+    <div class="admin-card speaker-delete-card">
+
+        <!-- Warning -->
+        <div class="delete-warning">
+
+            <div class="delete-warning-icon">
+                <i class="bi bi-exclamation-triangle"></i>
+            </div>
+
+            <div class="delete-warning-content">
+
+                <h3>
+                    آیا از حذف این سخنران مطمئن هستید؟
+                </h3>
+
+                <p>
+                    این عملیات قابل بازگشت نیست.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Speaker -->
+        <div class="speaker-delete-info">
+
+            <!-- Image -->
+            <div class="speaker-delete-avatar">
+
+                @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl"
+                         alt="@Model.Name" />
+                }
+                else
+                {
+                    <div class="speaker-delete-avatar-placeholder">
+                        <i class="bi bi-person"></i>
+                    </div>
+                }
+
+            </div>
+
+
+            <!-- Information -->
+            <div class="speaker-delete-details">
+
+                <span class="speaker-delete-label">
+                    سخنران
+                </span>
+
+                <h2>
+                    @Model.Name
+                </h2>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Bio))
+                {
+                    <p>
+                        @Model.Bio
+                    </p>
+                }
+
+                <div class="speaker-delete-status">
+
+                    @if (Model.IsActive)
+                    {
+                        <span class="speaker-status active">
+                            <i class="bi bi-check-circle"></i>
+                            فعال
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="speaker-status inactive">
+                            <i class="bi bi-x-circle"></i>
+                            غیرفعال
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Actions -->
+        <div class="admin-card-footer">
+
+            <a asp-action="Index"
+               class="admin-btn admin-btn-secondary">
+
+                <i class="bi bi-x-lg"></i>
+                انصراف
+
+            </a>
+
+
+            <form asp-action="Delete"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+                <button type="submit"
+                        class="admin-btn admin-btn-danger">
+
+                    <i class="bi bi-trash3"></i>
+                    حذف سخنران
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

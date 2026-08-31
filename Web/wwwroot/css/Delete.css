@@ -1,0 +1,330 @@
+﻿/* =========================================
+   Speaker Delete Page
+   ========================================= */
+.speaker-delete-card {
+    width: 100%;
+    max-width: 720px;
+    margin: 30px auto;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8ece9;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(20, 70, 45, 0.07);
+}
+
+
+/* =========================================
+   Delete Header
+   ========================================= */
+
+.speaker-delete-header {
+    padding: 28px 32px;
+    border-bottom: 1px solid #edf0ee;
+    text-align: center;
+}
+
+.speaker-delete-header-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #fff5f5;
+    color: #dc3545;
+    font-size: 24px;
+}
+
+.speaker-delete-header h2 {
+    margin: 0 0 7px;
+    color: #202522;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.speaker-delete-header p {
+    margin: 0;
+    color: #7b837e;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   Speaker Information
+   ========================================= */
+
+.speaker-delete-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 32px;
+}
+
+
+/* Avatar */
+
+.speaker-delete-avatar {
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #f1f5f2;
+    border: 1px solid #e5ebe7;
+}
+
+    .speaker-delete-avatar img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+.speaker-delete-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b9690;
+    font-size: 32px;
+}
+
+
+/* Details */
+
+.speaker-delete-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.speaker-delete-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #89918c;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.speaker-delete-details h2 {
+    margin: 0 0 8px;
+    color: #202522;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.speaker-delete-details p {
+    max-width: 550px;
+    margin: 0;
+    color: #737b76;
+    font-size: 13px;
+    line-height: 1.9;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+/* =========================================
+   Status
+   ========================================= */
+
+.speaker-delete-status {
+    margin-top: 10px;
+}
+
+.speaker-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+    .speaker-status.active {
+        color: #16804d;
+        background: #edf8f2;
+    }
+
+    .speaker-status.inactive {
+        color: #737b76;
+        background: #f1f3f2;
+    }
+
+
+/* =========================================
+   Warning
+   ========================================= */
+
+.delete-warning {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 32px;
+    padding: 15px 17px;
+    border-radius: 12px;
+    background: #fff9f9;
+    border: 1px solid #f5dddd;
+}
+
+.delete-warning-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #fff0f0;
+    color: #dc3545;
+    font-size: 17px;
+}
+
+.delete-warning-content h3 {
+    margin: 0 0 3px;
+    color: #4a2929;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.delete-warning-content p {
+    margin: 0;
+    color: #927676;
+    font-size: 11px;
+}
+
+
+/* =========================================
+   Footer
+   ========================================= */
+
+.speaker-delete-card .admin-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+    padding: 20px 32px;
+    background: #fafcfb;
+    border-top: 1px solid #edf0ee;
+}
+
+    .speaker-delete-card .admin-card-footer form {
+        margin: 0;
+    }
+
+
+/* =========================================
+   Buttons
+   ========================================= */
+
+.speaker-delete-card .admin-btn {
+    min-height: 42px;
+    padding: 0 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+    .speaker-delete-card .admin-btn:hover {
+        transform: translateY(-1px);
+    }
+
+
+/* Cancel */
+
+.speaker-delete-card .admin-btn-secondary {
+    color: #59615c;
+    background: #ffffff;
+    border: 1px solid #dfe5e1;
+}
+
+    .speaker-delete-card .admin-btn-secondary:hover {
+        color: #202522;
+        background: #f7f9f8;
+        border-color: #cfd7d2;
+    }
+
+
+/* Delete */
+
+.speaker-delete-card .admin-btn-danger {
+    color: #ffffff;
+    background: #dc3545;
+    border: 1px solid #dc3545;
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.15);
+}
+
+    .speaker-delete-card .admin-btn-danger:hover {
+        color: #ffffff;
+        background: #c82333;
+        border-color: #c82333;
+        box-shadow: 0 7px 18px rgba(220, 53, 69, 0.20);
+    }
+
+
+/* =========================================
+   Icons inside buttons
+   ========================================= */
+
+.speaker-delete-card .admin-btn i {
+    margin-left: 6px;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   Responsive
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .speaker-delete-card {
+        margin: 20px 0;
+        border-radius: 16px;
+    }
+
+    .speaker-delete-header {
+        padding: 24px 20px;
+    }
+
+    .speaker-delete-info {
+        align-items: flex-start;
+        padding: 24px 20px;
+    }
+
+    .speaker-delete-avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 14px;
+    }
+
+    .speaker-delete-details h2 {
+        font-size: 18px;
+    }
+
+    .delete-warning {
+        margin: 0 20px;
+    }
+
+    .speaker-delete-card .admin-card-footer {
+        padding: 16px 20px;
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+        .speaker-delete-card .admin-card-footer form {
+            width: 100%;
+        }
+
+    .speaker-delete-card .admin-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
