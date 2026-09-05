@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MaktabAhvaz.Application\MaktabAhvaz.Application.csproj" />
+    <ProjectReference Include="..\MaktabAhvaz.Domain\MaktabAhvaz.Domain.csproj" />
     <ProjectReference Include="..\MaktabAhvaz.Infrastructure\MaktabAhvaz.Infrastructure.csproj" />
   </ItemGroup>
 

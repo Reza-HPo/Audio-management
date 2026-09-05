@@ -1,18 +1,47 @@
+using MaktabAhvaz.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+// =========================================================
+// CONTROLLERS
+// =========================================================
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+
+// =========================================================
+// OPEN API
+// =========================================================
+
 builder.Services.AddOpenApi();
+
+
+// =========================================================
+// DATABASE
+// =========================================================
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString(
+            "DefaultConnection"));
+});
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+// =========================================================
+// HTTP PIPELINE
+// =========================================================
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
 
 app.UseHttpsRedirection();
 
