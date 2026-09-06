@@ -30,6 +30,9 @@ public class AudiosController : ControllerBase
     [FromQuery] int page = 1,
     [FromQuery] int pageSize = 20)
     {
+
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
         // جلوگیری از مقادیر نامعتبر
         if (page < 1)
             page = 1;
@@ -90,12 +93,29 @@ public class AudiosController : ControllerBase
         var totalPages = (int)Math.Ceiling(
             totalCount / (double)pageSize);
 
+        // =========================================================
+        // SORT
+        // مرتب‌سازی فایل‌های صوتی
+        // =========================================================
+
+        sort = string.IsNullOrWhiteSpace(sort)
+            ? "latest"
+            : sort.Trim().ToLowerInvariant();
+
+        query = sort switch
+        {
+            "oldest" => query.OrderBy(a => a.PublishedAt),
+
+            "latest" => query.OrderByDescending(a => a.PublishedAt),
+
+            _ => query.OrderByDescending(a => a.PublishedAt)
+        };
+
         // دریافت اطلاعات صفحه موردنظر
         var audios = await query
             .Include(a => a.Speaker)
             .Include(a => a.AudioCategories)
-                .ThenInclude(ac => ac.Category)
-            .OrderByDescending(a => a.PublishedAt)
+            .ThenInclude(ac => ac.Category)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .Select(a => new
@@ -103,8 +123,8 @@ public class AudiosController : ControllerBase
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileName = a.FileName,
-                CoverImageUrl = a.CoverImageUrl,
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -147,6 +167,9 @@ public class AudiosController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetAudio(int id)
     {
+
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
         var audio = await _context.AudioFiles
             .AsNoTracking()
             .Where(a => a.Id == id && a.IsPublished)
@@ -158,8 +181,8 @@ public class AudiosController : ControllerBase
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileName = a.FileName,
-                CoverImageUrl = a.CoverImageUrl,
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null: $"{baseUrl}{a.FileName}",
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -203,6 +226,10 @@ public class AudiosController : ControllerBase
     public async Task<IActionResult> GetLatestAudios(
         [FromQuery] int count = 10)
     {
+
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
+
         // جلوگیری از درخواست‌های نامعتبر
         if (count < 1)
             count = 10;
@@ -224,8 +251,8 @@ public class AudiosController : ControllerBase
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileName = a.FileName,
-                CoverImageUrl = a.CoverImageUrl,
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -260,6 +287,8 @@ public class AudiosController : ControllerBase
     [HttpGet("speaker/{speakerId:int}")]
     public async Task<IActionResult> GetAudiosBySpeaker(int speakerId)
     {
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
         var audios = await _context.AudioFiles
             .AsNoTracking()
             .Where(a =>
@@ -274,8 +303,8 @@ public class AudiosController : ControllerBase
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileName = a.FileName,
-                CoverImageUrl = a.CoverImageUrl,
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -310,6 +339,9 @@ public class AudiosController : ControllerBase
     [HttpGet("category/{categoryId:int}")]
     public async Task<IActionResult> GetAudiosByCategory(int categoryId)
     {
+
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
         var audios = await _context.AudioFiles
             .AsNoTracking()
             .Where(a =>
@@ -325,8 +357,8 @@ public class AudiosController : ControllerBase
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileName = a.FileName,
-                CoverImageUrl = a.CoverImageUrl,
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 

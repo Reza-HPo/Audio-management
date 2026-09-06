@@ -40,12 +40,14 @@ public class SpeakersController : ControllerBase
 
     // =========================================================
     // GET: /api/speakers/{id}
-    // دریافت یک سخنران بر اساس شناسه
+    // دریافت جزئیات سخنران به همراه فایل‌های صوتی
     // =========================================================
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetSpeaker(int id)
     {
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
         var speaker = await _context.Speakers
             .AsNoTracking()
             .Where(s => s.Id == id)
@@ -53,7 +55,10 @@ public class SpeakersController : ControllerBase
             {
                 Id = s.Id,
                 Name = s.Name,
-                ImageUrl = s.ImageUrl
+
+                ImageUrl = string.IsNullOrWhiteSpace(s.ImageUrl)
+                    ? null
+                    : $"{baseUrl}{s.ImageUrl}"
             })
             .FirstOrDefaultAsync();
 
@@ -65,6 +70,38 @@ public class SpeakersController : ControllerBase
             });
         }
 
-        return Ok(speaker);
+        var audios = await _context.AudioFiles
+            .AsNoTracking()
+            .Where(a =>
+                a.SpeakerId == id &&
+                a.IsPublished)
+            .OrderByDescending(a => a.PublishedAt)
+            .Select(a => new
+            {
+                Id = a.Id,
+                Title = a.Title,
+                Description = a.Description,
+
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName)
+                    ? null
+                    : $"{baseUrl}{a.FileName}",
+
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl)
+                    ? null
+                    : $"{baseUrl}{a.CoverImageUrl}",
+
+                Duration = a.Duration,
+                PublishedAt = a.PublishedAt
+            })
+            .ToListAsync();
+
+        return Ok(new
+        {
+            speaker.Id,
+            speaker.Name,
+            speaker.ImageUrl,
+            audioCount = audios.Count,
+            audios
+        });
     }
 }

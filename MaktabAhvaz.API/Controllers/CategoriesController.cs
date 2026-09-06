@@ -39,12 +39,14 @@ public class CategoriesController : ControllerBase
 
     // =========================================================
     // GET: /api/categories/{id}
-    // دریافت یک دسته‌بندی بر اساس شناسه
+    // دریافت جزئیات دسته‌بندی به همراه فایل‌های صوتی
     // =========================================================
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetCategory(int id)
     {
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
         var category = await _context.Categories
             .AsNoTracking()
             .Where(c => c.Id == id)
@@ -63,6 +65,38 @@ public class CategoriesController : ControllerBase
             });
         }
 
-        return Ok(category);
+        var audios = await _context.AudioCategories
+            .AsNoTracking()
+            .Where(ac =>
+                ac.CategoryId == id &&
+                ac.AudioFile != null &&
+                ac.AudioFile.IsPublished)
+            .OrderByDescending(ac => ac.AudioFile!.PublishedAt)
+            .Select(ac => new
+            {
+                Id = ac.AudioFile!.Id,
+                Title = ac.AudioFile.Title,
+                Description = ac.AudioFile.Description,
+
+                FileUrl = string.IsNullOrWhiteSpace(ac.AudioFile.FileName)
+                    ? null
+                    : $"{baseUrl}{ac.AudioFile.FileName}",
+
+                CoverImageUrl = string.IsNullOrWhiteSpace(ac.AudioFile.CoverImageUrl)
+                    ? null
+                    : $"{baseUrl}{ac.AudioFile.CoverImageUrl}",
+
+                Duration = ac.AudioFile.Duration,
+                PublishedAt = ac.AudioFile.PublishedAt
+            })
+            .ToListAsync();
+
+        return Ok(new
+        {
+            category.Id,
+            category.Name,
+            audioCount = audios.Count,
+            audios
+        });
     }
 }
