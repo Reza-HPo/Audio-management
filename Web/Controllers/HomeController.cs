@@ -2,16 +2,21 @@ using MaktabAhvaz.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Models.ViewModels.Home;
+using Web.Services.Api;
 
 namespace Web.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly MaktabAhvazApiClient _apiClient;
 
-    public HomeController(ApplicationDbContext context)
+    public HomeController(
+     ApplicationDbContext context,
+     MaktabAhvazApiClient apiClient)
     {
         _context = context;
+        _apiClient = apiClient;
     }
 
 
@@ -22,6 +27,7 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
+
         // -----------------------------------------------------
         // Audio Query
         // -----------------------------------------------------
@@ -193,38 +199,22 @@ public class HomeController : Controller
             // LATEST AUDIOS
             // =================================================
 
-            LatestAudios = await audioQuery
-                .Include(a => a.Speaker)
-                .Include(a => a.AudioCategories)
-                    .ThenInclude(ac => ac.Category)
-                .OrderByDescending(a =>
-                    a.PublishedAt ?? a.CreatedAt)
-                .Take(6)
-                .Select(a => new HomeAudioViewModel
-                {
-                    Id = a.Id,
-
-                    Title = a.Title,
-
-                    SpeakerName = a.Speaker != null
-                        ? a.Speaker.Name
-                        : null,
-
-                    CoverImageUrl = a.CoverImageUrl,
-
-                    FileName = a.FileName,
-
-                    Duration = a.Duration,
-
-                    PublishedAt = a.PublishedAt,
-
-                    Categories = a.AudioCategories
-                        .Where(ac => ac.Category != null)
-                        .Select(ac => ac.Category.Name)
-                        .ToList()
-                })
-                .ToListAsync(),
-
+            LatestAudios = (await _apiClient.GetHomeAsync())?
+            .LatestAudios
+            .Select(a => new HomeAudioViewModel
+            {
+                Id = a.Id,
+                Title = a.Title,
+                SpeakerName = a.Speaker?.Name,
+                CoverImageUrl = a.CoverImageUrl,
+                FileName = Path.GetFileName(new Uri(a.FileUrl!).LocalPath),
+                Duration = a.Duration,
+                PublishedAt = a.PublishedAt,
+                Categories = []
+            })
+            .Take(6)
+            .ToList()
+            ?? [],
 
             // =================================================
             // CATEGORIES
