@@ -36,7 +36,18 @@ public class CategoriesController : Controller
 
 
     // =========================================================
-    // CREATE
+    // CREATE - GET
+    // =========================================================
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+
+    // =========================================================
+    // CREATE - POST
     // =========================================================
 
     [HttpPost]
@@ -45,11 +56,7 @@ public class CategoriesController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(new
-            {
-                success = false,
-                message = "اطلاعات وارد شده صحیح نیست."
-            });
+            return View(model);
         }
 
 
@@ -60,15 +67,16 @@ public class CategoriesController : Controller
 
         if (nameExists)
         {
-            return BadRequest(new
-            {
-                success = false,
-                message = "دسته‌بندی با این نام قبلاً وجود دارد."
-            });
+            ModelState.AddModelError(
+                nameof(model.Name),
+                "دسته‌بندی با این نام قبلاً وجود دارد."
+            );
+
+            return View(model);
         }
 
 
-        // Slug
+        // ساخت Slug در صورت خالی بودن
 
         if (string.IsNullOrWhiteSpace(model.Slug))
         {
@@ -83,22 +91,35 @@ public class CategoriesController : Controller
         await _context.SaveChangesAsync();
 
 
-        return Ok(new
-        {
-            success = true,
-            message = "دسته‌بندی با موفقیت ایجاد شد.",
-            id = model.Id,
-            name = model.Name,
-            slug = model.Slug,
-            description = model.Description,
-            isActive = model.IsActive,
-            displayOrder = model.DisplayOrder
-        });
+        TempData["Success"] =
+            "دسته‌بندی با موفقیت ایجاد شد.";
+
+
+        return RedirectToAction(nameof(Index));
     }
 
 
     // =========================================================
-    // EDIT
+    // EDIT - GET
+    // =========================================================
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var category = await _context.Categories
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        return View(category);
+    }
+
+
+    // =========================================================
+    // EDIT - POST
     // =========================================================
 
     [HttpPost]
@@ -107,11 +128,7 @@ public class CategoriesController : Controller
     {
         if (id != model.Id)
         {
-            return BadRequest(new
-            {
-                success = false,
-                message = "شناسه دسته‌بندی نامعتبر است."
-            });
+            return BadRequest();
         }
 
 
@@ -120,21 +137,13 @@ public class CategoriesController : Controller
 
         if (category == null)
         {
-            return NotFound(new
-            {
-                success = false,
-                message = "دسته‌بندی پیدا نشد."
-            });
+            return NotFound();
         }
 
 
         if (!ModelState.IsValid)
         {
-            return BadRequest(new
-            {
-                success = false,
-                message = "اطلاعات وارد شده صحیح نیست."
-            });
+            return View(model);
         }
 
 
@@ -147,48 +156,70 @@ public class CategoriesController : Controller
 
         if (duplicateName)
         {
-            return BadRequest(new
-            {
-                success = false,
-                message = "دسته‌بندی دیگری با این نام وجود دارد."
-            });
+            ModelState.AddModelError(
+                nameof(model.Name),
+                "دسته‌بندی دیگری با این نام وجود دارد."
+            );
+
+            return View(model);
         }
 
 
+        // بروزرسانی اطلاعات
+
         category.Name = model.Name;
+
         category.Description = model.Description;
-        category.Slug = string.IsNullOrWhiteSpace(model.Slug)
-            ? GenerateSlug(model.Name)
-            : model.Slug;
+
+        category.Slug =
+            string.IsNullOrWhiteSpace(model.Slug)
+                ? GenerateSlug(model.Name)
+                : model.Slug;
 
         category.IsActive = model.IsActive;
+
         category.DisplayOrder = model.DisplayOrder;
 
 
         await _context.SaveChangesAsync();
 
 
-        return Ok(new
-        {
-            success = true,
-            message = "دسته‌بندی با موفقیت ویرایش شد.",
-            id = category.Id,
-            name = category.Name,
-            slug = category.Slug,
-            description = category.Description,
-            isActive = category.IsActive,
-            displayOrder = category.DisplayOrder
-        });
+        TempData["Success"] =
+            "دسته‌بندی با موفقیت ویرایش شد.";
+
+
+        return RedirectToAction(nameof(Index));
     }
 
 
     // =========================================================
-    // DELETE
+    // DELETE - GET
+    // =========================================================
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var category = await _context.Categories
+            .Include(c => c.AudioCategories)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        return View(category);
+    }
+
+
+    // =========================================================
+    // DELETE - POST
     // =========================================================
 
     [HttpPost]
+    [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var category = await _context.Categories
             .Include(c => c.AudioCategories)
@@ -197,24 +228,19 @@ public class CategoriesController : Controller
 
         if (category == null)
         {
-            return NotFound(new
-            {
-                success = false,
-                message = "دسته‌بندی پیدا نشد."
-            });
+            return NotFound();
         }
 
 
-        // دسته‌بندی دارای فایل صوتی است
+        // اگر دسته‌بندی به فایل صوتی متصل باشد،
+        // اجازه حذف آن را نمی‌دهیم.
 
         if (category.AudioCategories.Any())
         {
-            return BadRequest(new
-            {
-                success = false,
-                message =
-                    "این دسته‌بندی به فایل‌های صوتی متصل است و قابل حذف نیست."
-            });
+            TempData["Error"] =
+                "این دسته‌بندی به فایل‌های صوتی متصل است و قابل حذف نیست.";
+
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -223,12 +249,11 @@ public class CategoriesController : Controller
         await _context.SaveChangesAsync();
 
 
-        return Ok(new
-        {
-            success = true,
-            message = "دسته‌بندی با موفقیت حذف شد.",
-            id = id
-        });
+        TempData["Success"] =
+            "دسته‌بندی با موفقیت حذف شد.";
+
+
+        return RedirectToAction(nameof(Index));
     }
 
 

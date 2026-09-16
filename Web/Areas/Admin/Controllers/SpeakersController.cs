@@ -125,12 +125,173 @@ public class SpeakersController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-// =========================================================
-// DELETE - GET
-// =========================================================
 
-// GET: /Admin/Speakers/Delete/5
-[HttpGet]
+
+    // =========================================================
+    // EDIT - GET
+    // =========================================================
+
+    // GET: /Admin/Speakers/Edit/5
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var speaker = await _context.Speakers
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (speaker == null)
+        {
+            return NotFound();
+        }
+
+        return View(speaker);
+    }
+
+
+    // =========================================================
+    // EDIT - POST
+    // =========================================================
+
+    // POST: /Admin/Speakers/Edit
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+        int id,
+        string name,
+        string? bio,
+        IFormFile? image,
+        bool isActive = true)
+    {
+        var speaker = await _context.Speakers
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (speaker == null)
+        {
+            return NotFound();
+        }
+
+        // ---------------------------------------------------------
+        // اعتبارسنجی نام
+        // ---------------------------------------------------------
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            ModelState.AddModelError(
+                "Name",
+                "نام سخنران الزامی است.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(speaker);
+        }
+
+        // ---------------------------------------------------------
+        // اطلاعات اصلی
+        // ---------------------------------------------------------
+
+        speaker.Name = name.Trim();
+        speaker.Bio = bio?.Trim();
+        speaker.IsActive = isActive;
+
+
+        // ---------------------------------------------------------
+        // تصویر جدید
+        // ---------------------------------------------------------
+
+        if (image != null && image.Length > 0)
+        {
+            var allowedExtensions = new[]
+            {
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp"
+        };
+
+            var extension = Path
+                .GetExtension(image.FileName)
+                .ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(extension))
+            {
+                ModelState.AddModelError(
+                    "Image",
+                    "فرمت تصویر باید JPG، JPEG، PNG یا WEBP باشد.");
+
+                return View(speaker);
+            }
+
+            var imageFolder = Path.Combine(
+                _environment.WebRootPath,
+                "uploads",
+                "speakers");
+
+            Directory.CreateDirectory(imageFolder);
+
+            var fileName =
+                $"{Guid.NewGuid():N}{extension}";
+
+            var filePath = Path.Combine(
+                imageFolder,
+                fileName);
+
+            await using var stream = new FileStream(
+                filePath,
+                FileMode.Create);
+
+            await image.CopyToAsync(stream);
+
+
+            // ---------------------------------------------------------
+            // حذف تصویر قبلی
+            // ---------------------------------------------------------
+
+            if (!string.IsNullOrWhiteSpace(speaker.ImageUrl))
+            {
+                var oldImagePath = Path.Combine(
+                    _environment.WebRootPath,
+                    speaker.ImageUrl
+                        .TrimStart('/')
+                        .Replace(
+                            "/",
+                            Path.DirectorySeparatorChar.ToString()
+                        )
+                );
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+
+            // ---------------------------------------------------------
+            // ذخیره مسیر تصویر جدید
+            // ---------------------------------------------------------
+
+            speaker.ImageUrl =
+                $"/uploads/speakers/{fileName}";
+        }
+
+        // ---------------------------------------------------------
+        // ذخیره تغییرات
+        // ---------------------------------------------------------
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            "اطلاعات سخنران با موفقیت ویرایش شد.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
+
+    // =========================================================
+    // DELETE - GET
+    // =========================================================
+
+    // GET: /Admin/Speakers/Delete/5
+    [HttpGet]
 public async Task<IActionResult> Delete(int id)
     {
         var speaker = await _context.Speakers
