@@ -1,0 +1,120 @@
+﻿@model MaktabAhvaz.Domain.Entities.NavigationItem
+
+@{
+    ViewData["Title"] = "حذف آیتم منو";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">حذف آیتم منو</h1>
+        <p class="text-muted mb-0">
+            قبل از حذف، اطلاعات آیتم موردنظر را بررسی کنید.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+                <strong>توجه:</strong>
+                آیا مطمئن هستید که می‌خواهید این آیتم منو را حذف کنید؟
+            </div>
+
+            <dl class="row mb-4">
+
+                <dt class="col-sm-3">
+                    عنوان
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Title
+                </dd>
+
+                <dt class="col-sm-3">
+                    آدرس
+                </dt>
+                <dd class="col-sm-9">
+                    <code>@Model.Url</code>
+                </dd>
+
+                <dt class="col-sm-3">
+                    آیکون
+                </dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.Icon))
+                    {
+                        @Model.Icon
+                    }
+                    else
+                    {
+                        <span class="text-muted">—</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    ترتیب نمایش
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.DisplayOrder
+                </dd>
+
+                <dt class="col-sm-3">
+                    وضعیت
+                </dt>
+                <dd class="col-sm-9">
+                    @if (Model.IsActive)
+                    {
+                        <span class="badge bg-success">فعال</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">غیرفعال</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    تب جدید
+                </dt>
+                <dd class="col-sm-9">
+                    @if (Model.OpenInNewTab)
+                    {
+                        <span class="badge bg-info text-dark">بله</span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">خیر</span>
+                    }
+                </dd>
+
+            </dl>
+
+            <form asp-action="Delete" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                        حذف آیتم
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        انصراف
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

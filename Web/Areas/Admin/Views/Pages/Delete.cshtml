@@ -1,0 +1,113 @@
+﻿@model MaktabAhvaz.Domain.Entities.Page
+
+@{
+    ViewData["Title"] = "حذف صفحه";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">حذف صفحه</h1>
+        <p class="text-muted mb-0">
+            قبل از حذف، اطلاعات صفحه را بررسی کنید.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+                <strong>توجه:</strong>
+                آیا مطمئن هستید که می‌خواهید این صفحه را حذف کنید؟
+                این عملیات قابل بازگشت نیست.
+            </div>
+
+            <dl class="row mb-4">
+
+                <dt class="col-sm-3">
+                    عنوان صفحه
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.Title
+                </dd>
+
+                <dt class="col-sm-3">
+                    Slug
+                </dt>
+                <dd class="col-sm-9">
+                    <code>/@Model.Slug</code>
+                </dd>
+
+                <dt class="col-sm-3">
+                    وضعیت
+                </dt>
+                <dd class="col-sm-9">
+                    @if (Model.IsPublished)
+                    {
+                        <span class="badge bg-success">
+                            منتشر شده
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">
+                            پیش‌نویس
+                        </span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    تاریخ ایجاد
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.CreatedAt
+                    .ToLocalTime()
+                    .ToString("yyyy/MM/dd HH:mm")
+                </dd>
+
+                <dt class="col-sm-3">
+                    آخرین ویرایش
+                </dt>
+                <dd class="col-sm-9">
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        @Model.UpdatedAt.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            —
+                        </span>
+                    }
+                </dd>
+
+            </dl>
+
+            <form asp-action="Delete" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                        حذف صفحه
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        انصراف
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

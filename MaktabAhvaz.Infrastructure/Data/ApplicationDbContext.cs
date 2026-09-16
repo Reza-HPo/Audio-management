@@ -18,6 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Page> Pages => Set<Page>();
     public DbSet<Menu> Menus => Set<Menu>();
     public DbSet<SiteSetting> SiteSettings => Set<SiteSetting>();
+    public DbSet<NavigationItem> NavigationItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

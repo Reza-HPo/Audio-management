@@ -1,0 +1,131 @@
+﻿@model MaktabAhvaz.Domain.Entities.SiteSetting
+
+@{
+    ViewData["Title"] = "حذف تنظیم";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">حذف تنظیم</h1>
+        <p class="text-muted mb-0">
+            قبل از حذف، اطلاعات تنظیم را بررسی کنید.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+                <strong>توجه:</strong>
+                آیا مطمئن هستید که می‌خواهید این تنظیم را حذف کنید؟
+                این عملیات قابل بازگشت نیست.
+            </div>
+
+            <dl class="row mb-4">
+
+                <dt class="col-sm-3">
+                    کلید
+                </dt>
+                <dd class="col-sm-9">
+                    <code>@Model.Key</code>
+                </dd>
+
+                <dt class="col-sm-3">
+                    مقدار
+                </dt>
+                <dd class="col-sm-9">
+                    @if (string.IsNullOrWhiteSpace(Model.Value))
+                    {
+                        <span class="text-muted">
+                            بدون مقدار
+                        </span>
+                    }
+                    else
+                    {
+                        @Model.Value
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    گروه
+                </dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.Group))
+                    {
+                        <span class="badge bg-light text-dark border">
+                            @Model.Group
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            —
+                        </span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    توضیحات
+                </dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        @Model.Description
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            —
+                        </span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    وضعیت
+                </dt>
+                <dd class="col-sm-9">
+                    @if (Model.IsPublic)
+                    {
+                        <span class="badge bg-success">
+                            عمومی
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">
+                            خصوصی
+                        </span>
+                    }
+                </dd>
+
+            </dl>
+
+            <form asp-action="Delete" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                        حذف تنظیم
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        انصراف
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

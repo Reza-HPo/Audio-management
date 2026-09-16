@@ -1,0 +1,133 @@
+﻿@model MaktabAhvaz.Domain.Entities.Page
+
+@{
+    ViewData["Title"] = "ویرایش صفحه";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">ویرایش صفحه</h1>
+        <p class="text-muted mb-0">
+            محتوای صفحه را ویرایش و تغییرات را ذخیره کنید.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form asp-action="Edit" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert"></div>
+
+                <div class="row g-4">
+
+                    <!-- Title -->
+                    <div class="col-md-6">
+                        <label asp-for="Title" class="form-label">
+                            عنوان صفحه
+                        </label>
+
+                        <input asp-for="Title"
+                               class="form-control"
+                               placeholder="مثلاً درباره ما" />
+
+                        <span asp-validation-for="Title"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- Slug -->
+                    <div class="col-md-6">
+                        <label asp-for="Slug" class="form-label">
+                            Slug
+                        </label>
+
+                        <input asp-for="Slug"
+                               class="form-control"
+                               placeholder="مثلاً about-us" />
+
+                        <span asp-validation-for="Slug"
+                              class="text-danger"></span>
+
+                        <div class="form-text">
+                            این مقدار برای آدرس صفحه استفاده می‌شود.
+                            مثال:
+                            <code>/about-us</code>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="col-12">
+                        <label asp-for="Content" class="form-label">
+                            محتوای صفحه
+                        </label>
+
+                        <textarea asp-for="Content"
+                                  class="form-control"
+                                  rows="18"
+                                  placeholder="محتوای صفحه را وارد کنید..."></textarea>
+
+                        <span asp-validation-for="Content"
+                              class="text-danger"></span>
+
+                        <div class="form-text">
+                            محتوای اصلی صفحه را ویرایش کنید.
+                        </div>
+                    </div>
+
+                    <!-- Published -->
+                    <div class="col-md-6">
+
+                        <div class="form-check form-switch mt-4">
+
+                            <input asp-for="IsPublished"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="IsPublished"
+                                   class="form-check-label">
+                                صفحه منتشر شده باشد
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i>
+                        ذخیره تغییرات
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        انصراف
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

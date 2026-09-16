@@ -1,0 +1,165 @@
+﻿@model IEnumerable<MaktabAhvaz.Domain.Entities.NavigationItem>
+
+@{
+    ViewData["Title"] = "مدیریت منو";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">مدیریت منو</h1>
+            <p class="text-muted mb-0">
+                مدیریت آیتم‌های منوی اصلی سایت
+            </p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            افزودن آیتم منو
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 80px;">ترتیب</th>
+                                <th>عنوان</th>
+                                <th>آدرس</th>
+                                <th>آیکون</th>
+                                <th>وضعیت</th>
+                                <th>تب جدید</th>
+                                <th style="width: 180px;">عملیات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            @item.DisplayOrder
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <strong>@item.Title</strong>
+                                    </td>
+
+                                    <td>
+                                        <code>@item.Url</code>
+                                    </td>
+
+                                    <td>
+                                        @if (!string.IsNullOrWhiteSpace(item.Icon))
+                                        {
+                                            <span>@item.Icon</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="badge bg-success">
+                                                فعال
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                غیرفعال
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (item.OpenInNewTab)
+                                        {
+                                            <span class="badge bg-info text-dark">
+                                                بله
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                خیر
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+
+                                            <a asp-action="Edit"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-outline-primary">
+                                                ویرایش
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-outline-danger">
+                                                حذف
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+
+                    <div class="mb-3">
+                        <i class="bi bi-menu-button-wide fs-1 text-muted"></i>
+                    </div>
+
+                    <h5>هنوز آیتمی برای منو ثبت نشده است.</h5>
+
+                    <p class="text-muted">
+                        اولین آیتم منوی سایت را ایجاد کنید.
+                    </p>
+
+                    <a asp-action="Create" class="btn btn-primary">
+                        افزودن اولین آیتم
+                    </a>
+
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

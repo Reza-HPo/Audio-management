@@ -1,0 +1,153 @@
+﻿@model MaktabAhvaz.Domain.Entities.SiteSetting
+
+@{
+    ViewData["Title"] = "افزودن تنظیم";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">افزودن تنظیم</h1>
+        <p class="text-muted mb-0">
+            یک تنظیم جدید برای سایت ایجاد کنید.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form asp-action="Create" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert"></div>
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Key" class="form-label">
+                            کلید تنظیم
+                        </label>
+
+                        <input asp-for="Key"
+                               class="form-control"
+                               placeholder="مثلاً SiteName" />
+
+                        <span asp-validation-for="Key"
+                              class="text-danger"></span>
+
+                        <div class="form-text">
+                            کلید باید یکتا باشد.
+                            مثال:
+                            <code>SiteName</code>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Group" class="form-label">
+                            گروه
+                        </label>
+
+                        <input asp-for="Group"
+                               class="form-control"
+                               placeholder="مثلاً General" />
+
+                        <span asp-validation-for="Group"
+                              class="text-danger"></span>
+
+                        <div class="form-text">
+                            برای دسته‌بندی تنظیمات استفاده می‌شود.
+                        </div>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label asp-for="Value" class="form-label">
+                            مقدار
+                        </label>
+
+                        <textarea asp-for="Value"
+                                  class="form-control"
+                                  rows="5"
+                                  placeholder="مقدار تنظیم را وارد کنید..."></textarea>
+
+                        <span asp-validation-for="Value"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label asp-for="Description" class="form-label">
+                            توضیحات
+                        </label>
+
+                        <textarea asp-for="Description"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="توضیح کوتاهی درباره این تنظیم..."></textarea>
+
+                        <span asp-validation-for="Description"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="form-check form-switch mt-2">
+
+                            <input asp-for="IsPublic"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="IsPublic"
+                                   class="form-check-label">
+                                این تنظیم عمومی باشد
+                            </label>
+
+                        </div>
+
+                        <div class="form-text">
+                            تنظیمات عمومی می‌توانند توسط بخش‌های عمومی سایت استفاده شوند.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i>
+                        ذخیره تنظیم
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        انصراف
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
