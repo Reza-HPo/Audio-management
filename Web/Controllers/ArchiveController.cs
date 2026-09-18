@@ -129,6 +129,8 @@ public class ArchiveController : Controller
 
                 PublishedAt = a.PublishedAt,
 
+                IsDownloadable = a.IsDownloadable,
+
                 Categories = a.AudioCategories
         .Select(ac => ac.Category.Name)
         .ToList()

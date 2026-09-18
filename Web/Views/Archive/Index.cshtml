@@ -569,11 +569,13 @@
                                         </div>
 
 
-                                        @if (!string.IsNullOrWhiteSpace(audioUrl))
+                                        @if (audio.IsDownloadable && !string.IsNullOrWhiteSpace(audioUrl))
                                         {
                                             <a class="player-download"
                                                href="@audioUrl"
-                                               download>
+                                               download 
+                                               aria-label="دانلود @audio.Title"
+                                               title="دانلود">
 
                                                 <span aria-hidden="true">
                                                     ↓
