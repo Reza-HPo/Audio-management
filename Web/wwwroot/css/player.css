@@ -1,49 +1,50 @@
 ﻿/* =========================================================
-   Maktab Ahvaz
-   Audio Player
-   ========================================================= */
+   MAJALES AHVAZ
+   PREMIUM AUDIO PLAYER
+========================================================= */
 
 
 /* =========================================================
    PLAYER
-   ========================================================= */
+========================================================= */
 
 .custom-audio-player {
     position: relative;
     width: 100%;
-    padding: 16px;
-    background: #ffffff;
-    border: 1px solid rgba(16, 185, 129, 0.12);
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    padding: 18px;
+    direction: rtl;
+    background: linear-gradient( 145deg, #ffffff 0%, #fbfdfc 100% );
+    border: 1px solid #e2ebe6;
+    border-radius: 20px;
+    box-shadow: 0 8px 28px rgba(20, 62, 43, 0.055);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 
 
     /* =========================================================
    HOVER
-   ========================================================= */
+========================================================= */
 
     .custom-audio-player:hover {
         transform: translateY(-2px);
-        border-color: rgba(16, 185, 129, 0.25);
-        box-shadow: 0 14px 35px rgba(15, 23, 42, 0.09);
+        border-color: #cfe0d7;
+        box-shadow: 0 15px 38px rgba(20, 62, 43, 0.09);
     }
 
 
     /* =========================================================
-   PLAYING STATE
-   ========================================================= */
+   PLAYING
+========================================================= */
 
     .custom-audio-player.is-playing {
-        border-color: rgba(16, 185, 129, 0.35);
-        box-shadow: 0 14px 35px rgba(16, 185, 129, 0.12);
+        border-color: rgba(22, 132, 90, .30);
+        box-shadow: 0 14px 38px rgba(22, 132, 90, .10);
     }
 
 
     /* =========================================================
    HIDE NATIVE AUDIO
-   ========================================================= */
+========================================================= */
 
     .custom-audio-player .audio-player {
         display: none;
@@ -51,60 +52,63 @@
 
 
 /* =========================================================
-   PLAYER TOP
-   ========================================================= */
+   TOP
+========================================================= */
 
 .player-top {
     display: flex;
     align-items: center;
     gap: 14px;
+    min-width: 0;
 }
 
 
 /* =========================================================
-   PLAYER COVER
-   ========================================================= */
+   COVER
+========================================================= */
 
 .player-cover {
-    flex: 0 0 56px;
-    width: 56px;
-    height: 56px;
-    overflow: hidden;
-    border-radius: 14px;
-    background: linear-gradient( 135deg, #ecfdf5, #d1fae5 );
+    position: relative;
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.08);
+    overflow: hidden;
+    border-radius: 15px;
+    background: radial-gradient( circle at 30% 25%, rgba(255,255,255,.85), transparent 35% ), linear-gradient( 135deg, #eaf7ef, #d5ebdd );
+    box-shadow: inset 0 0 0 1px rgba(22,132,90,.08);
 }
 
 
     .player-cover img {
         width: 100%;
         height: 100%;
+        display: block;
         object-fit: cover;
     }
 
 
 /* =========================================================
    COVER PLACEHOLDER
-   ========================================================= */
+========================================================= */
 
 .player-cover-placeholder {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: #059669;
-    font-size: 25px;
-    font-weight: 500;
+    color: #16845a;
+    font-size: 24px;
+    font-weight: 700;
 }
 
 
 /* =========================================================
-   PLAYER INFO
-   ========================================================= */
+   INFO
+========================================================= */
 
 .player-info {
     min-width: 0;
@@ -116,74 +120,115 @@
 
 
 /* =========================================================
-   PLAYER LABEL
-   ========================================================= */
+   LABEL
+========================================================= */
 
 .player-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #059669;
-    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #16845a;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .15px;
+}
+
+
+/* Playing indicator */
+
+.custom-audio-player.is-playing .player-label::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16845a;
+    box-shadow: 0 0 0 4px rgba(22,132,90,.10);
+    animation: playerPulse 1.5s infinite;
+}
+
+
+@keyframes playerPulse {
+
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: .45;
+        transform: scale(.8);
+    }
 }
 
 
 /* =========================================================
-   PLAYER TITLE
-   ========================================================= */
+   TITLE
+========================================================= */
 
 .player-title {
     display: block;
+    min-width: 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #0f172a;
+    color: #17261e;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 1.7;
 }
 
 
 /* =========================================================
    PLAY BUTTON
-   ========================================================= */
+========================================================= */
 
 .player-play-button {
-    flex: 0 0 46px;
-    width: 46px;
-    height: 46px;
-    border: none;
-    border-radius: 50%;
-    background: linear-gradient( 135deg, #10b981, #059669 );
-    color: #ffffff;
+    position: relative;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: linear-gradient( 145deg, #218b5b, #126b48 );
+    color: #ffffff;
     cursor: pointer;
-    box-shadow: 0 8px 18px rgba(5, 150, 105, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 9px 22px rgba(18,107,72,.22);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
 }
 
 
     .player-play-button:hover {
-        transform: scale(1.06);
-        box-shadow: 0 10px 24px rgba(5, 150, 105, 0.32);
+        transform: scale(1.07);
+        box-shadow: 0 12px 28px rgba(18,107,72,.29);
+        background: linear-gradient( 145deg, #279b66, #0f6041 );
     }
 
 
     .player-play-button:active {
-        transform: scale(0.96);
+        transform: scale(.95);
     }
 
 
     .player-play-button:focus-visible {
-        outline: 3px solid rgba(16, 185, 129, 0.25);
+        outline: 3px solid rgba(22,132,90,.20);
         outline-offset: 3px;
     }
 
 
 /* =========================================================
-   PLAY / PAUSE ICONS
-   ========================================================= */
+   PLAY / PAUSE
+========================================================= */
+
+.play-icon,
+.pause-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
 
 .pause-icon {
     display: none;
@@ -202,26 +247,26 @@
 
 /* =========================================================
    PROGRESS AREA
-   ========================================================= */
+========================================================= */
 
 .player-progress-area {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 16px;
+    margin-top: 17px;
 }
 
 
 /* =========================================================
    TIME
-   ========================================================= */
+========================================================= */
 
 .player-time {
     flex: 0 0 auto;
     min-width: 38px;
-    color: #64748b;
-    font-size: 11px;
-    font-weight: 600;
+    color: #819088;
+    font-size: 9px;
+    font-weight: 650;
     font-variant-numeric: tabular-nums;
     direction: ltr;
     text-align: center;
@@ -230,7 +275,7 @@
 
 /* =========================================================
    PROGRESS
-   ========================================================= */
+========================================================= */
 
 .player-progress {
     flex: 1;
@@ -240,15 +285,17 @@
 
 /* =========================================================
    PROGRESS RANGE
-   ========================================================= */
+========================================================= */
 
 .progress-range {
     appearance: none;
     width: 100%;
     height: 5px;
     margin: 0;
+    border: 0;
     border-radius: 999px;
-    background: #e2e8f0;
+    outline: none;
+    background: #e5ece8;
     cursor: pointer;
     direction: ltr;
 }
@@ -256,15 +303,23 @@
 
     /* Chrome / Edge / Safari */
 
+    .progress-range::-webkit-slider-runnable-track {
+        height: 5px;
+        border-radius: 999px;
+        background: #e5ece8;
+    }
+
+
     .progress-range::-webkit-slider-thumb {
         appearance: none;
         width: 13px;
         height: 13px;
-        border-radius: 50%;
-        background: #059669;
+        margin-top: -4px;
         border: 3px solid #ffffff;
-        box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
-        transition: transform 0.2s ease;
+        border-radius: 50%;
+        background: #16845a;
+        box-shadow: 0 2px 8px rgba(22,132,90,.28);
+        transition: transform .2s ease;
     }
 
 
@@ -275,32 +330,46 @@
 
     /* Firefox */
 
+    .progress-range::-moz-range-track {
+        height: 5px;
+        border-radius: 999px;
+        background: #e5ece8;
+    }
+
+
+    .progress-range::-moz-range-progress {
+        height: 5px;
+        border-radius: 999px;
+        background: #16845a;
+    }
+
+
     .progress-range::-moz-range-thumb {
         width: 13px;
         height: 13px;
-        border-radius: 50%;
-        background: #059669;
         border: 3px solid #ffffff;
-        box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+        border-radius: 50%;
+        background: #16845a;
+        box-shadow: 0 2px 8px rgba(22,132,90,.28);
     }
 
 
 /* =========================================================
-   PLAYER BOTTOM
-   ========================================================= */
+   BOTTOM
+========================================================= */
 
 .player-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-top: 13px;
+    margin-top: 14px;
 }
 
 
 /* =========================================================
    VOLUME
-   ========================================================= */
+========================================================= */
 
 .player-volume {
     display: flex;
@@ -311,109 +380,146 @@
 
 
 /* =========================================================
-   PLAYER CONTROL
-   ========================================================= */
+   CONTROL
+========================================================= */
 
 .player-control {
-    width: 30px;
-    height: 30px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: #64748b;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #72837a;
     cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: background .2s ease, color .2s ease;
 }
 
 
     .player-control:hover {
-        background: #ecfdf5;
-        color: #059669;
+        background: #edf7f1;
+        color: #16845a;
+    }
+
+
+    .player-control:focus-visible {
+        outline: 2px solid rgba(22,132,90,.25);
+        outline-offset: 2px;
     }
 
 
 /* =========================================================
    VOLUME RANGE
-   ========================================================= */
+========================================================= */
 
 .volume-range {
     appearance: none;
-    width: 72px;
+    width: 70px;
     height: 4px;
+    border: 0;
     border-radius: 999px;
-    background: #e2e8f0;
+    background: #e5ece8;
     cursor: pointer;
     direction: ltr;
 }
+
+
+    .volume-range::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 999px;
+        background: #e5ece8;
+    }
 
 
     .volume-range::-webkit-slider-thumb {
         appearance: none;
         width: 11px;
         height: 11px;
-        border-radius: 50%;
-        background: #059669;
+        margin-top: -3.5px;
         border: 2px solid #ffffff;
-        box-shadow: 0 1px 5px rgba(5, 150, 105, 0.3);
+        border-radius: 50%;
+        background: #16845a;
+        box-shadow: 0 1px 5px rgba(22,132,90,.25);
+    }
+
+
+    .volume-range::-moz-range-track {
+        height: 4px;
+        border-radius: 999px;
+        background: #e5ece8;
+    }
+
+
+    .volume-range::-moz-range-progress {
+        height: 4px;
+        border-radius: 999px;
+        background: #16845a;
     }
 
 
     .volume-range::-moz-range-thumb {
         width: 11px;
         height: 11px;
-        border-radius: 50%;
-        background: #059669;
         border: 2px solid #ffffff;
-        box-shadow: 0 1px 5px rgba(5, 150, 105, 0.3);
+        border-radius: 50%;
+        background: #16845a;
+        box-shadow: 0 1px 5px rgba(22,132,90,.25);
     }
 
 
 /* =========================================================
    DOWNLOAD
-   ========================================================= */
+========================================================= */
 
 .player-download {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 7px 11px;
+    gap: 7px;
+    min-height: 32px;
+    padding: 6px 11px;
+    border: 1px solid #dcebe2;
     border-radius: 9px;
-    background: #f0fdf4;
-    color: #047857;
-    font-size: 11px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    background: #f3faf6;
+    color: #16714d !important;
+    font-size: 9px;
+    font-weight: 750;
+    text-decoration: none !important;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
 }
 
 
-    .player-download:hover {
-        background: #dcfce7;
-        color: #065f46;
-        transform: translateY(-1px);
-    }
-
-
     .player-download span {
-        font-size: 15px;
+        font-size: 14px;
         line-height: 1;
     }
 
 
+    .player-download:hover {
+        background: #e5f5eb;
+        border-color: #c8dfd1;
+        color: #0d583b !important;
+        transform: translateY(-1px);
+    }
+
+
 /* =========================================================
-   RESPONSIVE
-   ========================================================= */
+   MOBILE
+========================================================= */
 
 @media (max-width: 576px) {
 
     .custom-audio-player {
-        padding: 13px;
-        border-radius: 16px;
+        padding: 14px;
+        border-radius: 17px;
+    }
+
+
+    .player-top {
+        gap: 10px;
     }
 
 
@@ -425,6 +531,11 @@
     }
 
 
+    .player-cover-placeholder {
+        font-size: 20px;
+    }
+
+
     .player-play-button {
         flex-basis: 42px;
         width: 42px;
@@ -433,28 +544,101 @@
 
 
     .player-title {
-        font-size: 13px;
+        font-size: 12px;
+    }
+
+
+    .player-label {
+        font-size: 8px;
     }
 
 
     .player-progress-area {
-        gap: 7px;
-        margin-top: 13px;
+        gap: 6px;
+        margin-top: 14px;
+    }
+
+
+    .player-time {
+        min-width: 34px;
+        font-size: 8px;
     }
 
 
     .player-bottom {
-        margin-top: 10px;
+        margin-top: 11px;
     }
 
 
     .volume-range {
-        width: 55px;
+        width: 52px;
     }
 
 
     .player-download {
-        padding: 6px 9px;
-        font-size: 10px;
+        min-height: 30px;
+        padding: 5px 8px;
+        font-size: 8px;
     }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .custom-audio-player {
+        padding: 12px;
+    }
+
+
+    .player-cover {
+        flex-basis: 44px;
+        width: 44px;
+        height: 44px;
+    }
+
+
+    .player-play-button {
+        flex-basis: 39px;
+        width: 39px;
+        height: 39px;
+    }
+
+
+    .player-bottom {
+        gap: 7px;
+    }
+
+
+    .volume-range {
+        width: 42px;
+    }
+
+
+    .player-download {
+        padding: 5px 7px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .custom-audio-player,
+    .player-play-button,
+    .player-control,
+    .player-download,
+    .progress-range::-webkit-slider-thumb {
+        transition: none !important;
+    }
+
+        .custom-audio-player.is-playing .player-label::before {
+            animation: none;
+        }
 }
