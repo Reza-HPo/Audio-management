@@ -1,12 +1,15 @@
-﻿@{
+﻿@model Web.Areas.Admin.Controllers.DashboardViewModel
+
+@{
     ViewData["Title"] = "داشبورد";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <div class="admin-dashboard">
 
-    <!-- Header -->
-
+    <!-- =========================================================
+         Dashboard Header
+         ========================================================= -->
     <div class="dashboard-header">
 
         <div>
@@ -21,7 +24,6 @@
         </div>
 
         <div class="dashboard-date">
-
             <span class="dashboard-date-label">
                 امروز
             </span>
@@ -29,159 +31,159 @@
             <strong>
                 @DateTime.Now.ToString("yyyy/MM/dd")
             </strong>
-
         </div>
 
     </div>
 
 
-    <!-- Statistics -->
-
+    <!-- =========================================================
+         Statistics
+         ========================================================= -->
     <div class="dashboard-stats">
 
+        <!-- Audio Files -->
         <div class="dashboard-stat-card">
 
             <div class="dashboard-stat-icon audio">
-                ♫
+                🎧
             </div>
 
             <div class="dashboard-stat-content">
 
-                <span>
+                <span class="dashboard-stat-label">
                     فایل‌های صوتی
                 </span>
 
-                <strong>
-                    0
+                <strong class="dashboard-stat-value">
+                    @Model.AudioFilesCount
                 </strong>
 
+                <a asp-area="Admin"
+                   asp-controller="AudioFiles"
+                   asp-action="Index"
+                   class="dashboard-stat-link">
+                    مدیریت فایل‌های صوتی
+                    <span aria-hidden="true">←</span>
+                </a>
+
             </div>
-
-            <a asp-area="Admin"
-               asp-controller="AudioFiles"
-               asp-action="Index"
-               class="dashboard-stat-link">
-
-                مدیریت
-
-            </a>
 
         </div>
 
 
+        <!-- Speakers -->
         <div class="dashboard-stat-card">
 
             <div class="dashboard-stat-icon speaker">
-                ◉
+                🎙️
             </div>
 
             <div class="dashboard-stat-content">
 
-                <span>
+                <span class="dashboard-stat-label">
                     سخنران‌ها
                 </span>
 
-                <strong>
-                    0
+                <strong class="dashboard-stat-value">
+                    @Model.SpeakersCount
                 </strong>
 
+                <a asp-area="Admin"
+                   asp-controller="Speakers"
+                   asp-action="Index"
+                   class="dashboard-stat-link">
+                    مدیریت سخنران‌ها
+                    <span aria-hidden="true">←</span>
+                </a>
+
             </div>
-
-            <a asp-area="Admin"
-               asp-controller="Speakers"
-               asp-action="Index"
-               class="dashboard-stat-link">
-
-                مدیریت
-
-            </a>
 
         </div>
 
 
+        <!-- Categories -->
         <div class="dashboard-stat-card">
 
             <div class="dashboard-stat-icon category">
-                ▦
+                🏷️
             </div>
 
             <div class="dashboard-stat-content">
 
-                <span>
+                <span class="dashboard-stat-label">
                     دسته‌بندی‌ها
                 </span>
 
-                <strong>
-                    0
+                <strong class="dashboard-stat-value">
+                    @Model.CategoriesCount
                 </strong>
 
+                <a asp-area="Admin"
+                   asp-controller="Categories"
+                   asp-action="Index"
+                   class="dashboard-stat-link">
+                    مدیریت دسته‌بندی‌ها
+                    <span aria-hidden="true">←</span>
+                </a>
+
             </div>
-
-            <a asp-area="Admin"
-               asp-controller="Categories"
-               asp-action="Index"
-               class="dashboard-stat-link">
-
-                مدیریت
-
-            </a>
 
         </div>
 
 
+        <!-- Pages -->
         <div class="dashboard-stat-card">
 
             <div class="dashboard-stat-icon pages">
-                ▤
+                📄
             </div>
 
             <div class="dashboard-stat-content">
 
-                <span>
+                <span class="dashboard-stat-label">
                     صفحات سایت
                 </span>
 
-                <strong>
-                    0
+                <strong class="dashboard-stat-value">
+                    @Model.PagesCount
                 </strong>
 
+                <a asp-area="Admin"
+                   asp-controller="Pages"
+                   asp-action="Index"
+                   class="dashboard-stat-link">
+                    مدیریت صفحات
+                    <span aria-hidden="true">←</span>
+                </a>
+
             </div>
-
-            <a asp-area="Admin"
-               asp-controller="Pages"
-               asp-action="Index"
-               class="dashboard-stat-link">
-
-                مدیریت
-
-            </a>
 
         </div>
 
     </div>
 
 
-    <!-- Main Grid -->
-
+    <!-- =========================================================
+         Dashboard Grid
+         ========================================================= -->
     <div class="dashboard-grid">
 
 
-        <!-- Quick Actions -->
-
+        <!-- =====================================================
+             Quick Actions
+             ===================================================== -->
         <div class="dashboard-panel">
 
             <div class="dashboard-panel-header">
 
                 <div>
-
                     <h2>
                         دسترسی سریع
                     </h2>
 
                     <p>
-                        عملیات پرکاربرد مدیریت سایت
+                        مدیریت سریع محتوای سایت
                     </p>
-
                 </div>
 
             </div>
@@ -189,112 +191,120 @@
 
             <div class="dashboard-actions">
 
+                <!-- Add Audio -->
                 <a asp-area="Admin"
                    asp-controller="AudioFiles"
                    asp-action="Create"
                    class="dashboard-action">
 
-                    <div class="dashboard-action-icon">
-                        +
-                    </div>
+                    <span class="dashboard-action-icon">
+                        🎧
+                    </span>
 
-                    <div>
+                    <span class="dashboard-action-content">
 
                         <strong>
                             افزودن فایل صوتی
                         </strong>
 
-                        <span>
-                            اضافه کردن سخنرانی جدید
-                        </span>
+                        <small>
+                            ثبت سخنرانی جدید
+                        </small>
 
-                    </div>
+                    </span>
 
-                    <span class="dashboard-action-arrow">
+                    <span class="dashboard-action-arrow"
+                          aria-hidden="true">
                         ←
                     </span>
 
                 </a>
 
 
+                <!-- Add Speaker -->
                 <a asp-area="Admin"
                    asp-controller="Speakers"
                    asp-action="Create"
                    class="dashboard-action">
 
-                    <div class="dashboard-action-icon">
-                        +
-                    </div>
+                    <span class="dashboard-action-icon">
+                        🎙️
+                    </span>
 
-                    <div>
+                    <span class="dashboard-action-content">
 
                         <strong>
                             افزودن سخنران
                         </strong>
 
-                        <span>
+                        <small>
                             ثبت سخنران جدید
-                        </span>
+                        </small>
 
-                    </div>
+                    </span>
 
-                    <span class="dashboard-action-arrow">
+                    <span class="dashboard-action-arrow"
+                          aria-hidden="true">
                         ←
                     </span>
 
                 </a>
 
 
+                <!-- Add Category -->
                 <a asp-area="Admin"
                    asp-controller="Categories"
                    asp-action="Create"
                    class="dashboard-action">
 
-                    <div class="dashboard-action-icon">
-                        +
-                    </div>
+                    <span class="dashboard-action-icon">
+                        🏷️
+                    </span>
 
-                    <div>
+                    <span class="dashboard-action-content">
 
                         <strong>
                             افزودن دسته‌بندی
                         </strong>
 
-                        <span>
+                        <small>
                             ایجاد دسته‌بندی جدید
-                        </span>
+                        </small>
 
-                    </div>
+                    </span>
 
-                    <span class="dashboard-action-arrow">
+                    <span class="dashboard-action-arrow"
+                          aria-hidden="true">
                         ←
                     </span>
 
                 </a>
 
 
+                <!-- Pages -->
                 <a asp-area="Admin"
                    asp-controller="Pages"
                    asp-action="Index"
                    class="dashboard-action">
 
-                    <div class="dashboard-action-icon">
-                        ▤
-                    </div>
+                    <span class="dashboard-action-icon">
+                        📄
+                    </span>
 
-                    <div>
+                    <span class="dashboard-action-content">
 
                         <strong>
                             مدیریت صفحات
                         </strong>
 
-                        <span>
-                            ویرایش محتوای صفحات سایت
-                        </span>
+                        <small>
+                            مدیریت صفحات سایت
+                        </small>
 
-                    </div>
+                    </span>
 
-                    <span class="dashboard-action-arrow">
+                    <span class="dashboard-action-arrow"
+                          aria-hidden="true">
                         ←
                     </span>
 
@@ -305,22 +315,21 @@
         </div>
 
 
-        <!-- System Status -->
-
+        <!-- =====================================================
+             System Status
+             ===================================================== -->
         <div class="dashboard-panel">
 
             <div class="dashboard-panel-header">
 
                 <div>
-
                     <h2>
                         وضعیت سیستم
                     </h2>
 
                     <p>
-                        وضعیت بخش‌های اصلی پنل
+                        وضعیت بخش‌های اصلی سایت
                     </p>
-
                 </div>
 
             </div>
@@ -328,6 +337,8 @@
 
             <div class="dashboard-status-list">
 
+
+                <!-- Database -->
                 <div class="dashboard-status-item">
 
                     <div class="dashboard-status-icon">
@@ -346,13 +357,14 @@
 
                     </div>
 
-                    <span class="dashboard-status-badge">
+                    <span class="dashboard-status-badge success">
                         فعال
                     </span>
 
                 </div>
 
 
+                <!-- CMS -->
                 <div class="dashboard-status-item">
 
                     <div class="dashboard-status-icon">
@@ -366,18 +378,19 @@
                         </strong>
 
                         <span>
-                            آماده استفاده
+                            سیستم آماده استفاده است
                         </span>
 
                     </div>
 
-                    <span class="dashboard-status-badge">
+                    <span class="dashboard-status-badge success">
                         فعال
                     </span>
 
                 </div>
 
 
+                <!-- Upload -->
                 <div class="dashboard-status-item">
 
                     <div class="dashboard-status-icon">
@@ -387,7 +400,7 @@
                     <div>
 
                         <strong>
-                            فضای آپلود
+                            سیستم آپلود
                         </strong>
 
                         <span>
@@ -396,11 +409,12 @@
 
                     </div>
 
-                    <span class="dashboard-status-badge">
+                    <span class="dashboard-status-badge success">
                         آماده
                     </span>
 
                 </div>
+
 
             </div>
 
@@ -409,8 +423,9 @@
     </div>
 
 
-    <!-- Welcome -->
-
+    <!-- =========================================================
+         Welcome Card
+         ========================================================= -->
     <div class="dashboard-welcome">
 
         <div class="dashboard-welcome-icon">
@@ -424,8 +439,9 @@
             </h2>
 
             <p>
-                محتوای سایت، سخنرانی‌ها، سخنران‌ها و
-                دسته‌بندی‌ها را از طریق منوی سمت راست مدیریت کنید.
+                از منوی سمت راست می‌توانید فایل‌های صوتی،
+                سخنران‌ها، دسته‌بندی‌ها و سایر محتوای سایت
+                را مدیریت کنید.
             </p>
 
         </div>
