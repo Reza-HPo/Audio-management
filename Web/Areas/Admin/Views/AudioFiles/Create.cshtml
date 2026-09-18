@@ -7,15 +7,18 @@
 
 <div class="container-fluid">
 
+    
     <div class="mb-4">
         <h1 class="h3 mb-2">افزودن فایل صوتی</h1>
+
         <p class="text-muted mb-0">
             یک سخنرانی جدید به آرشیو اضافه کنید.
         </p>
     </div>
 
 
-    <form asp-area="Admin"
+    <form id="audioUploadForm"
+          asp-area="Admin"
           asp-controller="AudioFiles"
           asp-action="Create"
           method="post"
@@ -23,9 +26,12 @@
 
         @Html.AntiForgeryToken()
 
+
         <div class="row g-4">
 
+            <!-- ===================================================== -->
             <!-- اطلاعات اصلی -->
+            <!-- ===================================================== -->
 
             <div class="col-lg-8">
 
@@ -37,6 +43,8 @@
                             اطلاعات فایل
                         </h5>
 
+
+                        <!-- عنوان -->
 
                         <div class="mb-3">
 
@@ -56,6 +64,8 @@
                         </div>
 
 
+                        <!-- توضیحات -->
+
                         <div class="mb-3">
 
                             <label asp-for="Description"
@@ -68,8 +78,14 @@
                                       rows="5"
                                       placeholder="توضیحات سخنرانی..."></textarea>
 
+                            <span asp-validation-for="Description"
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
+
+                        <!-- فایل صوتی -->
 
                         <div class="mb-4">
 
@@ -79,6 +95,7 @@
                             </label>
 
                             <input asp-for="Audio"
+                                   id="audioFileInput"
                                    type="file"
                                    class="form-control"
                                    accept=".mp3,.m4a,audio/mpeg,audio/mp4" />
@@ -93,6 +110,92 @@
 
                         </div>
 
+
+                        <!-- ================================================= -->
+                        <!-- Upload Progress -->
+                        <!-- ================================================= -->
+
+                        <div id="uploadProgressContainer"
+                             class="d-none mb-4">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+
+                                <span id="uploadStatus"
+                                      class="fw-semibold">
+                                    آماده‌سازی آپلود...
+                                </span>
+
+                                <span id="uploadPercentage"
+                                      class="fw-bold">
+                                    0%
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress"
+                                 style="height: 12px;">
+
+                                <div id="uploadProgressBar"
+                                     class="progress-bar progress-bar-striped progress-bar-animated"
+                                     role="progressbar"
+                                     style="width: 0%;"
+                                     aria-valuenow="0"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100">
+                                </div>
+
+                            </div>
+
+
+                            <div class="d-flex justify-content-between mt-2">
+
+                                <small id="uploadSize"
+                                       class="text-muted">
+                                    0 MB / 0 MB
+                                </small>
+
+                                <small id="uploadSpeed"
+                                       class="text-muted">
+                                    —
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- Upload Success -->
+                        <!-- ================================================= -->
+
+                        <div id="uploadSuccess"
+                             class="alert alert-success d-none mb-4">
+
+                            <i class="bi bi-check-circle me-1"></i>
+
+                            فایل صوتی با موفقیت آپلود و ثبت شد.
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- Upload Error -->
+                        <!-- ================================================= -->
+
+                        <div id="uploadError"
+                             class="alert alert-danger d-none mb-4">
+
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+
+                            <span id="uploadErrorText">
+                                هنگام آپلود فایل خطایی رخ داد.
+                            </span>
+
+                        </div>
+
+
+                        <!-- تصویر کاور -->
 
                         <div class="mb-3">
 
@@ -110,6 +213,10 @@
                                 تصویر کاور اختیاری است.
                             </div>
 
+                            <span asp-validation-for="CoverImage"
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
                     </div>
@@ -119,7 +226,9 @@
             </div>
 
 
+            <!-- ===================================================== -->
             <!-- تنظیمات -->
+            <!-- ===================================================== -->
 
             <div class="col-lg-4">
 
@@ -131,6 +240,8 @@
                             تنظیمات
                         </h5>
 
+
+                        <!-- سخنران -->
 
                         <div class="mb-4">
 
@@ -162,6 +273,8 @@
                         </div>
 
 
+                        <!-- دسته‌بندی‌ها -->
+
                         <div class="mb-4">
 
                             <label class="form-label">
@@ -182,7 +295,9 @@
 
                                         <label class="form-check-label"
                                                for="category_@category.Id">
+
                                             @category.Name
+
                                         </label>
 
                                     </div>
@@ -193,6 +308,8 @@
                         </div>
 
 
+                        <!-- انتشار -->
+
                         <div class="form-check form-switch mb-3">
 
                             <input asp-for="IsPublished"
@@ -201,11 +318,15 @@
 
                             <label asp-for="IsPublished"
                                    class="form-check-label">
+
                                 انتشار فایل
+
                             </label>
 
                         </div>
 
+
+                        <!-- دانلود -->
 
                         <div class="form-check form-switch mb-4">
 
@@ -215,16 +336,31 @@
 
                             <label asp-for="IsDownloadable"
                                    class="form-check-label">
+
                                 امکان دانلود
+
                             </label>
 
                         </div>
 
 
-                        <button type="submit"
+                        <!-- ================================================= -->
+                        <!-- Submit -->
+                        <!-- ================================================= -->
+
+                        <button id="uploadSubmitButton"
+                                type="submit"
                                 class="btn btn-primary w-100">
 
-                            افزودن فایل صوتی
+                            <span id="uploadButtonSpinner"
+                                  class="spinner-border spinner-border-sm me-1 d-none"
+                                  role="status"
+                                  aria-hidden="true">
+                            </span>
+
+                            <span id="uploadButtonText">
+                                افزودن فایل صوتی
+                            </span>
 
                         </button>
 
@@ -243,5 +379,537 @@
 @section Scripts {
 
     <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const form = document.getElementById("audioUploadForm");
+
+            const audioInput = document.getElementById("audioFileInput");
+
+            const progressContainer =
+                document.getElementById("uploadProgressContainer");
+
+            const progressBar =
+                document.getElementById("uploadProgressBar");
+
+            const progressPercentage =
+                document.getElementById("uploadPercentage");
+
+            const uploadStatus =
+                document.getElementById("uploadStatus");
+
+            const uploadSize =
+                document.getElementById("uploadSize");
+
+            const uploadSpeed =
+                document.getElementById("uploadSpeed");
+
+            const submitButton =
+                document.getElementById("uploadSubmitButton");
+
+            const buttonText =
+                document.getElementById("uploadButtonText");
+
+            const buttonSpinner =
+                document.getElementById("uploadButtonSpinner");
+
+            const successBox =
+                document.getElementById("uploadSuccess");
+
+            const errorBox =
+                document.getElementById("uploadError");
+
+            const errorText =
+                document.getElementById("uploadErrorText");
+
+
+            // =========================================================
+            // تبدیل حجم فایل
+            // =========================================================
+
+            function formatBytes(bytes) {
+
+                if (bytes === 0)
+                    return "0 B";
+
+                const units = [
+                    "B",
+                    "KB",
+                    "MB",
+                    "GB"
+                ];
+
+                const i =
+                    Math.floor(
+                        Math.log(bytes) /
+                        Math.log(1024)
+                    );
+
+                return (
+                    bytes /
+                    Math.pow(1024, i)
+                ).toFixed(
+                    i === 0 ? 0 : 2
+                ) + " " + units[i];
+
+            }
+
+
+            // =========================================================
+            // Submit
+            // =========================================================
+
+            form.addEventListener("submit", function (event) {
+
+                event.preventDefault();
+
+
+                // -----------------------------------------------------
+                // اعتبارسنجی HTML
+                // -----------------------------------------------------
+
+                if (!form.checkValidity()) {
+
+                    form.reportValidity();
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------------------
+                // بررسی فایل صوتی
+                // -----------------------------------------------------
+
+                if (!audioInput.files ||
+                    audioInput.files.length === 0) {
+
+                    errorText.textContent =
+                        "لطفاً یک فایل صوتی انتخاب کنید.";
+
+                    errorBox.classList.remove("d-none");
+
+                    audioInput.focus();
+
+                    return;
+
+                }
+
+
+                const audioFile =
+                    audioInput.files[0];
+
+
+                // -----------------------------------------------------
+                // بررسی فرمت
+                // -----------------------------------------------------
+
+                const allowedExtensions = [
+                    ".mp3",
+                    ".m4a"
+                ];
+
+                const fileName =
+                    audioFile.name.toLowerCase();
+
+                const validExtension =
+                    allowedExtensions.some(
+                        extension =>
+                            fileName.endsWith(extension)
+                    );
+
+                if (!validExtension) {
+
+                    errorText.textContent =
+                        "فرمت فایل باید MP3 یا M4A باشد.";
+
+                    errorBox.classList.remove("d-none");
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------------------
+                // Reset UI
+                // -----------------------------------------------------
+
+                successBox.classList.add("d-none");
+
+                errorBox.classList.add("d-none");
+
+                progressContainer.classList.remove("d-none");
+
+                progressBar.classList.remove(
+                    "bg-success",
+                    "bg-danger"
+                );
+
+                progressBar.classList.add(
+                    "progress-bar-striped",
+                    "progress-bar-animated"
+                );
+
+                progressBar.style.width = "0%";
+
+                progressBar.setAttribute(
+                    "aria-valuenow",
+                    "0"
+                );
+
+                progressPercentage.textContent =
+                    "0%";
+
+                uploadStatus.textContent =
+                    "در حال آماده‌سازی آپلود...";
+
+                uploadSize.textContent =
+                    "0 MB / " +
+                    formatBytes(audioFile.size);
+
+                uploadSpeed.textContent =
+                    "—";
+
+
+                // -----------------------------------------------------
+                // Disable form controls
+                // -----------------------------------------------------
+
+                submitButton.disabled = true;
+
+                buttonSpinner.classList.remove("d-none");
+
+                buttonText.textContent =
+                    "در حال آپلود...";
+
+
+                // =====================================================
+                // FormData
+                // =====================================================
+
+                const formData =
+                    new FormData(form);
+
+
+                // =====================================================
+                // XMLHttpRequest
+                // =====================================================
+
+                const xhr =
+                    new XMLHttpRequest();
+
+
+                xhr.open(
+                    "POST",
+                    form.action,
+                    true
+                );
+
+
+                // =====================================================
+                // Progress
+                // =====================================================
+
+                let startTime =
+                    Date.now();
+
+                let lastLoaded =
+                    0;
+
+                let lastTime =
+                    startTime;
+
+
+                xhr.upload.addEventListener(
+                    "progress",
+                    function (event) {
+
+                        if (!event.lengthComputable)
+                            return;
+
+
+                        const percent =
+                            Math.round(
+                                (event.loaded /
+                                    event.total) *
+                                100
+                            );
+
+
+                        progressBar.style.width =
+                            percent + "%";
+
+                        progressBar.setAttribute(
+                            "aria-valuenow",
+                            percent
+                        );
+
+                        progressPercentage.textContent =
+                            percent + "%";
+
+
+                        uploadSize.textContent =
+                            formatBytes(event.loaded) +
+                            " / " +
+                            formatBytes(event.total);
+
+
+                        uploadStatus.textContent =
+                            percent >= 100
+                                ? "در حال پردازش فایل..."
+                                : "در حال آپلود فایل...";
+
+
+                        // -------------------------------------------------
+                        // Upload Speed
+                        // -------------------------------------------------
+
+                        const currentTime =
+                            Date.now();
+
+                        const elapsed =
+                            (currentTime -
+                                lastTime) /
+                            1000;
+
+
+                        if (elapsed >= 0.5) {
+
+                            const bytesPerSecond =
+                                (event.loaded -
+                                    lastLoaded) /
+                                elapsed;
+
+
+                            uploadSpeed.textContent =
+                                formatBytes(
+                                    bytesPerSecond
+                                ) + "/s";
+
+
+                            lastLoaded =
+                                event.loaded;
+
+                            lastTime =
+                                currentTime;
+
+                        }
+
+                    }
+                );
+
+
+                // =====================================================
+                // Completed
+                // =====================================================
+
+                xhr.addEventListener(
+                    "load",
+                    function () {
+
+                        /*
+                         * Controller فعلی در صورت موفقیت RedirectToAction
+                         * انجام می‌دهد.
+                         *
+                         * بنابراین XHR بعد از Redirect معمولاً به
+                         * صفحه Index می‌رسد.
+                         */
+
+                        const finalUrl =
+                            xhr.responseURL || "";
+
+
+                        const isSuccess =
+                            xhr.status >= 200 &&
+                            xhr.status < 400 &&
+                            !finalUrl.toLowerCase()
+                                .includes("/create");
+
+
+                        if (isSuccess) {
+
+                            progressBar.classList.remove(
+                                "progress-bar-animated",
+                                "progress-bar-striped"
+                            );
+
+                            progressBar.classList.add(
+                                "bg-success"
+                            );
+
+                            progressBar.style.width =
+                                "100%";
+
+                            progressPercentage.textContent =
+                                "100%";
+
+                            uploadStatus.textContent =
+                                "آپلود با موفقیت انجام شد.";
+
+                            uploadSize.textContent =
+                                formatBytes(audioFile.size) +
+                                " / " +
+                                formatBytes(audioFile.size);
+
+                            uploadSpeed.textContent =
+                                "تکمیل شد ✓";
+
+
+                            buttonSpinner.classList.add(
+                                "d-none"
+                            );
+
+                            buttonText.textContent =
+                                "آپلود انجام شد ✓";
+
+
+                            /*
+                             * چون Controller در حالت موفقیت
+                             * به Index Redirect می‌کند، مرورگر را
+                             * هم به همان مقصد می‌بریم.
+                             */
+
+                            window.location.href =
+                                xhr.responseURL;
+
+                            return;
+
+                        }
+
+
+                        // -------------------------------------------------
+                        // Server validation error
+                        // -------------------------------------------------
+
+                        let message =
+                            "اطلاعات واردشده معتبر نیست یا آپلود انجام نشد.";
+
+
+                        if (xhr.responseText) {
+
+                            const response =
+                                xhr.responseText;
+
+                            if (
+                                response.includes(
+                                    "فرمت فایل باید MP3"
+                                )
+                            ) {
+
+                                message =
+                                    "فرمت فایل صوتی مجاز نیست.";
+
+                            }
+
+                        }
+
+
+                        showError(message);
+
+                    }
+                );
+
+
+                // =====================================================
+                // Network Error
+                // =====================================================
+
+                xhr.addEventListener(
+                    "error",
+                    function () {
+
+                        showError(
+                            "ارتباط با سرور برقرار نشد. لطفاً اتصال اینترنت و سرور را بررسی کنید."
+                        );
+
+                    }
+                );
+
+
+                // =====================================================
+                // Abort
+                // =====================================================
+
+                xhr.addEventListener(
+                    "abort",
+                    function () {
+
+                        showError(
+                            "آپلود فایل لغو شد."
+                        );
+
+                    }
+                );
+
+
+                // =====================================================
+                // Timeout
+                // =====================================================
+
+                xhr.addEventListener(
+                    "timeout",
+                    function () {
+
+                        showError(
+                            "زمان آپلود به پایان رسید. لطفاً دوباره تلاش کنید."
+                        );
+
+                    }
+                );
+
+
+                // =====================================================
+                // Error Handler
+                // =====================================================
+
+                function showError(message) {
+
+                    progressBar.classList.remove(
+                        "progress-bar-animated",
+                        "progress-bar-striped"
+                    );
+
+                    progressBar.classList.add(
+                        "bg-danger"
+                    );
+
+                    uploadStatus.textContent =
+                        "آپلود ناموفق بود.";
+
+                    errorText.textContent =
+                        message;
+
+                    errorBox.classList.remove(
+                        "d-none"
+                    );
+
+
+                    submitButton.disabled =
+                        false;
+
+                    buttonSpinner.classList.add(
+                        "d-none"
+                    );
+
+                    buttonText.textContent =
+                        "تلاش مجدد";
+
+                }
+
+
+                // =====================================================
+                // Start Upload
+                // =====================================================
+
+                xhr.send(formData);
+
+            });
+
+        });
+
+    </script>
 
 }

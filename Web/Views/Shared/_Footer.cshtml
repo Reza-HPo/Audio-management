@@ -1,48 +1,50 @@
 ﻿<footer class="site-footer">
 
+    <div class="footer-glow footer-glow-right"></div>
+    <div class="footer-glow footer-glow-left"></div>
+
     <div class="container">
 
-        <div class="row g-5">
+        <div class="footer-main">
 
             <!-- Brand -->
+            <div class="footer-brand-section">
 
-            <div class="col-lg-5">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="footer-brand">
 
-                <div class="footer-brand">
-
-                    <div class="footer-logo">
+                    <span class="footer-logo">
                         م
-                    </div>
+                    </span>
 
-                    <div>
+                    <span class="footer-brand-text">
+                        <strong>مجالس اهواز</strong>
+                        <small>آرشیو صوتی و محتوای فرهنگی</small>
+                    </span>
 
-                        <h3>
-                            مکتب وحی رفقای اهواز
-                        </h3>
-
-                        <p>
-                            آرشیوی برای شنیدن، یادگیری و دسترسی
-                            آسان به محتوای صوتی.
-                        </p>
-
-                    </div>
-
-                </div>
+                </a>
 
                 <p class="footer-description">
-
-                    مجموعه‌ای از سخنرانی‌ها و محتوای صوتی که
-                    با هدف دسترسی آسان‌تر و منظم‌تر در اختیار
-                    علاقه‌مندان قرار گرفته است.
-
+                    مجموعه‌ای از سخنرانی‌ها و محتوای صوتی با هدف
+                    دسترسی آسان، منظم و سریع به محتوای فرهنگی و مذهبی.
                 </p>
+
+                <a asp-controller="Archive"
+                   asp-action="Index"
+                   class="footer-primary-link">
+
+                    مشاهده آرشیو صوتی
+
+                    <span>←</span>
+
+                </a>
 
             </div>
 
 
             <!-- Quick Links -->
-
-            <div class="col-6 col-lg-2">
+            <div class="footer-column">
 
                 <h4 class="footer-title">
                     دسترسی سریع
@@ -58,20 +60,21 @@
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a asp-controller="Archive"
+                           asp-action="Index">
                             آرشیو صوتی
                         </a>
                     </li>
 
                     <li>
-                        <a href="#categories">
-                            دسته‌بندی‌ها
+                        <a href="#">
+                            سخنران‌ها
                         </a>
                     </li>
 
                     <li>
-                        <a href="#speakers">
-                            سخنران‌ها
+                        <a href="#">
+                            دسته‌بندی‌ها
                         </a>
                     </li>
 
@@ -81,8 +84,7 @@
 
 
             <!-- Information -->
-
-            <div class="col-6 col-lg-2">
+            <div class="footer-column">
 
                 <h4 class="footer-title">
                     اطلاعات
@@ -98,12 +100,6 @@
 
                     <li>
                         <a href="#">
-                            تماس با ما
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
                             قوانین استفاده
                         </a>
                     </li>
@@ -114,39 +110,56 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="#">
+                            ارتباط با ما
+                        </a>
+                    </li>
+
                 </ul>
 
             </div>
 
 
             <!-- Social -->
-
-            <div class="col-lg-3">
+            <div class="footer-column footer-contact">
 
                 <h4 class="footer-title">
                     ارتباط با ما
                 </h4>
 
                 <p class="footer-contact-text">
-                    ما را در شبکه‌های اجتماعی دنبال کنید.
+                    برای اطلاع از جدیدترین محتواها و اخبار
+                    مجالس اهواز، ما را در شبکه‌های اجتماعی دنبال کنید.
                 </p>
-
 
                 <div class="footer-socials">
 
                     <a href="#"
+                       class="footer-social"
                        aria-label="تلگرام">
-                        تلگرام
+
+                        <span>ت</span>
+                        <span>تلگرام</span>
+
                     </a>
 
                     <a href="#"
+                       class="footer-social"
                        aria-label="ایتا">
-                        ایتا
+
+                        <span>ا</span>
+                        <span>ایتا</span>
+
                     </a>
 
                     <a href="#"
+                       class="footer-social"
                        aria-label="بله">
-                        بله
+
+                        <span>ب</span>
+                        <span>بله</span>
+
                     </a>
 
                 </div>
@@ -157,16 +170,30 @@
 
 
         <!-- Bottom -->
-
         <div class="footer-bottom">
 
-            <span>
-                © @DateTime.Now.Year مکتب اهواز
-            </span>
+            <div class="footer-copyright">
 
-            <span>
-                تمامی حقوق محفوظ است.
-            </span>
+                <span>
+                    © @DateTime.Now.Year
+                </span>
+
+                <strong>
+                    مجالس اهواز
+                </strong>
+
+                <span>
+                    تمامی حقوق محفوظ است.
+                </span>
+
+            </div>
+
+            <div class="footer-made">
+
+                طراحی و توسعه با
+                <span>♥</span>
+
+            </div>
 
         </div>
 

@@ -2,8 +2,8 @@
     var title = ViewData["Title"]?.ToString();
 
     var pageTitle = string.IsNullOrWhiteSpace(title)
-        ? "مکتب وحی رفقای اهواز"
-        : $"{title} | مکتب وحی رفقای اهواز";
+        ? "مجالس اهواز"
+        : $"{title} | مجالس اهواز";
 }
 
 <!DOCTYPE html>
@@ -17,77 +17,66 @@
           content="width=device-width, initial-scale=1.0" />
 
     <meta name="description"
-          content="مکتب ,وحی رفقای اهواز؛ آرشیو محتوای صوتی و سخنرانی‌ها" />
+          content="مجالس اهواز؛ آرشیو محتوای صوتی، سخنرانی‌ها و محتوای فرهنگی و مذهبی" />
 
     <title>@pageTitle</title>
 
     <!-- Vazirmatn -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap"
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
           rel="stylesheet" />
 
-
     <!-- Bootstrap -->
-
     <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-append-version="true" />
 
+    <!-- Main Site CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
 
-    <!-- Site CSS -->
+    <!-- Player CSS -->
+    <link rel="stylesheet"
+          href="~/css/player.css"
+          asp-append-version="true" />
 
-    <link rel="stylesheet" href="~/css/Site.css" asp-append-version="true" />
-
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/Player.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Player.css" />
-
+    <!-- Page Specific Styles -->
     @await RenderSectionAsync("Styles", required: false)
 
 </head>
 
-
 <body>
 
     <!-- Header -->
-
     <header class="site-header">
-
         @await Html.PartialAsync("_Header")
-
     </header>
 
 
     <!-- Main -->
-
     <main class="site-main">
-
         @RenderBody()
-
     </main>
 
 
     <!-- Footer -->
-
-    <footer class="site-footer">
-
-        @await Html.PartialAsync("_Footer")
-
-    </footer>
+    @await Html.PartialAsync("_Footer")
 
 
     <!-- Bootstrap JS -->
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
             asp-append-version="true"></script>
 
 
     <!-- Site JS -->
-
     <script src="~/js/site.js"
             asp-append-version="true"></script>
 
 
+    <!-- Page Specific Scripts -->
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
