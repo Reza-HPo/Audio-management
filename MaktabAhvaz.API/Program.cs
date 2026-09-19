@@ -1,7 +1,12 @@
 using MaktabAhvaz.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    WebRootPath = @"C:\listwebsite\vhosts\maktabahwaz.ir\httpdocs\wwwroot"
+});
 
 
 // =========================================================
@@ -44,6 +49,8 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
