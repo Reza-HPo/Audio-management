@@ -3,22 +3,9 @@
 @{
     ViewData["Title"] = Model.Title;
 
+    // فایل صوتی اکنون روی هاست دانلود قرار دارد
+    // و FileName شامل URL کامل فایل است.
     var audioUrl = Model.FileName;
-
-    if (!string.IsNullOrWhiteSpace(audioUrl))
-    {
-        if (!audioUrl.StartsWith("/"))
-        {
-            audioUrl = "/" + audioUrl;
-        }
-
-        if (!audioUrl.StartsWith(
-            "/uploads/",
-            StringComparison.OrdinalIgnoreCase))
-        {
-            audioUrl = "/uploads/audio/" + audioUrl.TrimStart('/');
-        }
-    }
 
     string durationText = "00:00";
 
@@ -70,7 +57,7 @@
 
 
         <!-- =====================================================
-             MAIN
+             MAIN CARD
         ====================================================== -->
 
         <article class="audio-details-card">
@@ -109,7 +96,7 @@
 
 
                 <!-- =================================================
-                     CATEGORY
+                     CATEGORIES
                 ================================================== -->
 
                 @if (Model.Categories != null &&
@@ -185,21 +172,18 @@
                     }
 
 
-                    @if (!string.IsNullOrWhiteSpace(durationText))
-                    {
-                        <span class="audio-meta-item">
+                    <span class="audio-meta-item">
 
-                            <span class="meta-icon"
-                                  aria-hidden="true">
-                                ◷
-                            </span>
-
-                            <span>
-                                @durationText
-                            </span>
-
+                        <span class="meta-icon"
+                              aria-hidden="true">
+                            ◷
                         </span>
-                    }
+
+                        <span id="metaDuration">
+                            @durationText
+                        </span>
+
+                    </span>
 
 
                     <span class="audio-meta-item">
@@ -242,13 +226,16 @@
                      AUDIO PLAYER
                 ================================================== -->
 
-                @if (!string.IsNullOrWhiteSpace(Model.FileName))
+                @if (!string.IsNullOrWhiteSpace(audioUrl))
                 {
                     <div class="audio-player-section">
+
+                        <!-- PLAYER HEADING -->
 
                         <div class="audio-player-heading">
 
                             <div>
+
                                 <span class="audio-player-eyebrow">
                                     پخش آنلاین
                                 </span>
@@ -256,19 +243,28 @@
                                 <h2>
                                     شنیدن فایل صوتی
                                 </h2>
+
                             </div>
 
                         </div>
 
 
+                        <!-- =================================================
+                             CUSTOM PLAYER
+                        ================================================== -->
+
                         <div class="custom-audio-player"
                              data-audio-player>
 
-                            <!-- Native audio -->
+
+                            <!-- =================================================
+                                 NATIVE AUDIO
+                            ================================================== -->
 
                             <audio id="audioElement"
                                    class="audio-player"
-                                   preload="metadata">
+                                   preload="metadata"
+                                   playsinline>
 
                                 <source src="@audioUrl"
                                         type="audio/mpeg" />
@@ -279,9 +275,14 @@
                             </audio>
 
 
-                            <!-- Player Top -->
+                            <!-- =================================================
+                                 PLAYER TOP
+                            ================================================== -->
 
                             <div class="player-top">
+
+
+                                <!-- PLAYER COVER -->
 
                                 <div class="player-cover">
 
@@ -302,6 +303,8 @@
                                 </div>
 
 
+                                <!-- PLAYER INFO -->
+
                                 <div class="player-info">
 
                                     <span class="player-label">
@@ -314,6 +317,8 @@
 
                                 </div>
 
+
+                                <!-- PLAY BUTTON -->
 
                                 <button type="button"
                                         class="player-play-button"
@@ -335,7 +340,9 @@
                             </div>
 
 
-                            <!-- Progress -->
+                            <!-- =================================================
+                                 PROGRESS
+                            ================================================== -->
 
                             <div class="player-progress-area">
 
@@ -343,6 +350,7 @@
                                       id="currentTime">
                                     00:00
                                 </span>
+
 
                                 <div class="player-progress">
 
@@ -357,6 +365,7 @@
 
                                 </div>
 
+
                                 <span class="player-time"
                                       id="duration">
                                     @durationText
@@ -365,9 +374,14 @@
                             </div>
 
 
-                            <!-- Bottom Controls -->
+                            <!-- =================================================
+                                 BOTTOM CONTROLS
+                            ================================================== -->
 
                             <div class="player-bottom">
+
+
+                                <!-- VOLUME -->
 
                                 <div class="player-volume">
 
@@ -380,6 +394,7 @@
 
                                     </button>
 
+
                                     <input type="range"
                                            id="volumeBar"
                                            class="volume-range"
@@ -391,6 +406,8 @@
 
                                 </div>
 
+
+                                <!-- DOWNLOAD -->
 
                                 @if (Model.IsDownloadable)
                                 {
@@ -415,6 +432,7 @@
                     </div>
                 }
 
+
             </div>
 
         </article>
@@ -429,6 +447,10 @@
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
 
     const player =
         document.querySelector("[data-audio-player]");
@@ -459,6 +481,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const durationElement =
         document.getElementById("duration");
 
+    const metaDurationElement =
+        document.getElementById("metaDuration");
+
 
     if (!audio ||
         !playButton ||
@@ -472,9 +497,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
+    /* =========================================================
+       AUDIO ERROR
+    ========================================================= */
+
+    audio.addEventListener("error", function () {
+
+        console.error(
+            "Audio loading error:",
+            audio.error
+        );
+
+        player.classList.add("audio-error");
+
+    });
+
+
+    /* =========================================================
        FORMAT TIME
-    ====================================================== */
+    ========================================================= */
 
     function formatTime(seconds) {
 
@@ -502,7 +543,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 + String(minutes).padStart(2, "0")
                 + ":"
                 + String(remainingSeconds).padStart(2, "0");
-
         }
 
 
@@ -512,80 +552,33 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
+    /* =========================================================
        PLAY / PAUSE
-    ====================================================== */
+    ========================================================= */
 
-    playButton.addEventListener("click", async function () {
+    playButton.addEventListener(
+        "click",
+        async function () {
 
-        try {
+            try {
 
-            if (audio.paused) {
+                if (audio.paused) {
 
-                await audio.play();
+                    await audio.play();
 
-            } else {
+                } else {
 
-                audio.pause();
+                    audio.pause();
+
+                }
 
             }
+            catch (error) {
 
-        } catch (error) {
-
-            console.error(
-                "Audio playback error:",
-                error
-            );
-
-        }
-
-    });
-
-
-    /* =====================================================
-       PLAY
-    ====================================================== */
-
-    audio.addEventListener("play", function () {
-
-        player.classList.add("is-playing");
-
-        playButton.setAttribute(
-            "aria-label",
-            "توقف"
-        );
-
-    });
-
-
-    /* =====================================================
-       PAUSE
-    ====================================================== */
-
-    audio.addEventListener("pause", function () {
-
-        player.classList.remove("is-playing");
-
-        playButton.setAttribute(
-            "aria-label",
-            "پخش"
-        );
-
-    });
-
-
-    /* =====================================================
-       METADATA
-    ====================================================== */
-
-    audio.addEventListener(
-        "loadedmetadata",
-        function () {
-
-            if (isFinite(audio.duration)) {
-
-                durationElement.textContent =
-                    formatTime(audio.duration);
+                console.error(
+                    "Audio playback error:",
+                    error
+                );
 
             }
 
@@ -593,9 +586,81 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
+    /* =========================================================
+       PLAY
+    ========================================================= */
+
+    audio.addEventListener(
+        "play",
+        function () {
+
+            player.classList.add("is-playing");
+
+            playButton.setAttribute(
+                "aria-label",
+                "توقف"
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       PAUSE
+    ========================================================= */
+
+    audio.addEventListener(
+        "pause",
+        function () {
+
+            player.classList.remove(
+                "is-playing"
+            );
+
+            playButton.setAttribute(
+                "aria-label",
+                "پخش"
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       LOADED METADATA
+    ========================================================= */
+
+    audio.addEventListener(
+        "loadedmetadata",
+        function () {
+
+            if (!isFinite(audio.duration)) {
+                return;
+            }
+
+
+            const formattedDuration =
+                formatTime(audio.duration);
+
+
+            durationElement.textContent =
+                formattedDuration;
+
+
+            if (metaDurationElement) {
+
+                metaDurationElement.textContent =
+                    formattedDuration;
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
        PROGRESS
-    ====================================================== */
+    ========================================================= */
 
     audio.addEventListener(
         "timeupdate",
@@ -618,15 +683,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             currentTimeElement.textContent =
-                formatTime(audio.currentTime);
+                formatTime(
+                    audio.currentTime
+                );
 
         }
     );
 
 
-    /* =====================================================
+    /* =========================================================
        SEEK
-    ====================================================== */
+    ========================================================= */
 
     progressBar.addEventListener(
         "input",
@@ -640,16 +707,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             audio.currentTime =
-                (progressBar.value / 100)
+                (Number(progressBar.value) / 100)
                 * audio.duration;
 
         }
     );
 
 
-    /* =====================================================
+    /* =========================================================
        VOLUME
-    ====================================================== */
+    ========================================================= */
 
     volumeBar.addEventListener(
         "input",
@@ -658,9 +725,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const volume =
                 Number(volumeBar.value);
 
-            audio.volume = volume;
 
-            audio.muted = volume === 0;
+            audio.volume =
+                volume;
+
+
+            audio.muted =
+                volume === 0;
+
 
             updateVolumeIcon();
 
@@ -668,9 +740,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
+    /* =========================================================
        MUTE
-    ====================================================== */
+    ========================================================= */
 
     volumeButton.addEventListener(
         "click",
@@ -679,22 +751,25 @@ document.addEventListener("DOMContentLoaded", function () {
             audio.muted =
                 !audio.muted;
 
+
             updateVolumeIcon();
 
         }
     );
 
 
-    /* =====================================================
+    /* =========================================================
        VOLUME ICON
-    ====================================================== */
+    ========================================================= */
 
     function updateVolumeIcon() {
 
         if (audio.muted ||
             audio.volume === 0) {
 
-            volumeButton.textContent = "🔇";
+            volumeButton.textContent =
+                "🔇";
+
 
             volumeButton.setAttribute(
                 "aria-label",
@@ -707,11 +782,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (audio.volume < 0.5) {
 
-            volumeButton.textContent = "🔉";
+            volumeButton.textContent =
+                "🔉";
 
-        } else {
+        }
+        else {
 
-            volumeButton.textContent = "🔊";
+            volumeButton.textContent =
+                "🔊";
 
         }
 
@@ -720,12 +798,13 @@ document.addEventListener("DOMContentLoaded", function () {
             "aria-label",
             "قطع صدا"
         );
+
     }
 
 
-    /* =====================================================
+    /* =========================================================
        ENDED
-    ====================================================== */
+    ========================================================= */
 
     audio.addEventListener(
         "ended",
@@ -735,10 +814,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 "is-playing"
             );
 
-            progressBar.value = 0;
+
+            progressBar.value =
+                0;
+
 
             currentTimeElement.textContent =
                 "00:00";
+
 
             playButton.setAttribute(
                 "aria-label",
@@ -749,13 +832,33 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
+    /* =========================================================
+       CAN PLAY
+    ========================================================= */
+
+    audio.addEventListener(
+        "canplay",
+        function () {
+
+            player.classList.remove(
+                "audio-error"
+            );
+
+        }
+    );
+
+
+    /* =========================================================
        INITIAL STATE
-    ====================================================== */
+    ========================================================= */
 
-    audio.volume = 1;
+    audio.volume =
+        1;
 
-    volumeBar.value = 1;
+
+    volumeBar.value =
+        1;
+
 
     updateVolumeIcon();
 

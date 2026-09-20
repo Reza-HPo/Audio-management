@@ -15,27 +15,38 @@
           asp-append-version="true" />
 }
 
+
 <main class="home-page">
 
     <!-- =====================================================
          HERO
          ===================================================== -->
+
     <section class="home-hero">
+
         <div class="home-hero-glow home-hero-glow-one"></div>
         <div class="home-hero-glow home-hero-glow-two"></div>
 
         <div class="container">
+
             <div class="home-hero-content">
+
+
+                <!-- HERO TEXT -->
 
                 <div class="home-hero-text">
 
                     @if (!string.IsNullOrWhiteSpace(Model.Content.HeroSubtitle))
                     {
                         <span class="home-hero-eyebrow">
+
                             <span class="home-hero-eyebrow-dot"></span>
+
                             @Model.Content.HeroSubtitle
+
                         </span>
                     }
+
 
                     @if (!string.IsNullOrWhiteSpace(Model.Content.HeroTitle))
                     {
@@ -44,12 +55,16 @@
                         </h1>
                     }
 
+
                     @if (!string.IsNullOrWhiteSpace(Model.Content.HeroDescription))
                     {
                         <p class="home-hero-description">
                             @Model.Content.HeroDescription
                         </p>
                     }
+
+
+                    <!-- HERO BUTTONS -->
 
                     <div class="home-hero-actions">
 
@@ -65,10 +80,13 @@
                                     : Model.Content.HeroButtonText;
                         }
 
+
                         <a href="@heroButtonUrl"
                            class="home-btn home-btn-primary home-hero-button">
 
-                            <span>@heroButtonText</span>
+                            <span>
+                                @heroButtonText
+                            </span>
 
                             <span class="home-btn-icon">
                                 ←
@@ -76,11 +94,14 @@
 
                         </a>
 
+
                         <a asp-controller="Archive"
                            asp-action="Index"
                            class="home-btn home-btn-secondary">
 
-                            <span>جستجو در آرشیو</span>
+                            <span>
+                                جستجو در آرشیو
+                            </span>
 
                             <span class="home-btn-icon">
                                 ⌕
@@ -90,27 +111,49 @@
 
                     </div>
 
+
+                    <!-- HERO TRUST -->
+
                     <div class="home-hero-trust">
 
                         <span>
-                            <span class="home-trust-icon">✓</span>
+
+                            <span class="home-trust-icon">
+                                ✓
+                            </span>
+
                             آرشیو صوتی
+
                         </span>
 
+
                         <span>
-                            <span class="home-trust-icon">✓</span>
+
+                            <span class="home-trust-icon">
+                                ✓
+                            </span>
+
                             دسترسی سریع
+
                         </span>
 
+
                         <span>
-                            <span class="home-trust-icon">✓</span>
+
+                            <span class="home-trust-icon">
+                                ✓
+                            </span>
+
                             پخش آنلاین
+
                         </span>
 
                     </div>
 
                 </div>
 
+
+                <!-- HERO IMAGE -->
 
                 @if (!string.IsNullOrWhiteSpace(Model.Content.HeroImageUrl))
                 {
@@ -127,6 +170,7 @@
 
                             <div class="home-hero-image-overlay"></div>
 
+
                             <div class="home-hero-floating-card">
 
                                 <div class="home-floating-icon">
@@ -134,8 +178,15 @@
                                 </div>
 
                                 <div>
-                                    <strong>آرشیو صوتی</strong>
-                                    <span>همیشه در دسترس شما</span>
+
+                                    <strong>
+                                        آرشیو صوتی
+                                    </strong>
+
+                                    <span>
+                                        همیشه در دسترس شما
+                                    </span>
+
                                 </div>
 
                             </div>
@@ -156,9 +207,13 @@
                                 ♪
                             </div>
 
-                            <span>آرشیو صوتی</span>
+                            <span>
+                                آرشیو صوتی
+                            </span>
 
-                            <strong>مجالس اهواز</strong>
+                            <strong>
+                                مجالس اهواز
+                            </strong>
 
                         </div>
 
@@ -166,17 +221,22 @@
                 }
 
             </div>
+
         </div>
+
     </section>
 
 
     <!-- =====================================================
          STATISTICS
          ===================================================== -->
+
     <section class="home-stats">
+
         <div class="container">
 
             <div class="home-stats-card">
+
 
                 <div class="home-stat-item">
 
@@ -185,8 +245,15 @@
                     </div>
 
                     <div class="home-stat-content">
-                        <strong>@Model.AudioCount</strong>
-                        <span>فایل صوتی</span>
+
+                        <strong>
+                            @Model.AudioCount
+                        </strong>
+
+                        <span>
+                            فایل صوتی
+                        </span>
+
                     </div>
 
                 </div>
@@ -202,8 +269,15 @@
                     </div>
 
                     <div class="home-stat-content">
-                        <strong>@Model.SpeakerCount</strong>
-                        <span>سخنران</span>
+
+                        <strong>
+                            @Model.SpeakerCount
+                        </strong>
+
+                        <span>
+                            سخنران
+                        </span>
+
                     </div>
 
                 </div>
@@ -219,8 +293,15 @@
                     </div>
 
                     <div class="home-stat-content">
-                        <strong>@Model.CategoryCount</strong>
-                        <span>موضوع</span>
+
+                        <strong>
+                            @Model.CategoryCount
+                        </strong>
+
+                        <span>
+                            موضوع
+                        </span>
+
                     </div>
 
                 </div>
@@ -228,12 +309,14 @@
             </div>
 
         </div>
+
     </section>
 
 
     <!-- =====================================================
          INTRODUCTION
          ===================================================== -->
+
     @if (!string.IsNullOrWhiteSpace(Model.Content.IntroTitle) ||
          !string.IsNullOrWhiteSpace(Model.Content.IntroText))
     {
@@ -244,16 +327,20 @@
                 <div class="home-intro">
 
                     <div class="home-intro-mark">
+
                         <span></span>
                         <span></span>
                         <span></span>
+
                     </div>
+
 
                     <div class="home-intro-content">
 
                         <span class="home-section-eyebrow">
-                            درباره مکتب اهواز
+                            درباره مجالس اهواز
                         </span>
+
 
                         @if (!string.IsNullOrWhiteSpace(Model.Content.IntroTitle))
                         {
@@ -261,6 +348,7 @@
                                 @Model.Content.IntroTitle
                             </h2>
                         }
+
 
                         @if (!string.IsNullOrWhiteSpace(Model.Content.IntroText))
                         {
@@ -282,12 +370,15 @@
     <!-- =====================================================
          LATEST AUDIOS
          ===================================================== -->
+
     <section class="home-section home-latest-section"
              id="latest-audios">
 
         <div class="container">
 
+
             <div class="home-section-header">
+
 
                 <div class="home-section-heading">
 
@@ -295,16 +386,22 @@
                         تازه‌ترین محتوا
                     </span>
 
+
                     <h2>
+
                         @if (!string.IsNullOrWhiteSpace(Model.Content.ArchiveTitle))
                         {
                             @Model.Content.ArchiveTitle
                         }
                         else
                         {
-                            <text>آخرین سخنرانی‌ها</text>
+                            <text>
+                                آخرین سخنرانی‌ها
+                            </text>
                         }
+
                     </h2>
+
 
                     @if (!string.IsNullOrWhiteSpace(Model.Content.ArchiveDescription))
                     {
@@ -328,10 +425,13 @@
                             : Model.Content.ArchiveButtonText;
                 }
 
+
                 <a href="@archiveUrl"
                    class="home-section-link">
 
-                    <span>@archiveText</span>
+                    <span>
+                        @archiveText
+                    </span>
 
                     <span class="home-link-arrow">
                         ←
@@ -346,31 +446,34 @@
             {
                 <div class="home-audio-grid">
 
+
                     @foreach (var audio in Model.LatestAudios)
                     {
+                        /*
+                         * IMPORTANT:
+                         *
+                         * FileName now contains the complete public
+                         * URL of the audio file on the download host.
+                         *
+                         * Example:
+                         *
+                         * https://dl.maktabahwaz.ir/audio/file.mp3
+                         *
+                         * Do NOT prepend /uploads/audio/.
+                         */
+
                         var audioUrl = audio.FileName;
-
-                        if (!string.IsNullOrWhiteSpace(audioUrl))
-                        {
-                            if (!audioUrl.StartsWith("/"))
-                            {
-                                audioUrl = "/" + audioUrl;
-                            }
-
-                            if (!audioUrl.StartsWith("/uploads/",
-                                StringComparison.OrdinalIgnoreCase))
-                            {
-                                audioUrl =
-                                    "/uploads/audio/" +
-                                    audioUrl.TrimStart('/');
-                            }
-                        }
 
 
                         <article class="home-audio-card">
 
-                            <!-- AUDIO INFORMATION -->
+
+                            <!-- =================================================
+                                 AUDIO INFORMATION
+                            ================================================== -->
+
                             <div class="home-audio-card-header">
+
 
                                 <div class="home-audio-cover">
 
@@ -383,7 +486,11 @@
                                     else
                                     {
                                         <div class="home-audio-cover-placeholder">
-                                            <span>♪</span>
+
+                                            <span>
+                                                ♪
+                                            </span>
+
                                         </div>
                                     }
 
@@ -392,13 +499,16 @@
 
                                 <div class="home-audio-info">
 
+
                                     @if (audio.Categories.Any())
                                     {
                                         <div class="home-audio-category">
 
                                             @foreach (var category in audio.Categories.Take(2))
                                             {
-                                                <span>@category</span>
+                                                <span>
+                                                    @category
+                                                </span>
                                             }
 
                                         </div>
@@ -430,8 +540,12 @@
                             </div>
 
 
-                            <!-- AUDIO META -->
+                            <!-- =================================================
+                                 AUDIO META
+                            ================================================== -->
+
                             <div class="home-audio-meta">
+
 
                                 @if (audio.PublishedAt.HasValue)
                                 {
@@ -463,11 +577,17 @@
                             </div>
 
 
-                            <!-- AUDIO PLAYER -->
+                            <!-- =================================================
+                                 AUDIO PLAYER
+                            ================================================== -->
+
                             @if (!string.IsNullOrWhiteSpace(audioUrl))
                             {
                                 <div class="custom-audio-player"
                                      data-audio-player>
+
+
+                                    <!-- NATIVE AUDIO -->
 
                                     <audio class="audio-player"
                                            preload="metadata"
@@ -475,7 +595,10 @@
                                     </audio>
 
 
+                                    <!-- PLAYER TOP -->
+
                                     <div class="player-top">
+
 
                                         <div class="player-cover">
 
@@ -525,11 +648,15 @@
                                     </div>
 
 
+                                    <!-- PLAYER PROGRESS -->
+
                                     <div class="player-progress-area">
+
 
                                         <span class="player-time current-time">
                                             00:00
                                         </span>
+
 
                                         <div class="player-progress">
 
@@ -543,6 +670,7 @@
 
                                         </div>
 
+
                                         <span class="player-time total-time">
 
                                             @if (audio.Duration.HasValue)
@@ -551,7 +679,9 @@
                                             }
                                             else
                                             {
-                                                <text>00:00</text>
+                                                <text>
+                                                    00:00
+                                                </text>
                                             }
 
                                         </span>
@@ -559,15 +689,22 @@
                                     </div>
 
 
+                                    <!-- PLAYER BOTTOM -->
+
                                     <div class="player-bottom">
 
+
                                         <div class="player-volume">
+
 
                                             <button type="button"
                                                     class="player-control volume-button"
                                                     aria-label="قطع صدا">
+
                                                 🔊
+
                                             </button>
+
 
                                             <input type="range"
                                                    class="volume-range"
@@ -587,7 +724,9 @@
 
                                             مشاهده جزئیات
 
-                                            <span>←</span>
+                                            <span>
+                                                ←
+                                            </span>
 
                                         </a>
 
@@ -597,6 +736,7 @@
                             }
 
                         </article>
+
                     }
 
                 </div>
@@ -635,12 +775,15 @@
 
     <!-- =====================================================
          CATEGORIES
-         ===================================================== -->
+    ====================================================== -->
+
     <section class="home-section home-categories-section">
 
         <div class="container">
 
+
             <div class="home-section-header">
+
 
                 <div class="home-section-heading">
 
@@ -685,9 +828,15 @@
                            asp-route-categoryId="@category.Id"
                            class="home-category-card">
 
+
                             <div class="home-category-icon">
-                                <span>◈</span>
+
+                                <span>
+                                    ◈
+                                </span>
+
                             </div>
+
 
                             <div class="home-category-content">
 
@@ -700,6 +849,7 @@
                                 </span>
 
                             </div>
+
 
                             <span class="home-category-arrow">
                                 ←
@@ -732,18 +882,22 @@
 
     <!-- =====================================================
          SPEAKERS
-         ===================================================== -->
+    ====================================================== -->
+
     <section class="home-section home-speakers-section">
 
         <div class="container">
 
+
             <div class="home-section-header">
+
 
                 <div class="home-section-heading">
 
                     <span class="home-section-eyebrow">
                         سخنرانان
                     </span>
+
 
                     <h2>
 
@@ -753,7 +907,9 @@
                         }
                         else
                         {
-                            <text>سخنرانان مکتب</text>
+                            <text>
+                                سخنرانان مجالس
+                            </text>
                         }
 
                     </h2>
@@ -788,12 +944,14 @@
             {
                 <div class="home-speaker-grid">
 
+
                     @foreach (var speaker in Model.Speakers)
                     {
                         <a asp-controller="Archive"
                            asp-action="Index"
                            asp-route-speakerId="@speaker.Id"
                            class="home-speaker-card">
+
 
                             <div class="home-speaker-image">
 
@@ -807,7 +965,9 @@
                                 {
                                     <div class="home-speaker-placeholder">
 
-                                        <span>◉</span>
+                                        <span>
+                                            ◉
+                                        </span>
 
                                     </div>
                                 }
@@ -856,10 +1016,143 @@
 
     </section>
 
+    <!-- =====================================================
+     SOCIAL NETWORKS
+====================================================== -->
+
+<section class="home-section home-social-section">
+
+    <div class="container">
+
+        <div class="home-social">
+
+            <div class="home-social-heading">
+
+                <span class="home-section-eyebrow">
+                    ارتباط با ما
+                </span>
+
+                <h2>
+                    مجالس اهواز را دنبال کنید
+                </h2>
+
+                <p>
+                    برای دریافت اطلاعیه‌ها، جلسات جدید و تازه‌ترین
+                    محتوای صوتی، ما را در شبکه‌های اجتماعی دنبال کنید.
+                </p>
+
+            </div>
+
+
+            <div class="home-social-grid">
+
+
+                <!-- بله -->
+
+                <a href="https://ble.ir/ahvazmajlesbot"
+                   class="home-social-card home-social-bale"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="مجالس اهواز در بله">
+
+                    <div class="home-social-icon">
+                        <span>ب</span>
+                    </div>
+
+                    <div class="home-social-info">
+
+                        <strong>
+                            بله
+                        </strong>
+
+                        <span>
+                            ربات مجالس اهواز
+                        </span>
+
+                    </div>
+
+                    <span class="home-social-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+
+                <!-- ایتا -->
+
+                <a href="https://eitaa.com/ahvazmajles"
+                   class="home-social-card home-social-eitaa"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="مجالس اهواز در ایتا">
+
+                    <div class="home-social-icon">
+                        <span>ا</span>
+                    </div>
+
+                    <div class="home-social-info">
+
+                        <strong>
+                            ایتا
+                        </strong>
+
+                        <span>
+                            کانال مجالس اهواز
+                        </span>
+
+                    </div>
+
+                    <span class="home-social-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+
+                <!-- تلگرام -->
+
+                <a href="https://t.me/ahvazmajlesbot"
+                   class="home-social-card home-social-telegram"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="مجالس اهواز در تلگرام">
+
+                    <div class="home-social-icon">
+                        <span>✈</span>
+                    </div>
+
+                    <div class="home-social-info">
+
+                        <strong>
+                            تلگرام
+                        </strong>
+
+                        <span>
+                            ربات مجالس اهواز
+                        </span>
+
+                    </div>
+
+                    <span class="home-social-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 
     <!-- =====================================================
          FINAL CTA
-         ===================================================== -->
+    ====================================================== -->
+
     <section class="home-cta">
 
         <div class="home-cta-pattern"></div>
@@ -868,22 +1161,27 @@
 
             <div class="home-cta-content">
 
+
                 <div class="home-cta-icon">
                     ♪
                 </div>
 
+
                 <span class="home-cta-eyebrow">
-                    آرشیو صوتی مکتب اهواز
+                    آرشیو صوتی مجالس اهواز
                 </span>
+
 
                 <h2>
                     صدای علم و معارف، همیشه در دسترس شما
                 </h2>
 
+
                 <p>
                     در آرشیو صوتی جستجو کنید و سخنرانی مورد نظر خود را
                     سریع و آسان پیدا کنید.
                 </p>
+
 
                 <a asp-controller="Archive"
                    asp-action="Index"

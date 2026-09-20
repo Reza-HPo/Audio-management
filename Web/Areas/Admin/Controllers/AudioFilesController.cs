@@ -1,9 +1,11 @@
-﻿using MaktabAhvaz.Domain.Entities;
+﻿using FluentFTP;
+using MaktabAhvaz.Domain.Entities;
 using MaktabAhvaz.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Areas.Admin.Models.AudioFiles;
+using Web.Services;
 
 namespace Web.Areas.Admin.Controllers;
 
@@ -13,15 +15,17 @@ public class AudioFilesController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _environment;
+    private readonly FtpAudioStorage _ftpStorage;
 
     public AudioFilesController(
         ApplicationDbContext context,
-        IWebHostEnvironment environment)
+        IWebHostEnvironment environment,
+        FtpAudioStorage ftpStorage)
     {
         _context = context;
         _environment = environment;
+        _ftpStorage = ftpStorage;
     }
-
 
     // =========================================================
     // INDEX
@@ -41,7 +45,6 @@ public class AudioFilesController : Controller
         return View(audioFiles);
     }
 
-
     // =========================================================
     // CREATE - GET
     // =========================================================
@@ -54,7 +57,6 @@ public class AudioFilesController : Controller
         return View();
     }
 
-
     // =========================================================
     // CREATE - POST
     // =========================================================
@@ -62,7 +64,8 @@ public class AudioFilesController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [RequestSizeLimit(500 * 1024 * 1024)]
-    [RequestFormLimits(MultipartBodyLengthLimit = 500 * 1024 * 1024)]
+    [RequestFormLimits(
+        MultipartBodyLengthLimit = 500 * 1024 * 1024)]
     public async Task<IActionResult> Create(
         AudioFileCreateViewModel model)
     {
@@ -70,17 +73,13 @@ public class AudioFilesController : Controller
         // بررسی فایل صوتی
         // -----------------------------------------------------
 
-        if (model.Audio == null || model.Audio.Length == 0)
+        if (model.Audio == null ||
+            model.Audio.Length == 0)
         {
             ModelState.AddModelError(
                 nameof(model.Audio),
                 "لطفاً یک فایل صوتی انتخاب کنید.");
         }
-
-
-        // -----------------------------------------------------
-        // بررسی فرمت فایل صوتی
-        // -----------------------------------------------------
 
         var allowedAudioExtensions = new[]
         {
@@ -88,20 +87,23 @@ public class AudioFilesController : Controller
             ".m4a"
         };
 
-        if (model.Audio != null)
+        string? audioExtension = null;
+
+        if (model.Audio != null &&
+            model.Audio.Length > 0)
         {
-            var extension = Path
+            audioExtension = Path
                 .GetExtension(model.Audio.FileName)
                 .ToLowerInvariant();
 
-            if (!allowedAudioExtensions.Contains(extension))
+            if (!allowedAudioExtensions.Contains(
+                    audioExtension))
             {
                 ModelState.AddModelError(
                     nameof(model.Audio),
                     "فرمت فایل باید MP3 یا M4A باشد.");
             }
         }
-
 
         // -----------------------------------------------------
         // بررسی سخنران
@@ -119,77 +121,24 @@ public class AudioFilesController : Controller
                 "سخنران انتخاب‌شده معتبر نیست.");
         }
 
-
         // -----------------------------------------------------
-        // Validation
+        // بررسی کاور
         // -----------------------------------------------------
 
-        if (!ModelState.IsValid)
+        var allowedImageExtensions = new[]
         {
-            await LoadCreateData();
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp"
+        };
 
-            return View(model);
-        }
-
-
-        // -----------------------------------------------------
-        // پوشه فایل صوتی
-        // -----------------------------------------------------
-
-        var audioFolder = Path.Combine(
-            _environment.WebRootPath,
-            "uploads",
-            "audio");
-
-        Directory.CreateDirectory(audioFolder);
-
-
-        // -----------------------------------------------------
-        // نام یکتا
-        // -----------------------------------------------------
-
-        var audioExtension = Path
-            .GetExtension(model.Audio!.FileName)
-            .ToLowerInvariant();
-
-        var audioFileName =
-            $"{Guid.NewGuid():N}{audioExtension}";
-
-        var audioPath = Path.Combine(
-            audioFolder,
-            audioFileName);
-
-
-        // -----------------------------------------------------
-        // ذخیره فایل صوتی
-        // -----------------------------------------------------
-
-        await using (var stream = new FileStream(
-            audioPath,
-            FileMode.Create))
-        {
-            await model.Audio.CopyToAsync(stream);
-        }
-
-
-        // -----------------------------------------------------
-        // تصویر کاور
-        // -----------------------------------------------------
-
-        string? coverImageUrl = null;
+        string? coverExtension = null;
 
         if (model.CoverImage != null &&
             model.CoverImage.Length > 0)
         {
-            var allowedImageExtensions = new[]
-            {
-                ".jpg",
-                ".jpeg",
-                ".png",
-                ".webp"
-            };
-
-            var coverExtension = Path
+            coverExtension = Path
                 .GetExtension(model.CoverImage.FileName)
                 .ToLowerInvariant();
 
@@ -199,133 +148,220 @@ public class AudioFilesController : Controller
                 ModelState.AddModelError(
                     nameof(model.CoverImage),
                     "فرمت تصویر کاور معتبر نیست.");
-
-                System.IO.File.Delete(audioPath);
-
-                await LoadCreateData();
-
-                return View(model);
             }
-
-
-            var coverFolder = Path.Combine(
-                _environment.WebRootPath,
-                "uploads",
-                "covers");
-
-            Directory.CreateDirectory(coverFolder);
-
-
-            var coverFileName =
-                $"{Guid.NewGuid():N}{coverExtension}";
-
-            var coverPath = Path.Combine(
-                coverFolder,
-                coverFileName);
-
-
-            await using (var stream = new FileStream(
-                coverPath,
-                FileMode.Create))
-            {
-                await model.CoverImage.CopyToAsync(stream);
-            }
-
-
-            coverImageUrl =
-                $"/uploads/covers/{coverFileName}";
         }
 
-
         // -----------------------------------------------------
-        // ساخت Entity
+        // اگر Validation خطا داشت
         // -----------------------------------------------------
 
-        var audioFile = new AudioFile
+        if (!ModelState.IsValid)
         {
-            Title = model.Title.Trim(),
+            await LoadCreateData();
 
-            Description =
-                model.Description?.Trim(),
-
-            FileName =
-                $"/uploads/audio/{audioFileName}",
-
-            CoverImageUrl =
-                coverImageUrl,
-
-            FileSize =
-                model.Audio.Length,
-
-            ContentType =
-                model.Audio.ContentType,
-
-            SpeakerId =
-                model.SpeakerId,
-
-            IsPublished =
-                model.IsPublished,
-
-            IsDownloadable =
-                model.IsDownloadable,
-
-            CreatedAt =
-                DateTime.UtcNow,
-
-            PublishedAt =
-                model.IsPublished
-                    ? DateTime.UtcNow
-                    : null
-        };
-
-
-        _context.AudioFiles.Add(audioFile);
-
-        await _context.SaveChangesAsync();
-
+            return View(model);
+        }
 
         // -----------------------------------------------------
-        // دسته‌بندی‌ها
+        // متغیرهای فایل
         // -----------------------------------------------------
 
-        if (model.CategoryIds != null &&
-            model.CategoryIds.Count > 0)
+        string? uploadedAudioUrl = null;
+        string? uploadedAudioFileName = null;
+
+        string? coverImageUrl = null;
+        string? coverPhysicalPath = null;
+
+        try
         {
-            var validCategoryIds =
-                await _context.Categories
-                    .Where(c =>
-                        c.IsActive &&
-                        model.CategoryIds.Contains(c.Id))
-                    .Select(c => c.Id)
-                    .ToListAsync();
+            // =================================================
+            // 1. آپلود صوت روی FTP
+            // =================================================
 
+            uploadedAudioFileName =
+                $"{Guid.NewGuid():N}{audioExtension}";
 
-            foreach (var categoryId in validCategoryIds)
+            await using (var audioStream =
+                model.Audio!.OpenReadStream())
             {
-                _context.AudioCategories.Add(
-                    new AudioCategory
-                    {
-                        AudioFileId =
-                            audioFile.Id,
-
-                        CategoryId =
-                            categoryId
-                    });
+                uploadedAudioUrl =
+                    await _ftpStorage.UploadAsync(
+                        audioStream,
+                        uploadedAudioFileName);
             }
 
+            // =================================================
+            // 2. ذخیره کاور روی هاست اصلی
+            // =================================================
+
+            if (model.CoverImage != null &&
+                model.CoverImage.Length > 0)
+            {
+                var coverFolder = Path.Combine(
+                    _environment.WebRootPath,
+                    "uploads",
+                    "covers");
+
+                Directory.CreateDirectory(coverFolder);
+
+                var coverFileName =
+                    $"{Guid.NewGuid():N}{coverExtension}";
+
+                coverPhysicalPath = Path.Combine(
+                    coverFolder,
+                    coverFileName);
+
+                await using (var coverStream =
+                    new FileStream(
+                        coverPhysicalPath,
+                        FileMode.Create))
+                {
+                    await model.CoverImage
+                        .CopyToAsync(coverStream);
+                }
+
+                coverImageUrl =
+                    $"/uploads/covers/{coverFileName}";
+            }
+
+            // =================================================
+            // 3. ساخت Entity
+            // =================================================
+
+            var now = DateTime.UtcNow;
+
+            var audioFile = new AudioFile
+            {
+                Title = model.Title.Trim(),
+
+                Description =
+                    model.Description?.Trim(),
+
+                // آدرس کامل فایل روی هاست دانلود
+                FileName = uploadedAudioUrl!,
+
+                CoverImageUrl = coverImageUrl,
+
+                FileSize = model.Audio.Length,
+
+                ContentType =
+                    string.IsNullOrWhiteSpace(
+                        model.Audio.ContentType)
+                        ? GetAudioContentType(
+                            audioExtension!)
+                        : model.Audio.ContentType,
+
+                SpeakerId = model.SpeakerId,
+
+                IsPublished =
+                    model.IsPublished,
+
+                IsDownloadable =
+                    model.IsDownloadable,
+
+                CreatedAt = now,
+
+                PublishedAt =
+                    model.IsPublished
+                        ? now
+                        : null
+            };
+
+            // =================================================
+            // 4. ذخیره صوت
+            // =================================================
+
+            _context.AudioFiles.Add(audioFile);
 
             await _context.SaveChangesAsync();
+
+            // =================================================
+            // 5. ذخیره دسته‌بندی‌ها
+            // =================================================
+
+            if (model.CategoryIds != null &&
+                model.CategoryIds.Count > 0)
+            {
+                var validCategoryIds =
+                    await _context.Categories
+                        .Where(c =>
+                            c.IsActive &&
+                            model.CategoryIds.Contains(c.Id))
+                        .Select(c => c.Id)
+                        .ToListAsync();
+
+                foreach (var categoryId
+                         in validCategoryIds)
+                {
+                    _context.AudioCategories.Add(
+                        new AudioCategory
+                        {
+                            AudioFileId =
+                                audioFile.Id,
+
+                            CategoryId =
+                                categoryId
+                        });
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            TempData["Success"] =
+                "فایل صوتی با موفقیت اضافه شد.";
+
+            return RedirectToAction(nameof(Index));
         }
+        catch (Exception ex)
+        {
+            // -------------------------------------------------
+            // اگر FTP آپلود شده ولی ادامه عملیات شکست خورد
+            // فایل FTP را پاک می‌کنیم.
+            // -------------------------------------------------
 
+            if (!string.IsNullOrWhiteSpace(
+                    uploadedAudioFileName))
+            {
+                try
+                {
+                    await _ftpStorage.DeleteAsync(
+                        uploadedAudioFileName);
+                }
+                catch
+                {
+                    // جلوگیری از مخفی شدن خطای اصلی
+                }
+            }
 
-        TempData["Success"] =
-            "فایل صوتی با موفقیت اضافه شد.";
+            // -------------------------------------------------
+            // حذف کاور در صورت شکست
+            // -------------------------------------------------
 
+            if (!string.IsNullOrWhiteSpace(
+                    coverPhysicalPath) &&
+                System.IO.File.Exists(
+                    coverPhysicalPath))
+            {
+                try
+                {
+                    System.IO.File.Delete(
+                        coverPhysicalPath);
+                }
+                catch
+                {
+                    // جلوگیری از مخفی شدن خطای اصلی
+                }
+            }
 
-        return RedirectToAction(
-            nameof(Index));
+            ModelState.AddModelError(
+                string.Empty,
+                $"خطا در ذخیره فایل صوتی: {ex.Message}");
+
+            await LoadCreateData();
+
+            return View(model);
+        }
     }
-
 
     // =========================================================
     // EDIT - GET
@@ -343,9 +379,7 @@ public class AudioFilesController : Controller
             return NotFound();
         }
 
-
         await LoadCreateData();
-
 
         var model = new AudioFileEditViewModel
         {
@@ -353,17 +387,22 @@ public class AudioFilesController : Controller
 
             Title = audioFile.Title,
 
-            Description = audioFile.Description,
+            Description =
+                audioFile.Description,
 
-            SpeakerId = audioFile.SpeakerId,
+            SpeakerId =
+                audioFile.SpeakerId,
 
-            CategoryIds = audioFile.AudioCategories
-                .Select(ac => ac.CategoryId)
-                .ToList(),
+            CategoryIds =
+                audioFile.AudioCategories
+                    .Select(ac => ac.CategoryId)
+                    .ToList(),
 
-            IsPublished = audioFile.IsPublished,
+            IsPublished =
+                audioFile.IsPublished,
 
-            IsDownloadable = audioFile.IsDownloadable,
+            IsDownloadable =
+                audioFile.IsDownloadable,
 
             CurrentAudioFile =
                 audioFile.FileName,
@@ -371,7 +410,6 @@ public class AudioFilesController : Controller
             CurrentCoverImage =
                 audioFile.CoverImageUrl
         };
-
 
         return View(model);
     }
@@ -382,6 +420,9 @@ public class AudioFilesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequestSizeLimit(500 * 1024 * 1024)]
+    [RequestFormLimits(
+        MultipartBodyLengthLimit = 500 * 1024 * 1024)]
     public async Task<IActionResult> Edit(
         int id,
         AudioFileEditViewModel model)
@@ -391,7 +432,6 @@ public class AudioFilesController : Controller
             return BadRequest();
         }
 
-
         var audioFile = await _context.AudioFiles
             .Include(a => a.AudioCategories)
             .FirstOrDefaultAsync(a => a.Id == id);
@@ -400,7 +440,6 @@ public class AudioFilesController : Controller
         {
             return NotFound();
         }
-
 
         // -----------------------------------------------------
         // بررسی سخنران
@@ -418,26 +457,28 @@ public class AudioFilesController : Controller
                 "سخنران انتخاب‌شده معتبر نیست.");
         }
 
-
         // -----------------------------------------------------
         // بررسی فایل صوتی جدید
         // -----------------------------------------------------
 
+        var allowedAudioExtensions = new[]
+        {
+            ".mp3",
+            ".m4a"
+        };
+
+        string? newAudioExtension = null;
+
         if (model.Audio != null &&
             model.Audio.Length > 0)
         {
-            var allowedAudioExtensions = new[]
-            {
-                ".mp3",
-                ".m4a"
-            };
-
-            var extension = Path
-                .GetExtension(model.Audio.FileName)
-                .ToLowerInvariant();
+            newAudioExtension =
+                Path.GetExtension(
+                    model.Audio.FileName)
+                    .ToLowerInvariant();
 
             if (!allowedAudioExtensions.Contains(
-                    extension))
+                    newAudioExtension))
             {
                 ModelState.AddModelError(
                     nameof(model.Audio),
@@ -445,28 +486,30 @@ public class AudioFilesController : Controller
             }
         }
 
-
         // -----------------------------------------------------
         // بررسی کاور جدید
         // -----------------------------------------------------
 
+        var allowedImageExtensions = new[]
+        {
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp"
+        };
+
+        string? newCoverExtension = null;
+
         if (model.CoverImage != null &&
             model.CoverImage.Length > 0)
         {
-            var allowedImageExtensions = new[]
-            {
-                ".jpg",
-                ".jpeg",
-                ".png",
-                ".webp"
-            };
-
-            var extension = Path
-                .GetExtension(model.CoverImage.FileName)
-                .ToLowerInvariant();
+            newCoverExtension =
+                Path.GetExtension(
+                    model.CoverImage.FileName)
+                    .ToLowerInvariant();
 
             if (!allowedImageExtensions.Contains(
-                    extension))
+                    newCoverExtension))
             {
                 ModelState.AddModelError(
                     nameof(model.CoverImage),
@@ -474,268 +517,289 @@ public class AudioFilesController : Controller
             }
         }
 
-
         // -----------------------------------------------------
-        // Validation
+        // اگر Validation خطا داشت
         // -----------------------------------------------------
 
         if (!ModelState.IsValid)
         {
-            var errors = ModelState
-                .Where(x => x.Value != null && x.Value.Errors.Any())
-                .SelectMany(x => x.Value!.Errors.Select(e =>
-                    $"{x.Key}: {e.ErrorMessage}"));
+            await LoadCreateData();
 
-            return Content(
-                string.Join(Environment.NewLine, errors));
+            return View(model);
         }
 
+        string? newAudioFileName = null;
+        string? newAudioUrl = null;
 
-        // -----------------------------------------------------
-        // اطلاعات اصلی
-        // -----------------------------------------------------
+        string? newCoverUrl = null;
+        string? newCoverPhysicalPath = null;
 
-        audioFile.Title =
-            model.Title.Trim();
+        // URL قدیمی
+        var oldAudioUrl = audioFile.FileName;
 
-        audioFile.Description =
-            model.Description?.Trim();
+        // نام فایل قدیمی FTP
+        var oldAudioFileName =
+            ExtractFtpFileName(oldAudioUrl);
 
-        audioFile.SpeakerId =
-            model.SpeakerId;
+        var oldCoverUrl =
+            audioFile.CoverImageUrl;
 
-        audioFile.IsPublished =
-            model.IsPublished;
-
-        audioFile.IsDownloadable =
-            model.IsDownloadable;
-
-
-        // -----------------------------------------------------
-        // تاریخ انتشار
-        // -----------------------------------------------------
-
-        if (model.IsPublished)
+        try
         {
-            if (!audioFile.PublishedAt.HasValue)
+            // =================================================
+            // 1. اگر فایل صوتی جدید انتخاب شده
+            // =================================================
+
+            if (model.Audio != null &&
+                model.Audio.Length > 0)
             {
-                audioFile.PublishedAt =
-                    DateTime.UtcNow;
-            }
-        }
-        else
-        {
-            audioFile.PublishedAt = null;
-        }
+                newAudioFileName =
+                    $"{Guid.NewGuid():N}{newAudioExtension}";
 
-
-        // -----------------------------------------------------
-        // فایل صوتی جدید
-        // -----------------------------------------------------
-
-        if (model.Audio != null &&
-            model.Audio.Length > 0)
-        {
-            var audioFolder = Path.Combine(
-                _environment.WebRootPath,
-                "uploads",
-                "audio");
-
-            Directory.CreateDirectory(audioFolder);
-
-
-            var extension = Path
-                .GetExtension(model.Audio.FileName)
-                .ToLowerInvariant();
-
-
-            var newFileName =
-                $"{Guid.NewGuid():N}{extension}";
-
-
-            var newFilePath = Path.Combine(
-                audioFolder,
-                newFileName);
-
-
-            await using (var stream = new FileStream(
-                newFilePath,
-                FileMode.Create))
-            {
-                await model.Audio.CopyToAsync(stream);
+                await using (var audioStream =
+                    model.Audio.OpenReadStream())
+                {
+                    newAudioUrl =
+                        await _ftpStorage.UploadAsync(
+                            audioStream,
+                            newAudioFileName);
+                }
             }
 
+            // =================================================
+            // 2. اگر کاور جدید انتخاب شده
+            // =================================================
 
-            // حذف فایل صوتی قبلی
-            DeletePhysicalFile(
-                audioFile.FileName);
-
-
-            audioFile.FileName =
-                $"/uploads/audio/{newFileName}";
-
-            audioFile.FileSize =
-                model.Audio.Length;
-
-            audioFile.ContentType =
-                model.Audio.ContentType;
-        }
-
-
-        // -----------------------------------------------------
-        // کاور جدید
-        // -----------------------------------------------------
-
-        if (model.CoverImage != null &&
-            model.CoverImage.Length > 0)
-        {
-            var coverFolder = Path.Combine(
-                _environment.WebRootPath,
-                "uploads",
-                "covers");
-
-            Directory.CreateDirectory(
-                coverFolder);
-
-
-            var extension = Path
-                .GetExtension(model.CoverImage.FileName)
-                .ToLowerInvariant();
-
-
-            var newCoverFileName =
-                $"{Guid.NewGuid():N}{extension}";
-
-
-            var newCoverPath = Path.Combine(
-                coverFolder,
-                newCoverFileName);
-
-
-            await using (var stream = new FileStream(
-                newCoverPath,
-                FileMode.Create))
+            if (model.CoverImage != null &&
+                model.CoverImage.Length > 0)
             {
-                await model.CoverImage.CopyToAsync(
-                    stream);
+                var coverFolder = Path.Combine(
+                    _environment.WebRootPath,
+                    "uploads",
+                    "covers");
+
+                Directory.CreateDirectory(
+                    coverFolder);
+
+                var newCoverFileName =
+                    $"{Guid.NewGuid():N}{newCoverExtension}";
+
+                newCoverPhysicalPath =
+                    Path.Combine(
+                        coverFolder,
+                        newCoverFileName);
+
+                await using (var coverStream =
+                    new FileStream(
+                        newCoverPhysicalPath,
+                        FileMode.Create))
+                {
+                    await model.CoverImage
+                        .CopyToAsync(coverStream);
+                }
+
+                newCoverUrl =
+                    $"/uploads/covers/{newCoverFileName}";
             }
 
+            // =================================================
+            // 3. بروزرسانی اطلاعات
+            // =================================================
 
-            // حذف کاور قبلی
-            DeletePhysicalFile(
-                audioFile.CoverImageUrl);
+            audioFile.Title =
+                model.Title.Trim();
 
+            audioFile.Description =
+                model.Description?.Trim();
 
-            audioFile.CoverImageUrl =
-                $"/uploads/covers/{newCoverFileName}";
-        }
+            audioFile.SpeakerId =
+                model.SpeakerId;
 
+            audioFile.IsPublished =
+                model.IsPublished;
 
-        // -----------------------------------------------------
-        // دسته‌بندی‌ها
-        // -----------------------------------------------------
+            audioFile.IsDownloadable =
+                model.IsDownloadable;
 
-        _context.AudioCategories.RemoveRange(
-            audioFile.AudioCategories);
+            // -------------------------------------------------
+            // PublishedAt
+            // -------------------------------------------------
 
-
-        if (model.CategoryIds != null &&
-            model.CategoryIds.Count > 0)
-        {
-            var validCategoryIds =
-                await _context.Categories
-                    .Where(c =>
-                        c.IsActive &&
-                        model.CategoryIds.Contains(c.Id))
-                    .Select(c => c.Id)
-                    .ToListAsync();
-
-
-            foreach (var categoryId
-                     in validCategoryIds)
+            if (model.IsPublished)
             {
-                _context.AudioCategories.Add(
-                    new AudioCategory
-                    {
-                        AudioFileId =
-                            audioFile.Id,
-
-                        CategoryId =
-                            categoryId
-                    });
+                if (!audioFile.PublishedAt.HasValue)
+                {
+                    audioFile.PublishedAt =
+                        DateTime.UtcNow;
+                }
             }
+            else
+            {
+                audioFile.PublishedAt = null;
+            }
+
+            // =================================================
+            // 4. ثبت فایل صوتی جدید
+            // =================================================
+
+            if (!string.IsNullOrWhiteSpace(
+                    newAudioUrl))
+            {
+                audioFile.FileName =
+                    newAudioUrl;
+
+                audioFile.FileSize =
+                    model.Audio!.Length;
+
+                audioFile.ContentType =
+                    string.IsNullOrWhiteSpace(
+                        model.Audio.ContentType)
+                        ? GetAudioContentType(
+                            newAudioExtension!)
+                        : model.Audio.ContentType;
+            }
+
+            // =================================================
+            // 5. ثبت کاور جدید
+            // =================================================
+
+            if (!string.IsNullOrWhiteSpace(
+                    newCoverUrl))
+            {
+                audioFile.CoverImageUrl =
+                    newCoverUrl;
+            }
+
+            // =================================================
+            // 6. بروزرسانی دسته‌بندی‌ها
+            // =================================================
+
+            _context.AudioCategories.RemoveRange(
+                audioFile.AudioCategories);
+
+            if (model.CategoryIds != null &&
+                model.CategoryIds.Count > 0)
+            {
+                var validCategoryIds =
+                    await _context.Categories
+                        .Where(c =>
+                            c.IsActive &&
+                            model.CategoryIds.Contains(c.Id))
+                        .Select(c => c.Id)
+                        .ToListAsync();
+
+                foreach (var categoryId
+                         in validCategoryIds)
+                {
+                    _context.AudioCategories.Add(
+                        new AudioCategory
+                        {
+                            AudioFileId =
+                                audioFile.Id,
+
+                            CategoryId =
+                                categoryId
+                        });
+                }
+            }
+
+            // =================================================
+            // 7. ذخیره دیتابیس
+            // =================================================
+
+            await _context.SaveChangesAsync();
+
+            // =================================================
+            // 8. بعد از موفقیت DB:
+            //    فایل صوتی قدیمی را از FTP حذف کن
+            // =================================================
+
+            if (!string.IsNullOrWhiteSpace(
+                    newAudioUrl) &&
+                !string.IsNullOrWhiteSpace(
+                    oldAudioFileName))
+            {
+                try
+                {
+                    await _ftpStorage.DeleteAsync(
+                        oldAudioFileName);
+                }
+                catch
+                {
+                    // عدم حذف فایل قدیمی نباید
+                    // ویرایش موفق را خراب کند.
+                }
+            }
+
+            // =================================================
+            // 9. کاور قدیمی را حذف کن
+            // =================================================
+
+            if (!string.IsNullOrWhiteSpace(
+                    newCoverUrl))
+            {
+                DeletePhysicalFile(
+                    oldCoverUrl);
+            }
+
+            TempData["Success"] =
+                "فایل صوتی با موفقیت ویرایش شد.";
+
+            return RedirectToAction(nameof(Index));
         }
+        catch (Exception ex)
+        {
+            // -------------------------------------------------
+            // فایل صوتی جدید را اگر آپلود شده بود حذف کن
+            // -------------------------------------------------
 
+            if (!string.IsNullOrWhiteSpace(
+                    newAudioFileName))
+            {
+                try
+                {
+                    await _ftpStorage.DeleteAsync(
+                        newAudioFileName);
+                }
+                catch
+                {
+                    // جلوگیری از مخفی شدن خطای اصلی
+                }
+            }
 
-        // -----------------------------------------------------
-        // ذخیره
-        // -----------------------------------------------------
+            // -------------------------------------------------
+            // کاور جدید را اگر ساخته شده بود حذف کن
+            // -------------------------------------------------
 
-        await _context.SaveChangesAsync();
+            if (!string.IsNullOrWhiteSpace(
+                    newCoverPhysicalPath) &&
+                System.IO.File.Exists(
+                    newCoverPhysicalPath))
+            {
+                try
+                {
+                    System.IO.File.Delete(
+                        newCoverPhysicalPath);
+                }
+                catch
+                {
+                    // جلوگیری از مخفی شدن خطای اصلی
+                }
+            }
 
+            ModelState.AddModelError(
+                string.Empty,
+                $"خطا در ویرایش فایل صوتی: {ex.Message}");
 
-        TempData["Success"] =
-            "فایل صوتی با موفقیت ویرایش شد.";
+            await LoadCreateData();
 
-
-        return RedirectToAction(
-            nameof(Index));
+            return View(model);
+        }
     }
 
-
     // =========================================================
-    // LOAD CREATE DATA
+    // DELETE
     // =========================================================
-
-    private async Task LoadCreateData()
-    {
-        ViewBag.Speakers = await _context.Speakers
-            .AsNoTracking()
-            .Where(s => s.IsActive)
-            .OrderBy(s => s.Name)
-            .ToListAsync();
-
-
-        ViewBag.Categories = await _context.Categories
-            .AsNoTracking()
-            .Where(c => c.IsActive)
-            .OrderBy(c => c.DisplayOrder)
-            .ThenBy(c => c.Name)
-            .ToListAsync();
-    }
-
-
-    // =========================================================
-    // DELETE PHYSICAL FILE
-    // =========================================================
-
-    private void DeletePhysicalFile(string? relativePath)
-    {
-        if (string.IsNullOrWhiteSpace(relativePath))
-        {
-            return;
-        }
-
-
-        var cleanPath = relativePath
-            .TrimStart('/')
-            .Replace(
-                '/',
-                Path.DirectorySeparatorChar);
-
-
-        var physicalPath = Path.Combine(
-            _environment.WebRootPath,
-            cleanPath);
-
-
-        if (System.IO.File.Exists(
-                physicalPath))
-        {
-            System.IO.File.Delete(
-                physicalPath);
-        }
-    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -749,53 +813,197 @@ public class AudioFilesController : Controller
             return NotFound();
         }
 
-        // حذف فایل صوتی از دیسک
-        if (!string.IsNullOrWhiteSpace(audio.FileName))
-        {
-            var audioPath = Path.Combine(
-                _environment.WebRootPath,
-                audio.FileName.TrimStart('/')
-                             .Replace("/", Path.DirectorySeparatorChar.ToString())
-            );
+        var audioFileName =
+            ExtractFtpFileName(audio.FileName);
 
-            if (System.IO.File.Exists(audioPath))
+        try
+        {
+            // =================================================
+            // 1. حذف فایل صوتی از FTP
+            // =================================================
+
+            if (!string.IsNullOrWhiteSpace(
+                    audioFileName))
             {
-                System.IO.File.Delete(audioPath);
+                try
+                {
+                    await _ftpStorage.DeleteAsync(
+                        audioFileName);
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] =
+                        $"حذف فایل صوتی از هاست دانلود ناموفق بود: {ex.Message}";
+
+                    return RedirectToAction(
+                        nameof(Index));
+                }
             }
-        }
 
-        // حذف کاور
-        if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
-        {
-            var coverPath = Path.Combine(
-                _environment.WebRootPath,
-                audio.CoverImageUrl.TrimStart('/')
-                                  .Replace("/", Path.DirectorySeparatorChar.ToString())
-            );
+            // =================================================
+            // 2. حذف کاور از هاست اصلی
+            // =================================================
 
-            if (System.IO.File.Exists(coverPath))
+            DeletePhysicalFile(
+                audio.CoverImageUrl);
+
+            // =================================================
+            // 3. حذف دسته‌بندی‌ها
+            // =================================================
+
+            var categories =
+                await _context.AudioCategories
+                    .Where(x =>
+                        x.AudioFileId == id)
+                    .ToListAsync();
+
+            if (categories.Any())
             {
-                System.IO.File.Delete(coverPath);
+                _context.AudioCategories
+                    .RemoveRange(categories);
             }
+
+            // =================================================
+            // 4. حذف رکورد صوت
+            // =================================================
+
+            _context.AudioFiles.Remove(audio);
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] =
+                "فایل صوتی با موفقیت حذف شد.";
+
+            return RedirectToAction(
+                nameof(Index));
         }
-
-        // حذف ارتباط‌های دسته‌بندی
-        var categories = await _context.AudioCategories
-            .Where(x => x.AudioFileId == id)
-            .ToListAsync();
-
-        if (categories.Any())
+        catch (Exception ex)
         {
-            _context.AudioCategories.RemoveRange(categories);
+            TempData["Error"] =
+                $"خطا در حذف فایل صوتی: {ex.Message}";
+
+            return RedirectToAction(
+                nameof(Index));
+        }
+    }
+
+    // =========================================================
+    // LOAD CREATE DATA
+    // =========================================================
+
+    private async Task LoadCreateData()
+    {
+        ViewBag.Speakers =
+            await _context.Speakers
+                .AsNoTracking()
+                .Where(s => s.IsActive)
+                .OrderBy(s => s.Name)
+                .ToListAsync();
+
+        ViewBag.Categories =
+            await _context.Categories
+                .AsNoTracking()
+                .Where(c => c.IsActive)
+                .OrderBy(c => c.DisplayOrder)
+                .ThenBy(c => c.Name)
+                .ToListAsync();
+    }
+
+    // =========================================================
+    // DELETE LOCAL PHYSICAL FILE
+    // =========================================================
+
+    private void DeletePhysicalFile(
+        string? relativePath)
+    {
+        if (string.IsNullOrWhiteSpace(
+                relativePath))
+        {
+            return;
         }
 
-        // حذف رکورد اصلی
-        _context.AudioFiles.Remove(audio);
+        // اگر URL کامل باشد، فقط مسیر local
+        // برای کاورها قابل استفاده است.
+        if (Uri.TryCreate(
+                relativePath,
+                UriKind.Absolute,
+                out var uri))
+        {
+            relativePath =
+                uri.AbsolutePath;
+        }
 
-        await _context.SaveChangesAsync();
+        var cleanPath =
+            relativePath
+                .TrimStart('/')
+                .Replace(
+                    '/',
+                    Path.DirectorySeparatorChar);
 
-        TempData["Success"] = "فایل صوتی با موفقیت حذف شد.";
+        var physicalPath =
+            Path.Combine(
+                _environment.WebRootPath,
+                cleanPath);
 
-        return RedirectToAction(nameof(Index));
+        if (System.IO.File.Exists(
+                physicalPath))
+        {
+            System.IO.File.Delete(
+                physicalPath);
+        }
+    }
+
+    // =========================================================
+    // EXTRACT FTP FILE NAME
+    // =========================================================
+
+    private string? ExtractFtpFileName(
+        string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return null;
+        }
+
+        try
+        {
+            // اگر آدرس کامل باشد
+            if (Uri.TryCreate(
+                    url,
+                    UriKind.Absolute,
+                    out var uri))
+            {
+                var fileName =
+                    Path.GetFileName(
+                        uri.AbsolutePath);
+
+                return string.IsNullOrWhiteSpace(
+                        fileName)
+                    ? null
+                    : fileName;
+            }
+
+            // اگر به هر دلیل فقط نام فایل ذخیره شده باشد
+            return Path.GetFileName(url);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    // =========================================================
+    // AUDIO CONTENT TYPE
+    // =========================================================
+
+    private static string GetAudioContentType(
+        string extension)
+    {
+        return extension.ToLowerInvariant() switch
+        {
+            ".mp3" => "audio/mpeg",
+            ".m4a" => "audio/mp4",
+            _ => "application/octet-stream"
+        };
     }
 }

@@ -5,6 +5,7 @@
 }
 
 @section Styles {
+
     <link rel="stylesheet"
           href="~/css/archive.css"
           asp-append-version="true" />
@@ -12,50 +13,69 @@
     <link rel="stylesheet"
           href="~/css/player.css"
           asp-append-version="true" />
+
 }
+
 
 <section class="archive-page">
 
-    <!-- ============================================
-         ARCHIVE HERO
-    ============================================= -->
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
-    <div class="archive-hero">
+    <header class="archive-hero">
 
         <div class="container">
 
             <div class="archive-hero-content">
 
                 <div class="archive-eyebrow">
+
                     <span class="archive-eyebrow-dot"></span>
 
-                    آرشیو صوتی مجالس اهواز
+                    <span>
+                        آرشیو صوتی مجالس اهواز
+                    </span>
+
                 </div>
 
+
                 <h1>
-                    محتوای مورد نظرتان
-                    <span>اینجاست</span>
+
+                    صدای مجالس،
+                    <span>همیشه در دسترس شما</span>
+
                 </h1>
 
+
                 <p>
-                    میان مجموعه‌ای از سخنرانی‌ها و فایل‌های صوتی
-                    جستجو کنید و محتوای مورد نظر خود را به‌سادگی پیدا کنید.
+
+                    مجموعه‌ای از سخنرانی‌ها و فایل‌های صوتی
+                    مجالس اهواز را جستجو، گوش کنید و
+                    محتوای مورد نظر خود را پیدا کنید.
+
                 </p>
 
             </div>
 
         </div>
 
-    </div>
+    </header>
 
 
-    <div class="container archive-container">
 
-        <!-- ============================================
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="container archive-container">
+
+
+        <!-- =================================================
              SEARCH
-        ============================================= -->
+        ================================================== -->
 
-        <div class="archive-search-wrapper">
+        <section class="archive-search-wrapper">
 
             <form asp-controller="Archive"
                   asp-action="Index"
@@ -64,47 +84,73 @@
 
                 <div class="archive-search-box">
 
+
                     <span class="archive-search-icon"
                           aria-hidden="true">
+
                         <span></span>
+
                     </span>
+
 
                     <input type="search"
                            name="search"
                            value="@Model.Search"
-                           placeholder="نام سخنرانی، موضوع یا محتوا را جستجو کنید..."
+                           placeholder="جستجو در عنوان، سخنران یا محتوای سخنرانی..."
                            autocomplete="off"
                            aria-label="جستجو در آرشیو صوتی" />
 
+
                     <button type="submit">
-                        <span>جستجو</span>
-                        <span class="search-arrow">←</span>
+
+                        <span>
+                            جستجو
+                        </span>
+
+                        <span class="search-arrow"
+                              aria-hidden="true">
+
+                            ←
+
+                        </span>
+
                     </button>
 
                 </div>
 
             </form>
 
-        </div>
+        </section>
 
 
-        <!-- ============================================
-             FILTERS
-        ============================================= -->
 
-        <div class="archive-filter-panel">
+        <!-- =================================================
+             FILTER PANEL
+        ================================================== -->
+
+        <section class="archive-filter-panel">
+
 
             <div class="filter-panel-header">
 
-                <div>
+
+                <div class="filter-panel-heading">
+
                     <span class="filter-panel-label">
+
                         فیلتر و مرتب‌سازی
+
                     </span>
 
+
                     <span class="filter-panel-description">
-                        نتایج را بر اساس نیاز خود محدود کنید.
+
+                        محتوای مورد نظر خود را سریع‌تر پیدا کنید.
+
                     </span>
+
                 </div>
+
 
                 @if (
                     Model.CategoryId.HasValue ||
@@ -113,14 +159,25 @@
                     Model.Sort != "newest"
                 )
                 {
+
                     <a asp-controller="Archive"
                        asp-action="Index"
                        class="clear-filters">
-                        پاک کردن فیلترها
+
+                        <span>
+                            پاک کردن فیلترها
+                        </span>
+
+                        <span aria-hidden="true">
+                            ×
+                        </span>
+
                     </a>
+
                 }
 
             </div>
+
 
 
             <form asp-controller="Archive"
@@ -128,19 +185,27 @@
                   method="get"
                   class="archive-filter-form">
 
+
                 <input type="hidden"
                        name="search"
                        value="@Model.Search" />
 
+
                 <div class="archive-filters">
 
-                    <!-- Category -->
+
+                    <!-- =====================================
+                         CATEGORY
+                    ====================================== -->
 
                     <div class="filter-group">
 
                         <label for="categoryId">
+
                             دسته‌بندی
+
                         </label>
+
 
                         <div class="filter-select-wrapper">
 
@@ -149,24 +214,37 @@
                                     onchange="this.form.submit()">
 
                                 <option value="">
+
                                     همه دسته‌بندی‌ها
+
                                 </option>
+
 
                                 @foreach (var category in Model.Categories)
                                 {
+
                                     if (Model.CategoryId == category.Id)
                                     {
+
                                         <option value="@category.Id"
                                                 selected>
+
                                             @category.Name
+
                                         </option>
+
                                     }
                                     else
                                     {
+
                                         <option value="@category.Id">
+
                                             @category.Name
+
                                         </option>
+
                                     }
+
                                 }
 
                             </select>
@@ -176,13 +254,19 @@
                     </div>
 
 
-                    <!-- Speaker -->
+
+                    <!-- =====================================
+                         SPEAKER
+                    ====================================== -->
 
                     <div class="filter-group">
 
                         <label for="speakerId">
+
                             سخنران
+
                         </label>
+
 
                         <div class="filter-select-wrapper">
 
@@ -191,24 +275,37 @@
                                     onchange="this.form.submit()">
 
                                 <option value="">
+
                                     همه سخنران‌ها
+
                                 </option>
+
 
                                 @foreach (var speaker in Model.Speakers)
                                 {
+
                                     if (Model.SpeakerId == speaker.Id)
                                     {
+
                                         <option value="@speaker.Id"
                                                 selected>
+
                                             @speaker.Name
+
                                         </option>
+
                                     }
                                     else
                                     {
+
                                         <option value="@speaker.Id">
+
                                             @speaker.Name
+
                                         </option>
+
                                     }
+
                                 }
 
                             </select>
@@ -218,13 +315,19 @@
                     </div>
 
 
-                    <!-- Sort -->
+
+                    <!-- =====================================
+                         SORT
+                    ====================================== -->
 
                     <div class="filter-group">
 
                         <label for="sort">
+
                             مرتب‌سازی
+
                         </label>
+
 
                         <div class="filter-select-wrapper">
 
@@ -232,20 +335,73 @@
                                     name="sort"
                                     onchange="this.form.submit()">
 
-                                <option value="newest"
-                                        selected="@(Model.Sort == "newest")">
-                                    جدیدترین
-                                </option>
+                                @if (Model.Sort == "newest")
+                                {
 
-                                <option value="oldest"
-                                        selected="@(Model.Sort == "oldest")">
-                                    قدیمی‌ترین
-                                </option>
+                                    <option value="newest"
+                                            selected>
 
-                                <option value="alphabetical"
-                                        selected="@(Model.Sort == "alphabetical")">
-                                    الفبایی
-                                </option>
+                                        جدیدترین
+
+                                    </option>
+
+                                }
+                                else
+                                {
+
+                                    <option value="newest">
+
+                                        جدیدترین
+
+                                    </option>
+
+                                }
+
+
+                                @if (Model.Sort == "oldest")
+                                {
+
+                                    <option value="oldest"
+                                            selected>
+
+                                        قدیمی‌ترین
+
+                                    </option>
+
+                                }
+                                else
+                                {
+
+                                    <option value="oldest">
+
+                                        قدیمی‌ترین
+
+                                    </option>
+
+                                }
+
+
+                                @if (Model.Sort == "alphabetical")
+                                {
+
+                                    <option value="alphabetical"
+                                            selected>
+
+                                        الفبایی
+
+                                    </option>
+
+                                }
+                                else
+                                {
+
+                                    <option value="alphabetical">
+
+                                        الفبایی
+
+                                    </option>
+
+                                }
 
                             </select>
 
@@ -257,390 +413,623 @@
 
             </form>
 
-        </div>
+        </section>
 
 
-        <!-- ============================================
+
+        <!-- =================================================
              RESULTS HEADER
-        ============================================= -->
+        ================================================== -->
 
-        <div class="archive-results-header">
+        <section class="archive-results-header">
+
 
             <div class="results-title">
 
-                <span class="results-icon">
-                    ♪
-                </span>
 
-                <div>
+                <div class="results-icon"
+                     aria-hidden="true">
+
+                    ♪
+
+                </div>
+
+
+                <div class="results-title-content">
 
                     <strong>
+
                         فایل‌های صوتی
+
                     </strong>
 
+
                     <span>
-                        @Model.TotalCount فایل در آرشیو
+
+                        @Model.TotalCount فایل
+                        در آرشیو مجالس اهواز
+
                     </span>
 
                 </div>
 
             </div>
 
-        </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Search))
+            {
+
+                <div class="results-search-label">
+
+                    <span>
+                        نتیجه جستجو برای:
+                    </span>
+
+                    <strong>
+                        «@Model.Search»
+                    </strong>
+
+                </div>
+
+            }
+
+        </section>
 
 
-        <!-- ============================================
+
+        <!-- =================================================
              AUDIO GRID
-        ============================================= -->
+        ================================================== -->
 
-        <div class="row g-4 archive-audio-grid">
+        <section class="archive-audio-section">
+
 
             @if (Model.Audios.Any())
             {
-                foreach (var audio in Model.Audios)
-                {
-                    <div class="col-md-6 col-xl-4">
 
-                        <article class="audio-card"
-                                 data-audio-id="@audio.Id">
+                <div class="row g-4 archive-audio-grid">
 
 
-                            <!-- ====================================
-                                 COVER
-                            ==================================== -->
+                    @foreach (var audio in Model.Audios)
+                    {
 
-                            <div class="audio-card-cover">
+                        /*
+                         * Audio URL
+                         *
+                         * IMPORTANT:
+                         * FileName already contains the public
+                         * URL from the download server.
+                         *
+                         * Example:
+                         * https://dl.maktabahwaz.ir/audio/file.mp3
+                         */
 
-                                @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
-                                {
-                                    <img src="@audio.CoverImageUrl"
-                                         alt="@audio.Title"
-                                         loading="lazy" />
-                                }
-                                else
-                                {
-                                    <div class="audio-card-cover-placeholder">
-
-                                        <span>
-                                            ♪
-                                        </span>
-
-                                        <small>
-                                            مجالس اهواز
-                                        </small>
-
-                                    </div>
-                                }
+                        var audioUrl = audio.FileName;
 
 
-                                <div class="audio-cover-overlay">
-
-                                    <span>
-                                        پخش صوت
-                                    </span>
-
-                                </div>
-
-                            </div>
+                        <div class="col-md-6 col-xl-4">
 
 
-                            <!-- ====================================
-                                 CONTENT
-                            ==================================== -->
-
-                            <div class="audio-card-content">
-
-                                @if (audio.Categories.Any())
-                                {
-                                    <div class="audio-card-category">
-
-                                        @string.Join(" • ", audio.Categories)
-
-                                    </div>
-                                }
+                            <article class="audio-card"
+                                     data-audio-id="@audio.Id">
 
 
-                                <h3 class="audio-card-title">
+                                <!-- =================================
+                                     COVER
+                                ================================== -->
 
-                                    <a asp-controller="Archive"
-                                       asp-action="Details"
-                                       asp-route-id="@audio.Id">
-
-                                        @audio.Title
-
-                                    </a>
-
-                                </h3>
+                                <div class="audio-card-cover">
 
 
-                                @if (!string.IsNullOrWhiteSpace(audio.SpeakerName))
-                                {
-                                    <div class="audio-card-speaker">
-
-                                        <span class="speaker-icon">
-                                            ◉
-                                        </span>
-
-                                        <span>
-                                            @audio.SpeakerName
-                                        </span>
-
-                                    </div>
-                                }
-
-
-                                <div class="audio-card-meta">
-
-                                    @if (audio.PublishedAt.HasValue)
+                                    @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
                                     {
-                                        <span>
-                                            @audio.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd")
-                                        </span>
-                                    }
 
-                                    @if (audio.Duration.HasValue)
-                                    {
-                                        <span>
-                                            @audio.Duration.Value.ToString(@"hh\:mm\:ss")
-                                        </span>
-                                    }
+                                        <img src="@audio.CoverImageUrl"
+                                             alt="@audio.Title"
+                                             loading="lazy" />
 
-                                </div>
-
-
-                                <!-- ====================================
-                                     AUDIO URL
-                                ==================================== -->
-
-                                @{
-                                    var audioUrl = audio.FileName;
-
-                                    if (!string.IsNullOrWhiteSpace(audioUrl))
-                                    {
-                                        if (!audioUrl.StartsWith("/"))
-                                        {
-                                            audioUrl = "/" + audioUrl;
-                                        }
-
-                                        if (!audioUrl.StartsWith(
-                                            "/uploads/",
-                                            StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            audioUrl =
-                                                "/uploads/audio/"
-                                                + audioUrl.TrimStart('/');
-                                        }
-                                    }
-                                }
-
-
-                                <!-- ====================================
-                                     PLAYER
-                                ==================================== -->
-
-                                <div class="custom-audio-player"
-                                     data-player>
-
-                                    @if (!string.IsNullOrWhiteSpace(audioUrl))
-                                    {
-                                        <audio class="audio-player"
-                                               preload="metadata"
-                                               src="@audioUrl">
-                                        </audio>
                                     }
                                     else
                                     {
-                                        <audio class="audio-player"
-                                               preload="metadata">
-                                        </audio>
+
+                                        <div class="audio-card-cover-placeholder">
+
+                                            <div class="cover-placeholder-icon">
+                                                ♪
+                                            </div>
+
+                                            <span>
+                                                مجالس اهواز
+                                            </span>
+
+                                        </div>
+
                                     }
 
 
-                                    <div class="player-top">
+                                    <div class="audio-cover-overlay">
 
-                                        <div class="player-cover">
+                                        <span>
 
-                                            @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
-                                            {
-                                                <img src="@audio.CoverImageUrl"
-                                                     alt="@audio.Title"
-                                                     loading="lazy" />
-                                            }
-                                            else
-                                            {
-                                                <div class="player-cover-placeholder">
-                                                    ♪
-                                                </div>
-                                            }
-
-                                        </div>
-
-
-                                        <div class="player-info">
-
-                                            <span class="player-label">
-                                                پخش صوت
-                                            </span>
-
-                                            <span class="player-title">
-                                                @audio.Title
-                                            </span>
-
-                                        </div>
-
-
-                                        <button type="button"
-                                                class="player-play-button"
-                                                aria-label="پخش @audio.Title"
-                                                title="پخش">
-
-                                            <span class="play-icon"
-                                                  aria-hidden="true">
-                                                ▶
-                                            </span>
-
-                                            <span class="pause-icon"
-                                                  aria-hidden="true">
-                                                ❚❚
-                                            </span>
-
-                                        </button>
-
-                                    </div>
-
-
-                                    <div class="player-progress-area">
-
-                                        <span class="player-time current-time">
-                                            00:00
-                                        </span>
-
-                                        <div class="player-progress">
-
-                                            <input type="range"
-                                                   class="progress-range"
-                                                   min="0"
-                                                   max="100"
-                                                   value="0"
-                                                   step="0.1"
-                                                   aria-label="موقعیت پخش" />
-
-                                        </div>
-
-                                        <span class="player-time total-time">
-
-                                            @if (audio.Duration.HasValue)
-                                            {
-                                                @audio.Duration.Value.ToString(@"mm\:ss")
-                                            }
-                                            else
-                                            {
-                                                <text>00:00</text>
-                                            }
+                                            پخش صوت
 
                                         </span>
 
                                     </div>
 
 
-                                    <div class="player-bottom">
+                                    <!-- Cover Details -->
 
-                                        <div class="player-volume">
+                                    <div class="audio-cover-badge">
 
-                                            <button type="button"
-                                                    class="player-control volume-button"
-                                                    aria-label="قطع صدا"
-                                                    title="صدا">
+                                        <span aria-hidden="true">
+                                            ♪
+                                        </span>
 
-                                                <span aria-hidden="true">
-                                                    🔊
-                                                </span>
-
-                                            </button>
-
-                                            <input type="range"
-                                                   class="volume-range"
-                                                   min="0"
-                                                   max="1"
-                                                   step="0.01"
-                                                   value="1"
-                                                   aria-label="میزان صدا" />
-
-                                        </div>
-
-
-                                        @if (audio.IsDownloadable && !string.IsNullOrWhiteSpace(audioUrl))
-                                        {
-                                            <a class="player-download"
-                                               href="@audioUrl"
-                                               download 
-                                               aria-label="دانلود @audio.Title"
-                                               title="دانلود">
-
-                                                <span aria-hidden="true">
-                                                    ↓
-                                                </span>
-
-                                                <span>
-                                                    دانلود
-                                                </span>
-
-                                            </a>
-                                        }
+                                        <span>
+                                            صوتی
+                                        </span>
 
                                     </div>
 
                                 </div>
 
-                            </div>
 
-                        </article>
 
-                    </div>
-                }
+                                <!-- =================================
+                                     CONTENT
+                                ================================== -->
+
+                                <div class="audio-card-content">
+
+
+                                    <!-- Categories -->
+
+                                    @if (audio.Categories.Any())
+                                    {
+
+                                        <div class="audio-card-category">
+
+                                            @foreach (var category in audio.Categories)
+                                            {
+
+                                                <span>
+                                                    @category
+                                                </span>
+
+                                            }
+
+                                        </div>
+
+                                    }
+
+
+
+                                    <!-- Title -->
+
+                                    <h2 class="audio-card-title">
+
+                                        <a asp-controller="Archive"
+                                           asp-action="Details"
+                                           asp-route-id="@audio.Id">
+
+                                            @audio.Title
+
+                                        </a>
+
+                                    </h2>
+
+
+
+                                    <!-- Speaker -->
+
+                                    @if (!string.IsNullOrWhiteSpace(audio.SpeakerName))
+                                    {
+
+                                        <div class="audio-card-speaker">
+
+
+                                            <span class="speaker-icon"
+                                                  aria-hidden="true">
+
+                                                ◉
+
+                                            </span>
+
+
+                                            <span>
+
+                                                @audio.SpeakerName
+
+                                            </span>
+
+                                        </div>
+
+                                    }
+
+
+
+                                    <!-- Metadata -->
+
+                                    <div class="audio-card-meta">
+
+
+                                        @if (audio.PublishedAt.HasValue)
+                                        {
+
+                                            <span>
+
+                                                <span aria-hidden="true">
+                                                    ◷
+                                                </span>
+
+                                                @audio.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd")
+
+                                            </span>
+
+                                        }
+
+
+                                        @if (audio.Duration.HasValue)
+                                        {
+
+                                            <span>
+
+                                                <span aria-hidden="true">
+                                                    ⏱
+                                                </span>
+
+                                                @audio.Duration.Value.ToString(@"hh\:mm\:ss")
+
+                                            </span>
+
+                                        }
+
+                                    </div>
+
+
+
+                                    <!-- =================================
+                                         PLAYER
+                                    ================================== -->
+
+                                    <div class="custom-audio-player"
+                                         data-player>
+
+
+                                        <!-- Native Audio -->
+
+                                        @if (!string.IsNullOrWhiteSpace(audioUrl))
+                                        {
+
+                                            <audio class="audio-player"
+                                                   preload="metadata"
+                                                   src="@audioUrl">
+
+                                            </audio>
+
+                                        }
+                                        else
+                                        {
+
+                                            <audio class="audio-player"
+                                                   preload="metadata">
+
+                                            </audio>
+
+                                        }
+
+
+
+                                        <!-- Player Top -->
+
+                                        <div class="player-top">
+
+
+                                            <!-- Mini Cover -->
+
+                                            <div class="player-cover">
+
+
+                                                @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
+                                                {
+
+                                                    <img src="@audio.CoverImageUrl"
+                                                         alt="@audio.Title"
+                                                         loading="lazy" />
+
+                                                }
+                                                else
+                                                {
+
+                                                    <div class="player-cover-placeholder">
+
+                                                        ♪
+
+                                                    </div>
+
+                                                }
+
+                                            </div>
+
+
+
+                                            <!-- Info -->
+
+                                            <div class="player-info">
+
+
+                                                <span class="player-label">
+
+                                                    پخش صوت
+
+                                                </span>
+
+
+                                                <span class="player-title">
+
+                                                    @audio.Title
+
+                                                </span>
+
+                                            </div>
+
+
+
+                                            <!-- Play -->
+
+                                            <button type="button"
+                                                    class="player-play-button"
+                                                    aria-label="پخش @audio.Title"
+                                                    title="پخش">
+
+
+                                                <span class="play-icon"
+                                                      aria-hidden="true">
+
+                                                    ▶
+
+                                                </span>
+
+
+                                                <span class="pause-icon"
+                                                      aria-hidden="true">
+
+                                                    ❚❚
+
+                                                </span>
+
+
+                                            </button>
+
+                                        </div>
+
+
+
+                                        <!-- Progress -->
+
+                                        <div class="player-progress-area">
+
+
+                                            <span class="player-time current-time">
+
+                                                00:00
+
+                                            </span>
+
+
+                                            <div class="player-progress">
+
+
+                                                <input type="range"
+                                                       class="progress-range"
+                                                       min="0"
+                                                       max="100"
+                                                       value="0"
+                                                       step="0.1"
+                                                       aria-label="موقعیت پخش" />
+
+                                            </div>
+
+
+                                            <span class="player-time total-time">
+
+
+                                                @if (audio.Duration.HasValue)
+                                                {
+
+                                                    @audio.Duration.Value.ToString(@"mm\:ss")
+
+                                                }
+                                                else
+                                                {
+
+                                                    <text>
+                                                        00:00
+                                                    </text>
+
+                                                }
+
+                                            </span>
+
+                                        </div>
+
+
+
+                                        <!-- Bottom Controls -->
+
+                                        <div class="player-bottom">
+
+
+                                            <!-- Volume -->
+
+                                            <div class="player-volume">
+
+
+                                                <button type="button"
+                                                        class="player-control volume-button"
+                                                        aria-label="قطع صدا"
+                                                        title="صدا">
+
+                                                    <span aria-hidden="true">
+                                                        🔊
+                                                    </span>
+
+                                                </button>
+
+
+                                                <input type="range"
+                                                       class="volume-range"
+                                                       min="0"
+                                                       max="1"
+                                                       step="0.01"
+                                                       value="1"
+                                                       aria-label="میزان صدا" />
+
+                                            </div>
+
+
+
+                                            <!-- Details -->
+
+                                            <a asp-controller="Archive"
+                                               asp-action="Details"
+                                               asp-route-id="@audio.Id"
+                                               class="player-details">
+
+                                                <span>
+                                                    جزئیات
+                                                </span>
+
+                                                <span class="player-details-arrow"
+                                                      aria-hidden="true">
+
+                                                    ←
+
+                                                </span>
+
+                                            </a>
+
+
+
+                                            <!-- Download -->
+
+                                            @if (
+                                                audio.IsDownloadable &&
+                                                !string.IsNullOrWhiteSpace(audioUrl)
+                                            )
+                                            {
+
+                                                <a class="player-download"
+                                                   href="@audioUrl"
+                                                   download
+                                                   aria-label="دانلود @audio.Title"
+                                                   title="دانلود">
+
+
+                                                    <span aria-hidden="true">
+
+                                                        ↓
+
+                                                    </span>
+
+
+                                                    <span>
+
+                                                        دانلود
+
+                                                    </span>
+
+
+                                                </a>
+
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                        </div>
+
+                    }
+
+                </div>
+
             }
             else
             {
-                <div class="col-12">
 
-                    <div class="archive-empty">
+                <!-- =============================================
+                     EMPTY STATE
+                ============================================== -->
 
-                        <div class="archive-empty-icon">
-                            ♪
-                        </div>
+                <div class="archive-empty">
 
-                        <h3>
-                            فایل صوتی پیدا نشد
-                        </h3>
 
-                        <p>
-                            موردی مطابق جستجو یا فیلترهای انتخاب‌شده پیدا نکردیم.
-                        </p>
+                    <div class="archive-empty-icon"
+                         aria-hidden="true">
 
-                        <a asp-controller="Archive"
-                           asp-action="Index">
-                            مشاهده همه فایل‌ها
-                        </a>
+                        ♪
 
                     </div>
 
+
+                    <h2>
+
+                        فایل صوتی پیدا نشد
+
+                    </h2>
+
+
+                    <p>
+
+                        موردی مطابق جستجو یا فیلترهای انتخاب‌شده
+                        پیدا نکردیم.
+
+                    </p>
+
+
+                    <a asp-controller="Archive"
+                       asp-action="Index">
+
+                        <span>
+                            مشاهده همه فایل‌ها
+                        </span>
+
+                        <span aria-hidden="true">
+                            ←
+                        </span>
+
+                    </a>
+
                 </div>
+
             }
 
-        </div>
+        </section>
 
 
-        <!-- ============================================
+
+        <!-- =================================================
              PAGINATION
-        ============================================= -->
+        ================================================== -->
 
         @if (Model.TotalPages > 1)
         {
+
             <nav class="archive-pagination"
                  aria-label="صفحه‌بندی آرشیو">
 
+
+                <!-- Previous -->
+
                 @if (Model.CurrentPage > 1)
                 {
+
                     <a asp-controller="Archive"
                        asp-action="Index"
                        asp-route-search="@Model.Search"
@@ -652,12 +1041,18 @@
                        aria-label="صفحه قبل">
 
                         →
+
                     </a>
+
                 }
 
 
+
+                <!-- Pages -->
+
                 @for (var i = 1; i <= Model.TotalPages; i++)
                 {
+
                     <a asp-controller="Archive"
                        asp-action="Index"
                        asp-route-search="@Model.Search"
@@ -666,16 +1061,22 @@
                        asp-route-sort="@Model.Sort"
                        asp-route-page="@i"
                        class="@(i == Model.CurrentPage ? "active" : "")"
-                       aria-label="صفحه @i">
+                       aria-label="صفحه @i"
+                       aria-current="@(i == Model.CurrentPage ? "page" : null)">
 
                         @i
 
                     </a>
+
                 }
 
 
+
+                <!-- Next -->
+
                 @if (Model.CurrentPage < Model.TotalPages)
                 {
+
                     <a asp-controller="Archive"
                        asp-action="Index"
                        asp-route-search="@Model.Search"
@@ -689,14 +1090,17 @@
                         ←
 
                     </a>
+
                 }
 
             </nav>
+
         }
 
-    </div>
+    </main>
 
 </section>
+
 
 
 @section Scripts {
