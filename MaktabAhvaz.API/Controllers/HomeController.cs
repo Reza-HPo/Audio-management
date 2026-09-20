@@ -31,7 +31,7 @@ public class HomeController : ControllerBase
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>MaktabAhvaz API</title>
+        <title>Majalesahvaz API</title>
 
         <style>
             * {
@@ -192,7 +192,7 @@ public class HomeController : ControllerBase
                     <h1>MaktabAhvaz API</h1>
 
                     <div class="subtitle">
-                        رابط برنامه‌نویسی سامانه مکتب اهواز
+                        رابط برنامه‌نویسی سامانه مجالس اهواز
                     </div>
 
                     <div class="status">
@@ -252,7 +252,7 @@ public class HomeController : ControllerBase
                 </div>
 
                 <div class="footer">
-                    MaktabAhvaz API · Version 1.0
+                    MajalesAhvaz API · Version 1.0
                 </div>
 
             </div>
