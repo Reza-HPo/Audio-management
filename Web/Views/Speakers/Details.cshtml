@@ -1,0 +1,235 @@
+﻿@model MaktabAhvaz.Domain.Entities.Speaker
+
+@{
+    ViewData["Title"] = Model.Name;
+
+    var audios = ViewBag.Audios as List<MaktabAhvaz.Domain.Entities.AudioFile>
+                 ?? new List<MaktabAhvaz.Domain.Entities.AudioFile>();
+
+    var audioCount = audios.Count;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/speaker-details.css" asp-append-version="true" />
+}
+
+<div class="speaker-details-page">
+
+    <!-- =========================
+         HERO
+         ========================= -->
+    <section class="speaker-hero">
+
+        <div class="container">
+
+            <div class="speaker-hero-inner">
+
+                <div class="speaker-profile-image">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl"
+                             alt="@Model.Name"
+                             loading="eager" />
+                    }
+                    else
+                    {
+                        <div class="speaker-profile-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="speaker-profile-info">
+
+                    <span class="speaker-label">
+                        <i class="bi bi-mic-fill"></i>
+                        سخنران مجالس اهواز
+                    </span>
+
+                    <h1>
+                        @Model.Name
+                    </h1>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Bio))
+                    {
+                        <p class="speaker-description">
+                            @Model.Bio
+                        </p>
+                    }
+
+                    <div class="speaker-stat">
+
+                        <div class="speaker-stat-icon">
+                            <i class="bi bi-headphones"></i>
+                        </div>
+
+                        <div>
+                            <strong>@audioCount</strong>
+                            <span>جلسه صوتی</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTENT
+         ========================= -->
+    <main class="container speaker-content">
+
+        <div class="speaker-content-header">
+
+            <div>
+                <span class="section-eyebrow">
+                    آرشیو سخنرانی‌ها
+                </span>
+
+                <h2>
+                    جلسات @Model.Name
+                </h2>
+            </div>
+
+            <a asp-controller="Archive"
+               asp-action="Index"
+               class="back-to-archive">
+
+                <i class="bi bi-arrow-right"></i>
+
+                بازگشت به آرشیو
+
+            </a>
+
+        </div>
+
+
+        @if (audios.Any())
+        {
+            <div class="speaker-audios">
+
+                @foreach (var audio in audios)
+                {
+                    <article class="speaker-audio-card">
+
+                        <div class="audio-cover">
+
+                            @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
+                            {
+                                <img src="@audio.CoverImageUrl"
+                                     alt="@audio.Title"
+                                     loading="lazy" />
+                            }
+                            else
+                            {
+                                <div class="audio-cover-placeholder">
+                                    <i class="bi bi-music-note-beamed"></i>
+                                </div>
+                            }
+
+                            <div class="audio-number">
+                                @(
+                                    audios.IndexOf(audio) + 1
+                                )
+                            </div>
+
+                        </div>
+
+
+                        <div class="audio-info">
+
+                            <h3>
+                                @audio.Title
+                            </h3>
+
+                            @if (!string.IsNullOrWhiteSpace(audio.Description))
+                            {
+                                <p>
+                                    @audio.Description
+                                </p>
+                            }
+
+                            <div class="audio-meta">
+
+                                @if (audio.PublishedAt.HasValue)
+                                {
+                                    <span>
+                                        <i class="bi bi-calendar3"></i>
+                                        @audio.PublishedAt.Value.ToString("yyyy/MM/dd")
+                                    </span>
+                                }
+
+                                @if (audio.Duration.HasValue)
+                                {
+                                    <span>
+                                        <i class="bi bi-clock"></i>
+                                        @audio.Duration.Value.ToString(@"hh\:mm\:ss")
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="audio-action">
+
+                            <a asp-controller="Archive"
+                               asp-action="Details"
+                               asp-route-id="@audio.Id"
+                               class="audio-view-button">
+
+                                <span>
+                                    مشاهده
+                                </span>
+
+                                <i class="bi bi-arrow-left"></i>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="speaker-empty">
+
+                <div class="speaker-empty-icon">
+                    <i class="bi bi-headphones"></i>
+                </div>
+
+                <h3>
+                    هنوز جلسه‌ای منتشر نشده است
+                </h3>
+
+                <p>
+                    در حال حاضر محتوای صوتی منتشرشده‌ای برای این سخنران وجود ندارد.
+                </p>
+
+                <a asp-controller="Archive"
+                   asp-action="Index"
+                   class="empty-action">
+
+                    <i class="bi bi-collection-play"></i>
+
+                    مشاهده آرشیو
+
+                </a>
+
+            </div>
+        }
+
+    </main>
+
+</div>

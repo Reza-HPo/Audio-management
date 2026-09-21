@@ -1,0 +1,613 @@
+﻿/* =========================================================
+   Majales Ahvaz
+   Speaker Details
+   ========================================================= */
+
+.speaker-details-page {
+    min-height: 100vh;
+    background: radial-gradient( circle at 90% 0%, rgba(16, 185, 129, 0.10), transparent 32% ), radial-gradient( circle at 5% 30%, rgba(5, 150, 105, 0.06), transparent 28% ), #f8fafc;
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.speaker-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 70px 0 105px;
+    background: linear-gradient( 135deg, #064e3b 0%, #047857 50%, #059669 100% );
+    color: #fff;
+}
+
+    .speaker-hero::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        top: -300px;
+        right: -150px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .speaker-hero::after {
+        content: "";
+        position: absolute;
+        width: 330px;
+        height: 330px;
+        bottom: -220px;
+        left: -100px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+
+/* =========================================================
+   HERO INNER
+   ========================================================= */
+
+.speaker-hero-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 42px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PROFILE IMAGE
+   ========================================================= */
+
+.speaker-profile-image {
+    position: relative;
+    flex: 0 0 230px;
+    width: 230px;
+    height: 230px;
+    overflow: hidden;
+    border-radius: 34px;
+    border: 5px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient( 135deg, #a7f3d0, #d1fae5 );
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
+}
+
+    .speaker-profile-image img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+.speaker-profile-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #047857;
+    font-size: 7rem;
+}
+
+
+/* =========================================================
+   PROFILE INFO
+   ========================================================= */
+
+.speaker-profile-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.speaker-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(12px);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+}
+
+    .speaker-label i {
+        color: #a7f3d0;
+    }
+
+.speaker-profile-info h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.1rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: -1px;
+}
+
+.speaker-description {
+    max-width: 700px;
+    margin: 18px 0 0;
+    color: rgba(255, 255, 255, 0.80);
+    font-size: 1rem;
+    line-height: 2;
+}
+
+
+/* =========================================================
+   STAT
+   ========================================================= */
+
+.speaker-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+    padding: 11px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(12px);
+}
+
+.speaker-stat-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.13);
+    color: #a7f3d0;
+    font-size: 1.1rem;
+}
+
+.speaker-stat strong {
+    display: block;
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.speaker-stat span {
+    display: block;
+    margin-top: 2px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.75rem;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.speaker-content {
+    position: relative;
+    z-index: 5;
+    margin-top: -45px;
+    padding-bottom: 80px;
+}
+
+
+/* =========================================================
+   CONTENT HEADER
+   ========================================================= */
+
+.speaker-content-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 24px 26px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(18px);
+}
+
+.section-eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #059669;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+}
+
+.speaker-content-header h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.45rem;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.back-to-archive {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 10px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+    color: #475569;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .back-to-archive:hover {
+        color: #047857;
+        border-color: rgba(16, 185, 129, 0.35);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+        transform: translateY(-2px);
+    }
+
+
+/* =========================================================
+   AUDIO LIST
+   ========================================================= */
+
+.speaker-audios {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+/* =========================================================
+   AUDIO CARD
+   ========================================================= */
+
+.speaker-audio-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.045);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+    .speaker-audio-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(16, 185, 129, 0.22);
+        box-shadow: 0 15px 40px rgba(15, 23, 42, 0.09);
+    }
+
+
+/* =========================================================
+   AUDIO COVER
+   ========================================================= */
+
+.audio-cover {
+    position: relative;
+    flex: 0 0 130px;
+    width: 130px;
+    height: 90px;
+    overflow: hidden;
+    border-radius: 15px;
+    background: linear-gradient( 135deg, #d1fae5, #ecfdf5 );
+}
+
+    .audio-cover img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+.audio-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #059669;
+    font-size: 2rem;
+}
+
+.audio-number {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    min-width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 7px;
+    border-radius: 8px;
+    background: rgba(2, 44, 34, 0.72);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   AUDIO INFO
+   ========================================================= */
+
+.audio-info {
+    flex: 1;
+    min-width: 0;
+}
+
+    .audio-info h3 {
+        margin: 0;
+        overflow: hidden;
+        color: #0f172a;
+        font-size: 1rem;
+        font-weight: 850;
+        line-height: 1.6;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .audio-info p {
+        max-width: 700px;
+        margin: 5px 0 9px;
+        overflow: hidden;
+        color: #64748b;
+        font-size: 0.82rem;
+        line-height: 1.7;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+.audio-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    color: #94a3b8;
+    font-size: 0.72rem;
+}
+
+    .audio-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .audio-meta i {
+        color: #10b981;
+    }
+
+
+/* =========================================================
+   ACTION
+   ========================================================= */
+
+.audio-action {
+    flex-shrink: 0;
+}
+
+.audio-view-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 15px;
+    border-radius: 12px;
+    background: #ecfdf5;
+    color: #047857;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 800;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+    .audio-view-button:hover {
+        background: #047857;
+        color: #fff;
+        transform: translateX(-3px);
+    }
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.speaker-empty {
+    padding: 70px 25px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.06);
+    text-align: center;
+}
+
+.speaker-empty-icon {
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    border-radius: 22px;
+    background: #ecfdf5;
+    color: #059669;
+    font-size: 2rem;
+}
+
+.speaker-empty h3 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.2rem;
+    font-weight: 850;
+}
+
+.speaker-empty p {
+    max-width: 520px;
+    margin: 10px auto 0;
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.9;
+}
+
+.empty-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: #047857;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 800;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+    .empty-action:hover {
+        background: #065f46;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .speaker-hero {
+        padding: 45px 0 85px;
+    }
+
+    .speaker-hero-inner {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .speaker-profile-image {
+        flex-basis: auto;
+        width: 170px;
+        height: 170px;
+        border-radius: 28px;
+    }
+
+    .speaker-profile-placeholder {
+        font-size: 5rem;
+    }
+
+    .speaker-label {
+        margin-bottom: 14px;
+    }
+
+    .speaker-profile-info h1 {
+        font-size: 2rem;
+    }
+
+    .speaker-description {
+        font-size: 0.88rem;
+    }
+
+    .speaker-stat {
+        margin-top: 18px;
+    }
+
+    .speaker-content {
+        margin-top: -30px;
+    }
+
+    .speaker-content-header {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .back-to-archive {
+        justify-content: center;
+    }
+
+    .speaker-audio-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .audio-cover {
+        flex-basis: 100px;
+        width: 100px;
+        height: 75px;
+    }
+
+    .audio-info {
+        flex: 1;
+        width: calc(100% - 120px);
+    }
+
+        .audio-info h3 {
+            font-size: 0.9rem;
+        }
+
+        .audio-info p {
+            font-size: 0.76rem;
+        }
+
+    .audio-action {
+        width: 100%;
+    }
+
+    .audio-view-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+@media (max-width: 420px) {
+
+    .speaker-profile-image {
+        width: 145px;
+        height: 145px;
+        border-radius: 24px;
+    }
+
+    .speaker-profile-info h1 {
+        font-size: 1.75rem;
+    }
+
+    .speaker-content-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .speaker-audio-card {
+        padding: 12px;
+    }
+
+    .audio-cover {
+        flex-basis: 85px;
+        width: 85px;
+        height: 68px;
+    }
+
+    .audio-info {
+        width: calc(100% - 100px);
+    }
+
+    .audio-meta {
+        gap: 8px;
+    }
+}

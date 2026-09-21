@@ -1,0 +1,295 @@
+﻿@model IEnumerable<Web.Models.Categories.CategoryListViewModel>
+
+@{
+    ViewData["Title"] = "دسته‌بندی‌ها";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/categories.css"
+          asp-append-version="true" />
+}
+
+<div class="categories-page">
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+    <section class="categories-hero">
+
+        <div class="container">
+
+            <div class="categories-hero-content">
+
+                <div class="categories-hero-badge">
+                    <span class="categories-hero-badge-icon">
+                        <i class="bi bi-grid-3x3-gap-fill"></i>
+                    </span>
+
+                    <span>
+                        دسته‌بندی‌های مجالس اهواز
+                    </span>
+                </div>
+
+                <h1>
+                    دسته‌بندی‌ها
+                    <span>مجالس اهواز</span>
+                </h1>
+
+                <p>
+                    محتوای صوتی و سخنرانی‌ها را بر اساس موضوع و دسته‌بندی
+                    موردنظر خود پیدا کنید.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTENT
+         ===================================================== -->
+    <main class="container categories-container">
+
+        @if (Model != null && Model.Any())
+        {
+            <!-- Toolbar -->
+            <div class="categories-toolbar">
+
+                <div class="categories-result">
+
+                    <strong>
+                        @Model.Count()
+                    </strong>
+
+                    <span>
+                        دسته‌بندی
+                    </span>
+
+                </div>
+
+                <div class="categories-search">
+
+                    <i class="bi bi-search"></i>
+
+                    <input type="text"
+                           id="categorySearch"
+                           placeholder="جستجوی دسته‌بندی..."
+                           autocomplete="off" />
+
+                </div>
+
+            </div>
+
+
+            <!-- Categories Grid -->
+            <div class="categories-grid"
+                 id="categoriesGrid">
+
+                @foreach (var category in Model)
+                {
+                    <article class="category-card"
+                             data-name="@category.Name">
+
+                        <a asp-controller="Categories"
+                           asp-action="Details"
+                           asp-route-id="@category.Id"
+                           class="category-card-link">
+
+                            <!-- Icon -->
+                            <div class="category-icon-wrapper">
+
+                                <div class="category-icon">
+                                    <i class="bi bi-collection-play-fill"></i>
+                                </div>
+
+                                <span class="category-icon-glow"></span>
+
+                            </div>
+
+
+                            <!-- Content -->
+                            <div class="category-card-content">
+
+                                <div class="category-title-row">
+
+                                    <h2 class="category-name">
+                                        @category.Name
+                                    </h2>
+
+                                    <i class="bi bi-arrow-left category-arrow"></i>
+
+                                </div>
+
+
+                                @if (!string.IsNullOrWhiteSpace(category.Description))
+                                {
+                                    <p class="category-description">
+                                        @category.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="category-description category-description-empty">
+                                        مجموعه جلسات صوتی این دسته‌بندی
+                                    </p>
+                                }
+
+
+                                <!-- Meta -->
+                                <div class="category-card-meta">
+
+                                    <span class="category-audio-count">
+
+                                        <i class="bi bi-headphones"></i>
+
+                                        <strong>
+                                            @category.AudioCount
+                                        </strong>
+
+                                        <span>
+                                            جلسه
+                                        </span>
+
+                                    </span>
+
+                                    <span class="category-more">
+
+                                        مشاهده جلسات
+
+                                        <i class="bi bi-chevron-left"></i>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </article>
+                }
+
+            </div>
+
+
+            <!-- Search Empty -->
+            <div id="noCategoriesFound"
+                 class="categories-empty-search">
+
+                <div class="empty-icon">
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <h3>
+                    دسته‌بندی پیدا نشد
+                </h3>
+
+                <p>
+                    نام دسته‌بندی موردنظر را بررسی کنید و دوباره جستجو کنید.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <!-- Empty -->
+            <section class="categories-empty">
+
+                <div class="empty-icon">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </div>
+
+                <h2>
+                    هنوز دسته‌بندی‌ای ثبت نشده است
+                </h2>
+
+                <p>
+                    به‌زودی دسته‌بندی‌های محتوای صوتی در این بخش قرار می‌گیرند.
+                </p>
+
+                <a asp-controller="Archive"
+                   asp-action="Index"
+                   class="empty-button">
+
+                    <i class="bi bi-collection-play"></i>
+
+                    مشاهده آرشیو صوتی
+
+                </a>
+
+            </section>
+        }
+
+    </main>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const searchInput =
+                document.getElementById("categorySearch");
+
+            const cards =
+                document.querySelectorAll(".category-card");
+
+            const emptyState =
+                document.getElementById("noCategoriesFound");
+
+
+            if (!searchInput) {
+                return;
+            }
+
+
+            searchInput.addEventListener("input", function () {
+
+                const query =
+                    this.value
+                        .trim()
+                        .toLowerCase();
+
+                let visibleCount = 0;
+
+
+                cards.forEach(function (card) {
+
+                    const name =
+                        (card.dataset.name || "")
+                            .toLowerCase();
+
+                    const visible =
+                        name.includes(query);
+
+
+                    card.style.display =
+                        visible ? "" : "none";
+
+
+                    if (visible) {
+                        visibleCount++;
+                    }
+
+                });
+
+
+                if (emptyState) {
+
+                    emptyState.classList.toggle(
+                        "show",
+                        visibleCount === 0
+                    );
+
+                }
+
+            });
+
+        });
+    </script>
+}

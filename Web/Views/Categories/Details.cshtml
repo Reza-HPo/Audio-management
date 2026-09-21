@@ -1,0 +1,259 @@
+﻿@model Web.Models.Categories.CategoryDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/category-details.css"
+          asp-append-version="true" />
+}
+
+<div class="category-details-page">
+
+    <!-- =====================================================
+         CATEGORY HERO
+         ===================================================== -->
+    <section class="category-hero">
+
+        <div class="container">
+
+            <div class="category-hero-inner">
+
+                <div class="category-hero-icon">
+                    <i class="bi bi-collection-play-fill"></i>
+                </div>
+
+                <div class="category-hero-content">
+
+                    <span class="category-eyebrow">
+                        دسته‌بندی مجالس اهواز
+                    </span>
+
+                    <h1 class="category-title">
+                        @Model.Name
+                    </h1>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <p class="category-description">
+                            @Model.Description
+                        </p>
+                    }
+
+                    <div class="category-meta">
+
+                        <span class="category-meta-item">
+                            <i class="bi bi-headphones"></i>
+
+                            <strong>
+                                @Model.Audios.Count
+                            </strong>
+
+                            <span>
+                                جلسه صوتی
+                            </span>
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTENT
+         ===================================================== -->
+    <main class="container category-content">
+
+        <!-- Header -->
+        <div class="category-content-header">
+
+            <div>
+                <span class="section-eyebrow">
+                    آرشیو صوتی
+                </span>
+
+                <h2>
+                    جلسات این دسته‌بندی
+                </h2>
+            </div>
+
+            <a asp-controller="Categories"
+               asp-action="Index"
+               class="back-to-categories">
+
+                <i class="bi bi-arrow-right"></i>
+
+                <span>
+                    همه دسته‌بندی‌ها
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             AUDIOS
+             ================================================= -->
+        @if (Model.Audios != null && Model.Audios.Any())
+        {
+            <div class="category-audios">
+
+                @foreach (var audio in Model.Audios)
+                {
+                    <article class="category-audio-card">
+
+                        <!-- Cover -->
+                        <div class="category-audio-cover">
+
+                            @if (!string.IsNullOrWhiteSpace(audio.CoverImageUrl))
+                            {
+                                <img src="@audio.CoverImageUrl"
+                                     alt="@audio.Title"
+                                     loading="lazy" />
+                            }
+                            else
+                            {
+                                <div class="category-audio-cover-placeholder">
+                                    <i class="bi bi-music-note-beamed"></i>
+                                </div>
+                            }
+
+                            <div class="category-audio-number">
+                                <i class="bi bi-headphones"></i>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Information -->
+                        <div class="category-audio-info">
+
+                            <h3 class="category-audio-title">
+                                @audio.Title
+                            </h3>
+
+                            @if (!string.IsNullOrWhiteSpace(audio.Description))
+                            {
+                                <p class="category-audio-description">
+                                    @audio.Description
+                                </p>
+                            }
+
+
+                            <!-- Speaker -->
+                            @if (!string.IsNullOrWhiteSpace(audio.SpeakerName))
+                            {
+                                <div class="category-audio-speaker">
+
+                                    @if (!string.IsNullOrWhiteSpace(audio.SpeakerImageUrl))
+                                    {
+                                        <img src="@audio.SpeakerImageUrl"
+                                             alt="@audio.SpeakerName"
+                                             loading="lazy" />
+                                    }
+                                    else
+                                    {
+                                        <span class="speaker-avatar-placeholder">
+                                            <i class="bi bi-person-fill"></i>
+                                        </span>
+                                    }
+
+                                    <span>
+                                        @audio.SpeakerName
+                                    </span>
+
+                                </div>
+                            }
+
+
+                            <!-- Meta -->
+                            <div class="category-audio-meta">
+
+                                @if (audio.PublishedAt.HasValue)
+                                {
+                                    <span>
+                                        <i class="bi bi-calendar3"></i>
+                                        @audio.PublishedAt.Value.ToString("yyyy/MM/dd")
+                                    </span>
+                                }
+
+                                @if (audio.Duration.HasValue)
+                                {
+                                    <span>
+                                        <i class="bi bi-clock"></i>
+                                        @audio.Duration.Value.ToString(@"mm\:ss")
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Action -->
+                        <div class="category-audio-action">
+
+                            <a asp-controller="Archive"
+                               asp-action="Details"
+                               asp-route-id="@audio.Id"
+                               class="category-audio-button">
+
+                                <span>
+                                    مشاهده و پخش
+                                </span>
+
+                                <i class="bi bi-arrow-left"></i>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+        else
+        {
+            <!-- =================================================
+                 EMPTY STATE
+                 ================================================= -->
+            <section class="category-empty">
+
+                <div class="category-empty-icon">
+                    <i class="bi bi-music-note-list"></i>
+                </div>
+
+                <h2>
+                    هنوز جلسه‌ای در این دسته‌بندی منتشر نشده است
+                </h2>
+
+                <p>
+                    به‌زودی محتوای صوتی جدیدی در این بخش قرار خواهد گرفت.
+                </p>
+
+                <a asp-controller="Archive"
+                   asp-action="Index"
+                   class="category-empty-button">
+
+                    <i class="bi bi-collection-play"></i>
+
+                    مشاهده آرشیو صوتی
+
+                </a>
+
+            </section>
+        }
+
+    </main>
+
+</div>

@@ -1499,45 +1499,4 @@
         }
     );
 
-
-    /* =========================================================
-       VISIBILITY CHANGE
-       Pause audio when leaving tab.
-    ========================================================= */
-
-    document.addEventListener(
-        "visibilitychange",
-        function () {
-
-            if (
-                document.hidden &&
-                activeAudio &&
-                !activeAudio.paused
-            ) {
-
-                activeAudio.pause();
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
-       BEFORE PAGE UNLOAD
-    ========================================================= */
-
-    window.addEventListener(
-        "pagehide",
-        function () {
-
-            if (activeAudio) {
-
-                activeAudio.pause();
-
-            }
-
-        }
-    );
-
 });

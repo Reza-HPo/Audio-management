@@ -7,7 +7,10 @@
 
         <div class="footer-main">
 
-            <!-- Brand -->
+            <!-- =====================================================
+                 BRAND
+                 ===================================================== -->
+
             <div class="footer-brand-section">
 
                 <a asp-controller="Home"
@@ -19,62 +22,103 @@
                     </span>
 
                     <span class="footer-brand-text">
-                        <strong>مجالس اهواز</strong>
-                        <small>آرشیو صوتی و محتوای فرهنگی</small>
+
+                        <strong>
+                            مجالس اهواز
+                        </strong>
+
+                        <small>
+                            آرشیو صوتی مجالس و سخنرانی‌ها
+                        </small>
+
                     </span>
 
                 </a>
 
+
                 <p class="footer-description">
-                    مجموعه‌ای از سخنرانی‌ها و محتوای صوتی با هدف
-                    دسترسی آسان، منظم و سریع به محتوای فرهنگی و مذهبی.
+
+                    آرشیو صوتی مجالس اهواز؛
+                    بستری برای دسترسی آسان، منظم و سریع
+                    به سخنرانی‌ها و محتوای صوتی.
+
                 </p>
+
 
                 <a asp-controller="Archive"
                    asp-action="Index"
                    class="footer-primary-link">
 
-                    مشاهده آرشیو صوتی
+                    <span>
+                        مشاهده آرشیو صوتی
+                    </span>
 
-                    <span>←</span>
+                    <span>
+                        ←
+                    </span>
 
                 </a>
 
             </div>
 
 
-            <!-- Quick Links -->
+            <!-- =====================================================
+                 QUICK LINKS
+                 ===================================================== -->
+
             <div class="footer-column">
 
                 <h4 class="footer-title">
                     دسترسی سریع
                 </h4>
 
+
                 <ul class="footer-links">
 
                     <li>
                         <a asp-controller="Home"
                            asp-action="Index">
-                            خانه
+
+                            <span>
+                                خانه
+                            </span>
+
                         </a>
                     </li>
+
 
                     <li>
                         <a asp-controller="Archive"
                            asp-action="Index">
-                            آرشیو صوتی
+
+                            <span>
+                                آرشیو صوتی
+                            </span>
+
                         </a>
                     </li>
 
+
                     <li>
-                        <a href="#">
-                            سخنران‌ها
+                        <a asp-controller="Speakers"
+                           asp-action="Index">
+
+                            <span>
+                                سخنران‌ها
+                            </span>
+
                         </a>
                     </li>
 
+
                     <li>
-                        <a href="#">
-                            دسته‌بندی‌ها
+                        <a asp-controller="Categories"
+                           asp-action="Index">
+
+                            <span>
+                                دسته‌بندی‌ها
+                            </span>
+
                         </a>
                     </li>
 
@@ -83,36 +127,59 @@
             </div>
 
 
-            <!-- Information -->
+            <!-- =====================================================
+                 INFORMATION
+                 ===================================================== -->
+
             <div class="footer-column">
 
                 <h4 class="footer-title">
                     اطلاعات
                 </h4>
 
+
                 <ul class="footer-links">
 
                     <li>
                         <a href="#">
-                            درباره ما
+
+                            <span>
+                                درباره ما
+                            </span>
+
                         </a>
                     </li>
 
-                    <li>
-                        <a href="#">
-                            قوانین استفاده
-                        </a>
-                    </li>
 
                     <li>
                         <a href="#">
-                            حریم خصوصی
+
+                            <span>
+                                قوانین استفاده
+                            </span>
+
                         </a>
                     </li>
 
+
                     <li>
                         <a href="#">
-                            ارتباط با ما
+
+                            <span>
+                                حریم خصوصی
+                            </span>
+
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="#">
+
+                            <span>
+                                ارتباط با ما
+                            </span>
+
                         </a>
                     </li>
 
@@ -121,44 +188,81 @@
             </div>
 
 
-            <!-- Social -->
+            <!-- =====================================================
+                 SOCIAL
+                 ===================================================== -->
+
             <div class="footer-column footer-contact">
 
                 <h4 class="footer-title">
                     ارتباط با ما
                 </h4>
 
+
                 <p class="footer-contact-text">
-                    برای اطلاع از جدیدترین محتواها و اخبار
-                    مجالس اهواز، ما را در شبکه‌های اجتماعی دنبال کنید.
+
+                    برای دریافت اطلاعیه‌ها، جلسات جدید و
+                    تازه‌ترین محتوای صوتی، مجالس اهواز را
+                    در شبکه‌های اجتماعی دنبال کنید.
+
                 </p>
+
 
                 <div class="footer-socials">
 
-                    <a href="https://t.me/majalesahlalbeytahwaz"
-                       class="footer-social"
-                       aria-label="تلگرام">
+                    <!-- Telegram -->
 
-                        <span>ت</span>
-                        <span>تلگرام</span>
+                    <a href="https://t.me/ahvazmajlesbot"
+                       class="footer-social"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="ربات مجالس اهواز در تلگرام">
+
+                        <span>
+                            ت
+                        </span>
+
+                        <span>
+                            تلگرام
+                        </span>
 
                     </a>
+
+
+                    <!-- Eitaa -->
 
                     <a href="https://eitaa.com/ahvazmajles"
                        class="footer-social"
-                       aria-label="ایتا">
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="مجالس اهواز در ایتا">
 
-                        <span>ا</span>
-                        <span>ایتا</span>
+                        <span>
+                            ا
+                        </span>
+
+                        <span>
+                            ایتا
+                        </span>
 
                     </a>
 
+
+                    <!-- Bale -->
+
                     <a href="https://ble.ir/ahvazmajlesbot"
                        class="footer-social"
-                       aria-label="بله">
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="ربات مجالس اهواز در بله">
 
-                        <span>ب</span>
-                        <span>بله</span>
+                        <span>
+                            ب
+                        </span>
+
+                        <span>
+                            بله
+                        </span>
 
                     </a>
 
@@ -169,7 +273,10 @@
         </div>
 
 
-        <!-- Bottom -->
+        <!-- =====================================================
+             FOOTER BOTTOM
+             ===================================================== -->
+
         <div class="footer-bottom">
 
             <div class="footer-copyright">
@@ -188,10 +295,21 @@
 
             </div>
 
+
             <div class="footer-made">
 
-                طراحی و توسعه با
-                <span>♥</span>
+                <span>
+                    طراحی و توسعه با
+                </span>
+
+                <span class="footer-heart"
+                      aria-hidden="true">
+                    ♥
+                </span>
+
+                <span>
+                    برای مجالس اهواز
+                </span>
 
             </div>
 

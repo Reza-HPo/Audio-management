@@ -1,0 +1,317 @@
+﻿@model List<MaktabAhvaz.Domain.Entities.Speaker>
+
+@{
+    ViewData["Title"] = "سخنرانان";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/speakers.css"
+          asp-append-version="true" />
+}
+
+<div class="speakers-page">
+
+    <!-- =========================
+         HERO
+         ========================= -->
+    <section class="speakers-hero">
+
+        <div class="container">
+
+            <div class="speakers-hero-content">
+
+                <div class="hero-badge">
+
+                    <span class="hero-badge-icon">
+                        <i class="bi bi-mic-fill"></i>
+                    </span>
+
+                    <span>
+                        سخنرانان مجالس اهواز
+                    </span>
+
+                </div>
+
+
+                <h1>
+                    سخنرانان
+                    <span>مجالس اهواز</span>
+                </h1>
+
+
+                <p>
+                    مجموعه‌ای از سخنرانی‌ها و محتوای صوتی ارائه‌شده
+                    توسط سخنرانان مجالس اهواز
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         MAIN
+         ========================= -->
+    <main class="container speakers-container">
+
+        @if (Model != null && Model.Any())
+        {
+            <!-- Toolbar -->
+            <div class="speakers-toolbar">
+
+                <div class="speakers-result">
+
+                    <strong>
+                        @Model.Count
+                    </strong>
+
+                    <span>
+                        سخنران
+                    </span>
+
+                </div>
+
+
+                <div class="speaker-search">
+
+                    <i class="bi bi-search"></i>
+
+                    <input type="text"
+                           id="speakerSearch"
+                           placeholder="جستجوی سخنران..."
+                           autocomplete="off" />
+
+                </div>
+
+            </div>
+
+
+            <!-- Speakers Grid -->
+            <div class="speakers-grid"
+                 id="speakersGrid">
+
+                @foreach (var speaker in Model)
+                {
+                    <article class="speaker-card"
+                             data-name="@speaker.Name">
+
+                        <a asp-controller="Speakers"
+                           asp-action="Details"
+                           asp-route-id="@speaker.Id"
+                           class="speaker-card-link">
+
+                            <!-- Image -->
+                            <div class="speaker-image-wrapper">
+
+                                @if (!string.IsNullOrWhiteSpace(speaker.ImageUrl))
+                                {
+                                    <img src="@speaker.ImageUrl"
+                                         alt="@speaker.Name"
+                                         class="speaker-image"
+                                         loading="lazy" />
+                                }
+                                else
+                                {
+                                    <div class="speaker-placeholder">
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                    </div>
+                                }
+
+
+                                <div class="speaker-image-overlay"></div>
+
+
+                                <div class="speaker-play">
+
+                                    <i class="bi bi-play-fill"></i>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Content -->
+                            <div class="speaker-content">
+
+                                <div class="speaker-name-row">
+
+                                    <h2 class="speaker-name">
+                                        @speaker.Name
+                                    </h2>
+
+                                    <i class="bi bi-arrow-left speaker-arrow"></i>
+
+                                </div>
+
+
+                                @if (!string.IsNullOrWhiteSpace(speaker.Bio))
+                                {
+                                    <p class="speaker-bio">
+                                        @speaker.Bio
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="speaker-bio speaker-bio-empty">
+                                        مجموعه سخنرانی‌های این سخنران
+                                    </p>
+                                }
+
+
+                                <div class="speaker-meta">
+
+                                    <span class="speaker-more">
+
+                                        مشاهده سخنرانی‌ها
+
+                                        <i class="bi bi-chevron-left"></i>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </article>
+                }
+
+            </div>
+
+
+            <!-- Search Empty -->
+            <div id="noSpeakersFound"
+                 class="speakers-empty-search">
+
+                <div class="empty-icon">
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <h3>
+                    سخنرانی پیدا نشد
+                </h3>
+
+                <p>
+                    نام سخنران موردنظر را بررسی کنید
+                    و دوباره جستجو کنید.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <!-- Empty -->
+            <section class="speakers-empty">
+
+                <div class="empty-icon">
+
+                    <i class="bi bi-mic-mute"></i>
+
+                </div>
+
+
+                <h2>
+                    هنوز سخنرانی ثبت نشده است
+                </h2>
+
+
+                <p>
+                    به‌زودی مجموعه سخنرانان و محتوای صوتی
+                    در این بخش قرار می‌گیرد.
+                </p>
+
+
+                <a asp-controller="Archive"
+                   asp-action="Index"
+                   class="empty-button">
+
+                    <i class="bi bi-collection-play"></i>
+
+                    مشاهده آرشیو
+
+                </a>
+
+            </section>
+        }
+
+    </main>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const searchInput =
+                document.getElementById("speakerSearch");
+
+            const cards =
+                document.querySelectorAll(".speaker-card");
+
+            const emptyState =
+                document.getElementById("noSpeakersFound");
+
+
+            if (!searchInput) {
+                return;
+            }
+
+
+            searchInput.addEventListener("input", function () {
+
+                const query =
+                    this.value
+                        .trim()
+                        .toLowerCase();
+
+
+                let visibleCount = 0;
+
+
+                cards.forEach(function (card) {
+
+                    const name =
+                        (card.dataset.name || "")
+                            .toLowerCase();
+
+
+                    const visible =
+                        name.includes(query);
+
+
+                    card.style.display =
+                        visible ? "" : "none";
+
+
+                    if (visible) {
+                        visibleCount++;
+                    }
+
+                });
+
+
+                if (emptyState) {
+
+                    emptyState.classList.toggle(
+                        "show",
+                        visibleCount === 0
+                    );
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+}

@@ -18,6 +18,7 @@
 
             </a>
 
+
             <!-- Mobile Button -->
             <button class="navbar-toggler custom-toggler"
                     type="button"
@@ -33,54 +34,76 @@
 
             </button>
 
+
             <!-- Navigation -->
             <div class="collapse navbar-collapse"
                  id="mainNavbar">
 
                 <ul class="navbar-nav main-nav">
 
+                    <!-- Home -->
                     <li class="nav-item">
-                        <a class="nav-link active"
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
                            asp-controller="Home"
                            asp-action="Index">
+
                             <span>خانه</span>
+
                         </a>
                     </li>
 
+
+                    <!-- Archive -->
                     <li class="nav-item">
-                        <a class="nav-link"
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Archive" ? "active" : "")"
                            asp-controller="Archive"
                            asp-action="Index">
+
                             <span>آرشیو صوتی</span>
+
                         </a>
                     </li>
 
+
+                    <!-- Speakers -->
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="#">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Speakers" ? "active" : "")"
+                           asp-controller="Speakers"
+                           asp-action="Index">
+
                             <span>سخنران‌ها</span>
+
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="#">
-                            <span>دسته‌بندی‌ها</span>
-                        </a>
-                    </li>
 
+                    <!-- Categories -->
+                    <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categories" ? "active" : "")"
+                              asp-controller="Categories"
+                              asp-action="Index">
+                              <span>دسته‌بندی‌ها</span>
+                            </a>
+                     </li>
+
+
+                    <!-- About -->
                     <li class="nav-item">
                         <a class="nav-link"
                            href="#">
+
                             <span>درباره ما</span>
+
                         </a>
                     </li>
 
                 </ul>
 
+
                 <!-- Header Actions -->
                 <div class="header-actions">
 
+                    <!-- Search -->
                     <button class="search-button"
                             type="button"
                             aria-label="جستجو">
@@ -89,6 +112,8 @@
 
                     </button>
 
+
+                    <!-- Archive -->
                     <a class="header-archive-button"
                        asp-controller="Archive"
                        asp-action="Index">

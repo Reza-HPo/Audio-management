@@ -11,4 +11,5 @@ public class Speaker
     public string? ImageUrl { get; set; }
 
     public bool IsActive { get; set; } = true;
+
 }
