@@ -1,12 +1,7 @@
 using MaktabAhvaz.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    Args = args,
-    WebRootPath = @"C:\listwebsite\vhosts\maktabahwaz.ir\httpdocs\wwwroot"
-});
+var builder = WebApplication.CreateBuilder(args);
 
 
 // =========================================================
@@ -35,6 +30,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 
+// =========================================================
+// APPLICATION
+// =========================================================
+
 var app = builder.Build();
 
 
@@ -48,12 +47,46 @@ if (app.Environment.IsDevelopment())
 }
 
 
+// =========================================================
+// HTTPS
+// =========================================================
+
 app.UseHttpsRedirection();
+
+
+// =========================================================
+// STATIC FILES
+// =========================================================
+
+// برای فایل‌های قدیمی که هنوز داخل wwwroot
+// خود API قرار دارند.
+//
+// مسیر پیش‌فرض:
+// {API_ROOT}\wwwroot
+//
+// فایل‌هایی مثل:
+// /uploads/audio/file.mp3
+// همچنان از اینجا سرو می‌شوند.
 
 app.UseStaticFiles();
 
+
+// =========================================================
+// AUTHORIZATION
+// =========================================================
+
 app.UseAuthorization();
 
+
+// =========================================================
+// API CONTROLLERS
+// =========================================================
+
 app.MapControllers();
+
+
+// =========================================================
+// RUN
+// =========================================================
 
 app.Run();

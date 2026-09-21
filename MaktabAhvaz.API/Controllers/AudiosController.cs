@@ -23,14 +23,13 @@ public class AudiosController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAudios(
-    [FromQuery] string? search = null,
-    [FromQuery] int? speakerId = null,
-    [FromQuery] int? categoryId = null,
-    [FromQuery] string sort = "latest",
-    [FromQuery] int page = 1,
-    [FromQuery] int pageSize = 20)
+        [FromQuery] string? search = null,
+        [FromQuery] int? speakerId = null,
+        [FromQuery] int? categoryId = null,
+        [FromQuery] string sort = "latest",
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20)
     {
-
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
 
         // جلوگیری از مقادیر نامعتبر
@@ -51,7 +50,6 @@ public class AudiosController : ControllerBase
 
         // =========================================================
         // SEARCH
-        // جستجو در عنوان و توضیحات صوت
         // =========================================================
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -74,7 +72,6 @@ public class AudiosController : ControllerBase
                 a.SpeakerId == speakerId.Value);
         }
 
-
         // =========================================================
         // FILTER BY CATEGORY
         // =========================================================
@@ -95,7 +92,6 @@ public class AudiosController : ControllerBase
 
         // =========================================================
         // SORT
-        // مرتب‌سازی فایل‌های صوتی
         // =========================================================
 
         sort = string.IsNullOrWhiteSpace(sort)
@@ -111,7 +107,10 @@ public class AudiosController : ControllerBase
             _ => query.OrderByDescending(a => a.PublishedAt)
         };
 
+        // =========================================================
         // دریافت اطلاعات صفحه موردنظر
+        // =========================================================
+
         var audios = await query
             .Include(a => a.Speaker)
             .Include(a => a.AudioCategories)
@@ -123,8 +122,25 @@ public class AudiosController : ControllerBase
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
-                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
+
+                // وضعیت مجاز بودن دانلود
+                IsDownloadable = a.IsDownloadable,
+
+                // اگر FileName یک URL کامل باشد،
+                // همان URL برگردانده می‌شود.
+                // در غیر این صورت، baseUrl به مسیر نسبی اضافه می‌شود.
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName)
+                    ? null
+                    : a.FileName.StartsWith(
+                        "http",
+                        StringComparison.OrdinalIgnoreCase)
+                        ? a.FileName
+                        : $"{baseUrl}{a.FileName}",
+
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl)
+                    ? null
+                    : $"{baseUrl}{a.CoverImageUrl}",
+
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -167,7 +183,6 @@ public class AudiosController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetAudio(int id)
     {
-
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
 
         var audio = await _context.AudioFiles
@@ -175,14 +190,29 @@ public class AudiosController : ControllerBase
             .Where(a => a.Id == id && a.IsPublished)
             .Include(a => a.Speaker)
             .Include(a => a.AudioCategories)
-                .ThenInclude(ac => ac.Category)
+            .ThenInclude(ac => ac.Category)
             .Select(a => new
             {
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null: $"{baseUrl}{a.FileName}",
-                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
+
+                // وضعیت مجاز بودن دانلود
+                IsDownloadable = a.IsDownloadable,
+
+                // پشتیبانی از URL کامل و مسیر نسبی
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName)
+                    ? null
+                    : a.FileName.StartsWith(
+                        "http",
+                        StringComparison.OrdinalIgnoreCase)
+                        ? a.FileName
+                        : $"{baseUrl}{a.FileName}",
+
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl)
+                    ? null
+                    : $"{baseUrl}{a.CoverImageUrl}",
+
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -217,6 +247,7 @@ public class AudiosController : ControllerBase
         return Ok(audio);
     }
 
+
     // =========================================================
     // GET: /api/audios/latest
     // دریافت آخرین فایل‌های صوتی منتشرشده
@@ -226,9 +257,7 @@ public class AudiosController : ControllerBase
     public async Task<IActionResult> GetLatestAudios(
         [FromQuery] int count = 10)
     {
-
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
-
 
         // جلوگیری از درخواست‌های نامعتبر
         if (count < 1)
@@ -243,7 +272,7 @@ public class AudiosController : ControllerBase
             .Where(a => a.IsPublished)
             .Include(a => a.Speaker)
             .Include(a => a.AudioCategories)
-                .ThenInclude(ac => ac.Category)
+            .ThenInclude(ac => ac.Category)
             .OrderByDescending(a => a.PublishedAt)
             .Take(count)
             .Select(a => new
@@ -251,8 +280,23 @@ public class AudiosController : ControllerBase
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
-                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
+
+                // وضعیت مجاز بودن دانلود
+                IsDownloadable = a.IsDownloadable,
+
+                // پشتیبانی از URL کامل و مسیر نسبی
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName)
+                    ? null
+                    : a.FileName.StartsWith(
+                        "http",
+                        StringComparison.OrdinalIgnoreCase)
+                        ? a.FileName
+                        : $"{baseUrl}{a.FileName}",
+
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl)
+                    ? null
+                    : $"{baseUrl}{a.CoverImageUrl}",
+
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -278,6 +322,7 @@ public class AudiosController : ControllerBase
 
         return Ok(audios);
     }
+
 
     // =========================================================
     // GET: /api/audios/speaker/{speakerId}
@@ -296,15 +341,30 @@ public class AudiosController : ControllerBase
                 a.SpeakerId == speakerId)
             .Include(a => a.Speaker)
             .Include(a => a.AudioCategories)
-                .ThenInclude(ac => ac.Category)
+            .ThenInclude(ac => ac.Category)
             .OrderByDescending(a => a.PublishedAt)
             .Select(a => new
             {
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
-                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
+
+                // وضعیت مجاز بودن دانلود
+                IsDownloadable = a.IsDownloadable,
+
+                // پشتیبانی از URL کامل و مسیر نسبی
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName)
+                    ? null
+                    : a.FileName.StartsWith(
+                        "http",
+                        StringComparison.OrdinalIgnoreCase)
+                        ? a.FileName
+                        : $"{baseUrl}{a.FileName}",
+
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl)
+                    ? null
+                    : $"{baseUrl}{a.CoverImageUrl}",
+
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
@@ -331,6 +391,7 @@ public class AudiosController : ControllerBase
         return Ok(audios);
     }
 
+
     // =========================================================
     // GET: /api/audios/category/{categoryId}
     // دریافت فایل‌های صوتی منتشرشده یک دسته‌بندی
@@ -339,7 +400,6 @@ public class AudiosController : ControllerBase
     [HttpGet("category/{categoryId:int}")]
     public async Task<IActionResult> GetAudiosByCategory(int categoryId)
     {
-
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
 
         var audios = await _context.AudioFiles
@@ -350,15 +410,30 @@ public class AudiosController : ControllerBase
                     ac.CategoryId == categoryId))
             .Include(a => a.Speaker)
             .Include(a => a.AudioCategories)
-                .ThenInclude(ac => ac.Category)
+            .ThenInclude(ac => ac.Category)
             .OrderByDescending(a => a.PublishedAt)
             .Select(a => new
             {
                 Id = a.Id,
                 Title = a.Title,
                 Description = a.Description,
-                FileUrl = string.IsNullOrWhiteSpace(a.FileName) ? null : $"{baseUrl}{a.FileName}",
-                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl) ? null : $"{baseUrl}{a.CoverImageUrl}",
+
+                // وضعیت مجاز بودن دانلود
+                IsDownloadable = a.IsDownloadable,
+
+                // پشتیبانی از URL کامل و مسیر نسبی
+                FileUrl = string.IsNullOrWhiteSpace(a.FileName)
+                    ? null
+                    : a.FileName.StartsWith(
+                        "http",
+                        StringComparison.OrdinalIgnoreCase)
+                        ? a.FileName
+                        : $"{baseUrl}{a.FileName}",
+
+                CoverImageUrl = string.IsNullOrWhiteSpace(a.CoverImageUrl)
+                    ? null
+                    : $"{baseUrl}{a.CoverImageUrl}",
+
                 Duration = a.Duration,
                 PublishedAt = a.PublishedAt,
 
