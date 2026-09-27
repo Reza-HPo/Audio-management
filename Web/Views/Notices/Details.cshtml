@@ -1,0 +1,128 @@
+﻿@model MaktabAhvaz.Domain.Entities.Notice
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="notice-details-page">
+
+    <div class="container">
+
+        <div class="notice-details-wrapper">
+
+            <!-- Back -->
+            <div class="notice-details-back">
+
+                <a asp-controller="Notices"
+                   asp-action="Index"
+                   class="notice-back-link">
+
+                    <span class="notice-back-arrow">
+                        →
+                    </span>
+
+                    <span>
+                        بازگشت به اطلاعیه‌ها
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <article class="notice-details-card">
+
+                <!-- Image -->
+                @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+                {
+                    <div class="notice-details-image">
+
+                        <img src="@Model.ImageUrl"
+                             alt="@Model.Title" />
+
+                    </div>
+                }
+
+
+                <div class="notice-details-content">
+
+                    <!-- Meta -->
+                    <div class="notice-details-meta">
+
+                        <span>
+                            <i class="bi bi-megaphone"></i>
+                            اطلاعیه
+                        </span>
+
+                        <span class="notice-meta-divider"></span>
+
+                        <span>
+                            <i class="bi bi-calendar3"></i>
+
+                            @if (Model.PublishedAt.HasValue)
+                            {
+                                @Model.PublishedAt.Value.ToString("yyyy/MM/dd")
+                            }
+                            else
+                            {
+                                @Model.CreatedAt.ToString("yyyy/MM/dd")
+                            }
+                        </span>
+
+                    </div>
+
+
+                    <!-- Title -->
+                    <h1 class="notice-details-title">
+                        @Model.Title
+                    </h1>
+
+
+                    <!-- Summary -->
+                    @if (!string.IsNullOrWhiteSpace(Model.Summary))
+                    {
+                        <div class="notice-details-summary">
+                            @Model.Summary
+                        </div>
+                    }
+
+
+                    <!-- Content -->
+                    <div class="notice-details-body">
+                        @Html.Raw(Model.Content)
+                    </div>
+
+
+                    <!-- Footer -->
+                    <div class="notice-details-footer">
+
+                        <a asp-controller="Notices"
+                           asp-action="Index"
+                           class="notice-details-back-button">
+
+                            <span>
+                                ←
+                            </span>
+
+                            بازگشت به اطلاعیه‌ها
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+@section Styles
+{
+    <link rel="stylesheet"
+          href="~/css/notices.css"
+          asp-append-version="true" />
+}

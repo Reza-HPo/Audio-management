@@ -1,0 +1,199 @@
+﻿@model MaktabAhvaz.Domain.Entities.Notice
+
+@{
+    ViewData["Title"] = "حذف اطلاعیه";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">حذف اطلاعیه</h1>
+            <p class="text-muted mb-0">
+                بررسی و تأیید حذف اطلاعیه
+            </p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-right"></i>
+            بازگشت به اطلاعیه‌ها
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <!-- Warning -->
+            <div class="alert alert-danger border-0 shadow-sm">
+
+                <div class="d-flex align-items-start">
+
+                    <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+
+                    <div>
+                        <h5 class="alert-heading mb-2">
+                            آیا از حذف این اطلاعیه مطمئن هستید؟
+                        </h5>
+
+                        <p class="mb-0">
+                            پس از حذف، این اطلاعیه به‌صورت دائمی از سیستم حذف خواهد شد
+                            و امکان بازیابی آن وجود نخواهد داشت.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Notice Information -->
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-body p-4">
+
+                    <h5 class="mb-4">
+                        <i class="bi bi-megaphone me-2"></i>
+                        اطلاعات اطلاعیه
+                    </h5>
+
+                    <div class="mb-4">
+
+                        <div class="text-muted small mb-1">
+                            عنوان
+                        </div>
+
+                        <h4 class="mb-0">
+                            @Model.Title
+                        </h4>
+
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Summary))
+                    {
+                        <div class="mb-4">
+
+                            <div class="text-muted small mb-1">
+                                خلاصه
+                            </div>
+
+                            <p class="mb-0">
+                                @Model.Summary
+                            </p>
+
+                        </div>
+                    }
+
+                    <div class="mb-4">
+
+                        <div class="text-muted small mb-1">
+                            وضعیت
+                        </div>
+
+                        @if (Model.IsPublished)
+                        {
+                            <span class="badge bg-success">
+                                منتشر شده
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                پیش‌نویس
+                            </span>
+                        }
+
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <div class="text-muted small mb-1">
+                                    تاریخ ایجاد
+                                </div>
+
+                                <div>
+                                    @Model.CreatedAt.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <div class="text-muted small mb-1">
+                                    تاریخ انتشار
+                                </div>
+
+                                @if (Model.PublishedAt.HasValue)
+                                {
+                                    <div>
+                                        @Model.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-muted">
+                                        منتشر نشده
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Actions -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Delete"
+                          asp-route-id="@Model.Id"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-flex gap-2 justify-content-end">
+
+                            <a asp-action="Index"
+                               class="btn btn-outline-secondary">
+
+                                <i class="bi bi-x-lg"></i>
+                                انصراف
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+
+                                <i class="bi bi-trash3"></i>
+                                حذف دائمی اطلاعیه
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

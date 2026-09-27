@@ -1,0 +1,304 @@
+﻿@model MaktabAhvaz.Domain.Entities.Notice
+
+@{
+    ViewData["Title"] = "ویرایش اطلاعیه";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">ویرایش اطلاعیه</h1>
+            <p class="text-muted mb-0">
+                ویرایش محتوای اطلاعیه و تنظیمات انتشار
+            </p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-right"></i>
+            بازگشت به اطلاعیه‌ها
+        </a>
+    </div>
+
+    <!-- Validation -->
+    <div asp-validation-summary="ModelOnly"
+         class="alert alert-danger"
+         role="alert">
+    </div>
+
+    <form asp-action="Edit"
+          asp-route-id="@Model.Id"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="Id" type="hidden" />
+
+        <div class="row g-4">
+
+            <!-- Main Content -->
+            <div class="col-lg-8">
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-4">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            محتوای اطلاعیه
+                        </h5>
+
+                        <!-- Title -->
+                        <div class="mb-4">
+
+                            <label asp-for="Title"
+                                   class="form-label fw-semibold">
+                                عنوان اطلاعیه
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="form-control"
+                                   placeholder="عنوان اطلاعیه را وارد کنید..." />
+
+                            <span asp-validation-for="Title"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="mb-4">
+
+                            <label asp-for="Summary"
+                                   class="form-label fw-semibold">
+                                خلاصه اطلاعیه
+                            </label>
+
+                            <textarea asp-for="Summary"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="خلاصه کوتاهی از اطلاعیه..."></textarea>
+
+                            <div class="form-text">
+                                این متن می‌تواند در کارت اطلاعیه‌ها نمایش داده شود.
+                            </div>
+
+                            <span asp-validation-for="Summary"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Content -->
+                        <div class="mb-0">
+
+                            <label asp-for="Content"
+                                   class="form-label fw-semibold">
+                                متن اطلاعیه
+                            </label>
+
+                            <textarea asp-for="Content"
+                                      class="form-control"
+                                      rows="14"
+                                      placeholder="متن کامل اطلاعیه را وارد کنید..."></textarea>
+
+                            <span asp-validation-for="Content"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+
+                <!-- Publishing -->
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-4">
+                            <i class="bi bi-send me-2"></i>
+                            انتشار
+                        </h5>
+
+                        <div class="form-check form-switch mb-3">
+
+                            <input asp-for="IsPublished"
+                                   class="form-check-input"
+                                   role="switch" />
+
+                            <label asp-for="IsPublished"
+                                   class="form-check-label">
+                                انتشار اطلاعیه
+                            </label>
+
+                        </div>
+
+                        @if (Model.IsPublished && Model.PublishedAt.HasValue)
+                        {
+                            <div class="alert alert-success mb-0">
+
+                                <div class="fw-semibold mb-1">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    این اطلاعیه منتشر شده است
+                                </div>
+
+                                <small>
+                                    تاریخ انتشار:
+                                    @Model.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                                </small>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-secondary mb-0">
+
+                                <div class="fw-semibold mb-1">
+                                    <i class="bi bi-file-earmark me-1"></i>
+                                    پیش‌نویس
+                                </div>
+
+                                <small>
+                                    این اطلاعیه هنوز منتشر نشده است.
+                                </small>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+                <!-- Image -->
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-4">
+                            <i class="bi bi-image me-2"></i>
+                            تصویر شاخص
+                        </h5>
+
+                        <div class="mb-0">
+
+                            <label asp-for="ImageUrl"
+                                   class="form-label fw-semibold">
+                                آدرس تصویر
+                            </label>
+
+                            <input asp-for="ImageUrl"
+                                   class="form-control"
+                                   placeholder="https://..." />
+
+                            <div class="form-text">
+                                در صورت نیاز، آدرس تصویر شاخص اطلاعیه را وارد کنید.
+                            </div>
+
+                            <span asp-validation-for="ImageUrl"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Metadata -->
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-body p-4">
+
+                        <h5 class="mb-4">
+                            <i class="bi bi-info-circle me-2"></i>
+                            اطلاعات
+                        </h5>
+
+                        <div class="small">
+
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">
+                                    تاریخ ایجاد
+                                </span>
+
+                                <span>
+                                    @Model.CreatedAt.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                                </span>
+                            </div>
+
+                            @if (Model.UpdatedAt.HasValue)
+                            {
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="text-muted">
+                                        آخرین ویرایش
+                                    </span>
+
+                                    <span>
+                                        @Model.UpdatedAt.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                                    </span>
+                                </div>
+                            }
+
+                            @if (Model.PublishedAt.HasValue)
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">
+                                        تاریخ انتشار
+                                    </span>
+
+                                    <span>
+                                        @Model.PublishedAt.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm")
+                                    </span>
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Actions -->
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body p-4">
+
+                        <button type="submit"
+                                class="btn btn-primary w-100 mb-2">
+
+                            <i class="bi bi-check-lg"></i>
+                            ذخیره تغییرات
+
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary w-100">
+
+                            انصراف
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

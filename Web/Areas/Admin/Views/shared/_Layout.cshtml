@@ -15,7 +15,7 @@
     <meta name="theme-color"
           content="#0f766e" />
 
-    <title>@pageTitle | مکتب اهواز</title>
+    <title>@pageTitle | مجالس اهواز</title>
 
 
     <!-- =====================================================
@@ -89,7 +89,7 @@
                 <div class="admin-brand-text">
 
                     <span class="admin-brand-title">
-                        مکتب اهواز
+                        مجالس اهواز
                     </span>
 
                     <span class="admin-brand-subtitle">
@@ -217,6 +217,24 @@
 
                         <span class="admin-nav-text">
                             صفحات
+                        </span>
+
+                    </a>
+
+
+                    <!-- Notices -->
+
+                    <a asp-area="Admin"
+                       asp-controller="Notices"
+                       asp-action="Index"
+                       class="admin-nav-item">
+
+                        <span class="admin-nav-icon">
+                            <i class="bi bi-megaphone"></i>
+                        </span>
+
+                        <span class="admin-nav-text">
+                            اطلاعیه‌ها
                         </span>
 
                     </a>
@@ -429,7 +447,7 @@
 
                 <span>
                     © @DateTime.Now.Year
-                    مکتب اهواز
+                    مجالس اهواز
                 </span>
 
                 <span class="admin-footer-separator">

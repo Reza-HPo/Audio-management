@@ -1,5 +1,7 @@
 ﻿<header class="site-header">
+
     <div class="container">
+
         <nav class="navbar navbar-expand-lg main-navbar">
 
             <!-- Brand -->
@@ -79,12 +81,14 @@
 
                     <!-- Categories -->
                     <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categories" ? "active" : "")"
-                              asp-controller="Categories"
-                              asp-action="Index">
-                              <span>دسته‌بندی‌ها</span>
-                            </a>
-                     </li>
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categories" ? "active" : "")"
+                           asp-controller="Categories"
+                           asp-action="Index">
+
+                            <span>دسته‌بندی‌ها</span>
+
+                        </a>
+                    </li>
 
 
                     <!-- About -->
@@ -128,6 +132,45 @@
 
             </div>
 
+
+            <!-- =====================================================
+                 NOTICES
+                 خارج از Navigation و Collapse
+                 ===================================================== -->
+
+            <div class="header-notices">
+
+                <a class="header-notice-button
+                          @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notices"
+                              ? "active"
+                              : "")"
+                   asp-controller="Notices"
+                   asp-action="Index">
+
+                    <span class="header-notice-icon">
+                        <i class="bi bi-megaphone-fill"></i>
+                    </span>
+
+                    <span class="header-notice-content">
+
+                        <strong>اطلاعیه‌ها</strong>
+
+                        <small>
+                            اطلاعیه‌های جدید
+                        </small>
+
+                    </span>
+
+                    <span class="header-notice-arrow">
+                        ←
+                    </span>
+
+                </a>
+
+            </div>
+
         </nav>
+
     </div>
+
 </header>

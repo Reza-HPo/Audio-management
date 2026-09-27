@@ -1,0 +1,170 @@
+﻿@model IEnumerable<MaktabAhvaz.Domain.Entities.Notice>
+
+@{
+    ViewData["Title"] = "اطلاعیه‌ها";
+}
+
+<section class="notices-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="notices-page-header">
+
+            <div class="notices-page-heading">
+
+                <span class="notices-page-eyebrow">
+                    اطلاع‌رسانی
+                </span>
+
+                <h1 class="notices-page-title">
+                    اطلاعیه‌ها
+                </h1>
+
+                <p class="notices-page-description">
+                    آخرین اطلاعیه‌ها، اخبار و اعلامیه‌های «مجالس اهواز»
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="notices-grid">
+
+                @foreach (var notice in Model)
+                {
+                    <article class="notice-card">
+
+                        @if (!string.IsNullOrWhiteSpace(notice.ImageUrl))
+                        {
+                            <a asp-controller="Notices"
+                               asp-action="Details"
+                               asp-route-id="@notice.Id"
+                               class="notice-card-image">
+
+                                <img src="@notice.ImageUrl"
+                                     alt="@notice.Title"
+                                     loading="lazy" />
+
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Notices"
+                               asp-action="Details"
+                               asp-route-id="@notice.Id"
+                               class="notice-card-image notice-card-image-placeholder">
+
+                                <span class="notice-placeholder-icon">
+                                    <i class="bi bi-megaphone"></i>
+                                </span>
+
+                            </a>
+                        }
+
+
+                        <div class="notice-card-body">
+
+                            <div class="notice-card-meta">
+
+                                <span class="notice-card-date">
+                                    <i class="bi bi-calendar3"></i>
+
+                                    @if (notice.PublishedAt.HasValue)
+                                    {
+                                        @notice.PublishedAt.Value.ToString("yyyy/MM/dd")
+                                    }
+                                    else
+                                    {
+                                        @notice.CreatedAt.ToString("yyyy/MM/dd")
+                                    }
+                                </span>
+
+                            </div>
+
+
+                            <h2 class="notice-card-title">
+
+                                <a asp-controller="Notices"
+                                   asp-action="Details"
+                                   asp-route-id="@notice.Id">
+
+                                    @notice.Title
+
+                                </a>
+
+                            </h2>
+
+
+                            @if (!string.IsNullOrWhiteSpace(notice.Summary))
+                            {
+                                <p class="notice-card-summary">
+                                    @notice.Summary
+                                </p>
+                            }
+
+
+                            <div class="notice-card-footer">
+
+                                <a asp-controller="Notices"
+                                   asp-action="Details"
+                                   asp-route-id="@notice.Id"
+                                   class="notice-read-more">
+
+                                    <span>مشاهده اطلاعیه</span>
+
+                                    <span class="notice-read-more-arrow">
+                                        ←
+                                    </span>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="notices-empty">
+
+                <div class="notices-empty-icon">
+                    <i class="bi bi-megaphone"></i>
+                </div>
+
+                <h2>
+                    اطلاعیه‌ای منتشر نشده است
+                </h2>
+
+                <p>
+                    در حال حاضر اطلاعیه‌ای برای نمایش وجود ندارد.
+                </p>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="notices-empty-button">
+
+                    بازگشت به صفحه اصلی
+
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</section>
+
+@section Styles
+{
+    <link rel="stylesheet"
+          href="~/css/notices.css"
+          asp-append-version="true" />
+}

@@ -1,0 +1,1097 @@
+﻿/* =========================================================
+   مجـالس اهواز
+   Notices / اطلاعیه‌ها
+   Premium Editorial Design
+   ========================================================= */
+/* =========================================================
+   01. DESIGN TOKENS
+   ========================================================= */
+:root {
+    --notice-primary: #198754;
+    --notice-primary-dark: #116b43;
+    --notice-primary-soft: #eaf7f0;
+    --notice-background: #f6f9f7;
+    --notice-surface: #ffffff;
+    --notice-text: #17211c;
+    --notice-text-soft: #3f4d46;
+    --notice-muted: #7b8882;
+    --notice-border: #e4ebe7;
+    --notice-border-soft: rgba(25, 135, 84, 0.10);
+    --notice-shadow-sm: 0 5px 18px rgba(18, 58, 43, 0.05);
+    --notice-shadow-md: 0 15px 45px rgba(18, 58, 43, 0.09);
+    --notice-shadow-lg: 0 25px 70px rgba(18, 58, 43, 0.12);
+    --notice-radius-sm: 12px;
+    --notice-radius-md: 18px;
+    --notice-radius-lg: 24px;
+    --notice-transition: 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* =========================================================
+   02. PAGE
+   ========================================================= */
+
+.notices-page,
+.notice-details-page {
+    position: relative;
+    min-height: 60vh;
+    padding-top: 72px;
+    padding-bottom: 100px;
+    background: radial-gradient( circle at 85% 5%, rgba(25, 135, 84, 0.055), transparent 28% ), radial-gradient( circle at 10% 35%, rgba(25, 135, 84, 0.035), transparent 25% );
+}
+
+
+    /* Decorative background */
+
+    .notices-page::before,
+    .notice-details-page::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: radial-gradient( circle, rgba(25, 135, 84, 0.045), transparent 70% );
+        pointer-events: none;
+    }
+
+
+/* =========================================================
+   03. PAGE HEADER
+   ========================================================= */
+
+.notices-page-header {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 42px;
+}
+
+
+.notices-page-heading {
+    position: relative;
+    max-width: 700px;
+}
+
+
+.notices-page-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 13px;
+    color: var(--notice-primary);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.6;
+}
+
+
+    .notices-page-eyebrow::before {
+        content: "";
+        width: 26px;
+        height: 2px;
+        border-radius: 999px;
+        background: var(--notice-primary);
+    }
+
+
+.notices-page-title {
+    margin: 0;
+    color: var(--notice-text);
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.45;
+    letter-spacing: -0.025em;
+}
+
+
+.notices-page-description {
+    max-width: 650px;
+    margin: 12px 0 0;
+    color: var(--notice-muted);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   04. NOTICES GRID
+   ========================================================= */
+
+.notices-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+
+/* =========================================================
+   05. NOTICE CARD
+   ========================================================= */
+
+.notice-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--notice-surface);
+    border: 1px solid var(--notice-border);
+    border-radius: var(--notice-radius-lg);
+    box-shadow: var(--notice-shadow-sm);
+    transition: transform var(--notice-transition), box-shadow var(--notice-transition), border-color var(--notice-transition);
+}
+
+
+    .notice-card:hover {
+        transform: translateY(-7px);
+        border-color: rgba(25, 135, 84, 0.18);
+        box-shadow: var(--notice-shadow-lg);
+    }
+
+
+/* =========================================================
+   06. CARD IMAGE
+   ========================================================= */
+
+.notice-card-image {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient( 135deg, #edf7f2, #dfeee7 );
+    text-decoration: none;
+    isolation: isolate;
+}
+
+
+    .notice-card-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 180deg, transparent 50%, rgba(9, 39, 27, 0.10) );
+        opacity: 0;
+        transition: opacity var(--notice-transition);
+        pointer-events: none;
+    }
+
+
+.notice-card:hover .notice-card-image::after {
+    opacity: 1;
+}
+
+
+.notice-card-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.notice-card:hover .notice-card-image img {
+    transform: scale(1.045);
+}
+
+
+/* =========================================================
+   07. IMAGE PLACEHOLDER
+   ========================================================= */
+
+.notice-card-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient( circle at 50% 45%, rgba(25, 135, 84, 0.13), transparent 48% ), linear-gradient( 135deg, #edf8f3, #e3f1ea );
+}
+
+
+    .notice-card-image-placeholder::before {
+        content: "";
+        position: absolute;
+        width: 135px;
+        height: 135px;
+        border: 1px solid rgba(25, 135, 84, 0.10);
+        border-radius: 50%;
+    }
+
+
+    .notice-card-image-placeholder::after {
+        content: "";
+        position: absolute;
+        width: 95px;
+        height: 95px;
+        border: 1px solid rgba(25, 135, 84, 0.08);
+        border-radius: 50%;
+    }
+
+
+.notice-placeholder-icon {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--notice-primary);
+    font-size: 23px;
+    box-shadow: 0 12px 30px rgba(25, 135, 84, 0.10);
+}
+
+
+/* =========================================================
+   08. CARD BODY
+   ========================================================= */
+
+.notice-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 22px 23px 20px;
+}
+
+
+/* =========================================================
+   09. CARD META
+   ========================================================= */
+
+.notice-card-meta {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    margin-bottom: 11px;
+}
+
+
+.notice-card-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--notice-muted);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.7;
+}
+
+
+    .notice-card-date i {
+        color: var(--notice-primary);
+        font-size: 13px;
+    }
+
+
+/* =========================================================
+   10. CARD TITLE
+   ========================================================= */
+
+.notice-card-title {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.65;
+    letter-spacing: -0.012em;
+}
+
+
+    .notice-card-title a {
+        color: var(--notice-text);
+        text-decoration: none;
+        transition: color var(--notice-transition);
+    }
+
+
+        .notice-card-title a:hover {
+            color: var(--notice-primary-dark);
+        }
+
+
+/* =========================================================
+   11. CARD SUMMARY
+   ========================================================= */
+
+.notice-card-summary {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 10px 0 0;
+    color: var(--notice-text-soft);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.95;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+
+/* =========================================================
+   12. CARD FOOTER
+   ========================================================= */
+
+.notice-card-footer {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 19px;
+}
+
+
+.notice-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--notice-primary);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color var(--notice-transition);
+}
+
+
+    .notice-read-more:hover {
+        color: var(--notice-primary-dark);
+    }
+
+
+.notice-read-more-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    border-radius: 9px;
+    background: var(--notice-primary-soft);
+    font-size: 15px;
+    transition: transform var(--notice-transition), background var(--notice-transition);
+}
+
+
+.notice-read-more:hover .notice-read-more-arrow {
+    transform: translateX(-4px);
+    background: #d9f0e4;
+}
+
+
+/* =========================================================
+   13. EMPTY STATE
+   ========================================================= */
+
+.notices-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 390px;
+    padding: 50px 25px;
+    text-align: center;
+    background: linear-gradient( 145deg, rgba(255, 255, 255, 0.96), rgba(248, 252, 250, 0.96) );
+    border: 1px solid var(--notice-border);
+    border-radius: var(--notice-radius-lg);
+    box-shadow: var(--notice-shadow-sm);
+}
+
+
+.notices-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    margin-bottom: 22px;
+    border-radius: 23px;
+    background: var(--notice-primary-soft);
+    color: var(--notice-primary);
+    font-size: 27px;
+    box-shadow: 0 10px 30px rgba(25, 135, 84, 0.08);
+}
+
+
+.notices-empty h2 {
+    margin: 0;
+    color: var(--notice-text);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.6;
+}
+
+
+.notices-empty p {
+    margin: 8px 0 22px;
+    color: var(--notice-muted);
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+
+.notices-empty-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 8px 19px;
+    border: 1px solid rgba(25, 135, 84, 0.15);
+    border-radius: 13px;
+    background: var(--notice-primary);
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(25, 135, 84, 0.16);
+    transition: transform var(--notice-transition), background var(--notice-transition), box-shadow var(--notice-transition);
+}
+
+
+    .notices-empty-button:hover {
+        transform: translateY(-2px);
+        background: var(--notice-primary-dark);
+        color: #ffffff !important;
+        box-shadow: 0 12px 28px rgba(25, 135, 84, 0.22);
+    }
+
+
+/* =========================================================
+   14. DETAILS PAGE
+   ========================================================= */
+
+.notice-details-page {
+    padding-top: 52px;
+}
+
+
+.notice-details-wrapper {
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   15. BACK LINK
+   ========================================================= */
+
+.notice-details-back {
+    margin-bottom: 20px;
+}
+
+
+.notice-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--notice-muted);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--notice-transition);
+}
+
+
+    .notice-back-link:hover {
+        color: var(--notice-primary);
+    }
+
+
+.notice-back-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    border: 1px solid var(--notice-border);
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 16px;
+    transition: transform var(--notice-transition), border-color var(--notice-transition), background var(--notice-transition);
+}
+
+
+.notice-back-link:hover .notice-back-arrow {
+    transform: translateX(4px);
+    border-color: rgba(25, 135, 84, 0.20);
+    background: var(--notice-primary-soft);
+}
+
+
+/* =========================================================
+   16. DETAILS CARD
+   ========================================================= */
+
+.notice-details-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid var(--notice-border);
+    border-radius: var(--notice-radius-lg);
+    box-shadow: var(--notice-shadow-md);
+}
+
+
+/* =========================================================
+   17. DETAILS IMAGE
+   ========================================================= */
+
+.notice-details-image {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-height: 540px;
+    background: #edf5f1;
+}
+
+
+    .notice-details-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 180deg, rgba(10, 45, 30, 0.02), transparent 35%, rgba(10, 45, 30, 0.08) );
+        pointer-events: none;
+    }
+
+
+    .notice-details-image img {
+        display: block;
+        width: 100%;
+        max-height: 540px;
+        object-fit: cover;
+    }
+
+
+/* =========================================================
+   18. DETAILS CONTENT
+   ========================================================= */
+
+.notice-details-content {
+    padding: 40px 48px 45px;
+}
+
+
+/* =========================================================
+   19. DETAILS META
+   ========================================================= */
+
+.notice-details-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 17px;
+    color: var(--notice-muted);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+
+    .notice-details-meta > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+
+    .notice-details-meta i {
+        color: var(--notice-primary);
+        font-size: 13px;
+    }
+
+
+.notice-meta-divider {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #c5d2cb;
+}
+
+
+/* =========================================================
+   20. DETAILS TITLE
+   ========================================================= */
+
+.notice-details-title {
+    max-width: 850px;
+    margin: 0;
+    color: var(--notice-text);
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1.55;
+    letter-spacing: -0.025em;
+}
+
+
+/* =========================================================
+   21. DETAILS SUMMARY
+   ========================================================= */
+
+.notice-details-summary {
+    position: relative;
+    margin-top: 25px;
+    padding: 17px 20px 17px 22px;
+    background: linear-gradient( 135deg, #f3faf6, #f8fcfa );
+    border: 1px solid var(--notice-border-soft);
+    border-radius: 15px;
+    color: var(--notice-text-soft);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2;
+}
+
+
+    .notice-details-summary::before {
+        content: "";
+        position: absolute;
+        top: 15px;
+        right: 0;
+        width: 3px;
+        height: calc(100% - 30px);
+        border-radius: 999px;
+        background: var(--notice-primary);
+    }
+
+
+/* =========================================================
+   22. DETAILS BODY
+   ========================================================= */
+
+.notice-details-body {
+    margin-top: 32px;
+    color: var(--notice-text-soft);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 2.05;
+}
+
+
+    .notice-details-body p {
+        margin-bottom: 1.35rem;
+    }
+
+
+        .notice-details-body p:last-child {
+            margin-bottom: 0;
+        }
+
+
+    .notice-details-body h2 {
+        margin-top: 2.2rem;
+        margin-bottom: 1rem;
+        color: var(--notice-text);
+        font-size: 24px;
+        font-weight: 800;
+        line-height: 1.6;
+    }
+
+
+    .notice-details-body h3 {
+        margin-top: 1.8rem;
+        margin-bottom: 0.8rem;
+        color: var(--notice-text);
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.65;
+    }
+
+
+    .notice-details-body ul,
+    .notice-details-body ol {
+        margin-top: 1rem;
+        margin-bottom: 1.4rem;
+        padding-right: 1.5rem;
+    }
+
+
+    .notice-details-body li {
+        margin-bottom: 0.5rem;
+        line-height: 2;
+    }
+
+
+    .notice-details-body a {
+        color: var(--notice-primary-dark);
+        font-weight: 600;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+    }
+
+
+    .notice-details-body blockquote {
+        margin: 25px 0;
+        padding: 18px 22px;
+        background: var(--notice-primary-soft);
+        border-right: 4px solid var(--notice-primary);
+        border-radius: 12px;
+        color: var(--notice-text-soft);
+        font-size: 16px;
+        line-height: 2;
+    }
+
+
+/* =========================================================
+   23. DETAILS FOOTER
+   ========================================================= */
+
+.notice-details-footer {
+    display: flex;
+    align-items: center;
+    margin-top: 38px;
+    padding-top: 25px;
+    border-top: 1px solid var(--notice-border);
+}
+
+
+.notice-details-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 45px;
+    padding: 8px 16px;
+    border: 1px solid var(--notice-border);
+    border-radius: 13px;
+    background: #ffffff;
+    color: var(--notice-text-soft);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform var(--notice-transition), border-color var(--notice-transition), background var(--notice-transition), color var(--notice-transition);
+}
+
+
+    .notice-details-back-button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(25, 135, 84, 0.20);
+        background: var(--notice-primary-soft);
+        color: var(--notice-primary-dark);
+    }
+
+
+/* =========================================================
+   24. TABLET
+   ========================================================= */
+
+@media (max-width: 1199.98px) {
+
+    .notices-page,
+    .notice-details-page {
+        padding-top: 60px;
+        padding-bottom: 80px;
+    }
+
+    .notices-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .notices-page-title {
+        font-size: 33px;
+    }
+}
+
+
+/* =========================================================
+   25. MOBILE
+   ========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .notices-page,
+    .notice-details-page {
+        padding-top: 42px;
+        padding-bottom: 65px;
+    }
+
+
+    .notices-page-header {
+        margin-bottom: 28px;
+    }
+
+
+    .notices-page-eyebrow {
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+
+    .notices-page-title {
+        font-size: 29px;
+        line-height: 1.5;
+    }
+
+
+    .notices-page-description {
+        margin-top: 8px;
+        font-size: 15px;
+        line-height: 1.9;
+    }
+
+
+    .notices-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+
+    .notice-card {
+        border-radius: 20px;
+    }
+
+
+    .notice-card-body {
+        padding: 19px 19px 18px;
+    }
+
+
+    .notice-card-title {
+        font-size: 18px;
+        line-height: 1.7;
+    }
+
+
+    .notice-card-summary {
+        font-size: 15px;
+        line-height: 1.95;
+    }
+
+
+    .notice-details-wrapper {
+        width: 100%;
+    }
+
+
+    .notice-details-card {
+        border-radius: 20px;
+    }
+
+
+    .notice-details-content {
+        padding: 27px 22px 30px;
+    }
+
+
+    .notice-details-title {
+        font-size: 27px;
+        line-height: 1.6;
+    }
+
+
+    .notice-details-summary {
+        margin-top: 19px;
+        padding: 14px 17px;
+        font-size: 15px;
+        line-height: 2;
+    }
+
+
+    .notice-details-body {
+        margin-top: 27px;
+        font-size: 16px;
+        line-height: 2;
+    }
+
+
+        .notice-details-body h2 {
+            font-size: 22px;
+        }
+
+
+        .notice-details-body h3 {
+            font-size: 19px;
+        }
+
+
+    .notice-details-back {
+        margin-bottom: 15px;
+    }
+}
+
+
+/* =========================================================
+   26. SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .notices-page,
+    .notice-details-page {
+        padding-top: 32px;
+        padding-bottom: 50px;
+    }
+
+
+    .notices-page-title {
+        font-size: 27px;
+    }
+
+
+    .notices-page-description {
+        font-size: 14px;
+    }
+
+
+    .notice-card-image {
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .notice-card-body {
+        padding: 18px;
+    }
+
+
+    .notice-card-title {
+        font-size: 17px;
+    }
+
+
+    .notice-card-summary {
+        font-size: 14px;
+    }
+
+
+    .notice-card-date {
+        font-size: 12px;
+    }
+
+
+    .notice-read-more {
+        font-size: 13px;
+    }
+
+
+    .notice-details-image {
+        max-height: 320px;
+    }
+
+
+        .notice-details-image img {
+            max-height: 320px;
+        }
+
+
+    .notice-details-content {
+        padding: 23px 18px 26px;
+    }
+
+
+    .notice-details-meta {
+        font-size: 12px;
+        gap: 8px;
+    }
+
+
+    .notice-details-title {
+        font-size: 24px;
+        line-height: 1.65;
+    }
+
+
+    .notice-details-summary {
+        font-size: 14px;
+    }
+
+
+    .notice-details-body {
+        font-size: 15.5px;
+    }
+
+
+    .notice-details-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+    }
+
+
+    .notice-details-back-button {
+        width: 100%;
+        justify-content: center;
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
+   27. VERY SMALL DEVICES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .notices-page-title {
+        font-size: 25px;
+    }
+
+
+    .notices-page-description {
+        font-size: 13px;
+    }
+
+
+    .notice-card-title {
+        font-size: 16px;
+    }
+
+
+    .notice-card-summary {
+        font-size: 14px;
+    }
+
+
+    .notice-details-title {
+        font-size: 22px;
+    }
+
+
+    .notice-details-content {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+}
+
+
+/* =========================================================
+   28. ACCESSIBILITY
+   ========================================================= */
+
+.notice-card a:focus-visible,
+.notice-details-page a:focus-visible {
+    outline: 3px solid rgba(25, 135, 84, 0.25);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   29. REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .notice-card,
+    .notice-card-image img,
+    .notice-card-image::after,
+    .notice-read-more,
+    .notice-read-more-arrow,
+    .notice-empty-button,
+    .notice-back-link,
+    .notice-back-arrow,
+    .notice-details-back-button {
+        transition: none !important;
+    }
+
+
+        .notice-card:hover {
+            transform: none;
+        }
+
+
+            .notice-card:hover .notice-card-image img {
+                transform: none;
+            }
+
+
+        .notice-read-more:hover .notice-read-more-arrow {
+            transform: none;
+        }
+}

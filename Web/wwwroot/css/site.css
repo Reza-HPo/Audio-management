@@ -1,18 +1,58 @@
-html {
-    font-size: 14px;
-    position: relative;
-    min-height: 100%;
+/* =========================================================
+   MAJALES AHVAZ
+   Global Site Styles
+   ========================================================= */
+
+
+/* =========================================================
+   01. GLOBAL VARIABLES
+   ========================================================= */
+
+:root {
+    --primary-color: #198754;
+    --primary-dark: #157347;
+    --primary-light: #eaf7f0;
+    --background-color: #f7f9f8;
+    --surface-color: #ffffff;
+    --text-color: #17211c;
+    --muted-color: #6c757d;
+    --border-color: #e5ebe7;
+    --header-text: #143d2d;
+    --header-muted: #7b8c84;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
+
+/* =========================================================
+   02. DOCUMENT / BODY
+   ========================================================= */
 
 html {
     direction: rtl;
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: #ffffff;
+    color: var(--text-color);
+    font-family: "Vazirmatn", sans-serif;
+}
+
+.site-main {
+    min-height: 70vh;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================================
+   03. BOOTSTRAP / FORM FOCUS
+   ========================================================= */
 
 .btn:focus,
 .btn:active:focus,
@@ -20,13 +60,6 @@ html {
 .form-control:focus,
 .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-body {
-    margin-bottom: 60px;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-family: "Vazirmatn", sans-serif;
 }
 
 .form-floating > .form-control-plaintext::placeholder,
@@ -42,452 +75,8 @@ body {
 
 
 /* =========================================================
-   GLOBAL VARIABLES
-========================================================= */
-
-:root {
-    --primary-color: #198754;
-    --primary-dark: #157347;
-    --primary-light: #eaf7f0;
-    --background-color: #f7f9f8;
-    --surface-color: #ffffff;
-    --text-color: #17211c;
-    --muted-color: #6c757d;
-    --border-color: #e5ebe7;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.site-main {
-    min-height: 70vh;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.site-footer {
-    padding: 70px 0 25px;
-    background: #15231c;
-    color: #ffffff;
-}
-
-
-/* Brand */
-
-.footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    margin-bottom: 18px;
-}
-
-
-.footer-logo {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
-    background: var(--primary-color);
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 800;
-}
-
-
-.footer-brand h3 {
-    margin: 0 0 3px;
-    font-size: 17px;
-    font-weight: 800;
-}
-
-
-.footer-brand p {
-    margin: 0;
-    color: rgba(255, 255, 255, .55);
-    font-size: 11px;
-}
-
-
-/* Description */
-
-.footer-description {
-    max-width: 430px;
-    margin: 0;
-    color: rgba(255, 255, 255, .55);
-    font-size: 12px;
-    line-height: 2;
-}
-
-
-/* Titles */
-
-.footer-title {
-    margin: 0 0 18px;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-
-/* Links */
-
-.footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-
-    .footer-links a {
-        color: rgba(255, 255, 255, .55);
-        font-size: 11px;
-        transition: color .2s ease;
-    }
-
-
-        .footer-links a:hover {
-            color: #ffffff;
-        }
-
-
-/* Contact */
-
-.footer-contact-text {
-    margin: 0 0 15px;
-    color: rgba(255, 255, 255, .55);
-    font-size: 11px;
-    line-height: 1.8;
-}
-
-
-/* Social */
-
-.footer-socials {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-}
-
-
-    .footer-socials a {
-        padding: 7px 11px;
-        border: 1px solid rgba(255, 255, 255, .12);
-        border-radius: 9px;
-        color: rgba(255, 255, 255, .65);
-        font-size: 10px;
-        transition: all .2s ease;
-    }
-
-
-        .footer-socials a:hover {
-            border-color: var(--primary-color);
-            background: var(--primary-color);
-            color: #ffffff;
-        }
-
-
-/* Bottom */
-
-.footer-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 55px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, .08);
-    color: rgba(255, 255, 255, .4);
-    font-size: 10px;
-}
-
-
-/* Footer Mobile */
-
-@media (max-width: 767.98px) {
-
-    .site-footer {
-        padding: 55px 0 20px;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 40px;
-    }
-}
-
-
-/* =========================================================
-   ARCHIVE
-========================================================= */
-
-.archive-page {
-    padding: 70px 0 90px;
-    background: var(--background-color);
-}
-
-
-/* Header */
-
-.archive-header {
-    margin-bottom: 35px;
-}
-
-
-    .archive-header h1 {
-        margin: 8px 0 10px;
-        font-size: 38px;
-        font-weight: 850;
-    }
-
-
-    .archive-header p {
-        margin: 0;
-        color: var(--muted-color);
-        font-size: 14px;
-    }
-
-
-/* Search */
-
-.archive-search {
-    margin-bottom: 25px;
-}
-
-
-.archive-search-box {
-    display: flex;
-    align-items: center;
-    padding: 7px;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(20, 50, 35, .035);
-}
-
-
-.archive-search-icon {
-    padding: 0 12px;
-    color: var(--muted-color);
-    font-size: 22px;
-}
-
-
-.archive-search-box input {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: var(--text-color);
-    font-size: 13px;
-}
-
-
-    .archive-search-box input::placeholder {
-        color: #a0aaa4;
-    }
-
-
-.archive-search-box button {
-    border: none;
-    padding: 10px 20px;
-    border-radius: 11px;
-    background: var(--primary-color);
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-
-/* Filters */
-
-.archive-filters {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-
-    .filter-group label {
-        color: var(--text-color);
-        font-size: 11px;
-        font-weight: 600;
-    }
-
-
-    .filter-group select {
-        width: 100%;
-        padding: 11px 13px;
-        border: 1px solid var(--border-color);
-        border-radius: 11px;
-        background: #ffffff;
-        color: var(--text-color);
-        outline: none;
-        font-family: inherit;
-        font-size: 11px;
-        cursor: pointer;
-    }
-
-
-        .filter-group select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(25, 135, 84, .08);
-        }
-
-
-/* Results */
-
-.archive-results-header {
-    margin-bottom: 18px;
-    color: var(--muted-color);
-    font-size: 11px;
-}
-
-
-/* Pagination */
-
-.archive-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 50px;
-}
-
-
-    .archive-pagination a,
-    .archive-pagination span {
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        color: var(--muted-color);
-        font-size: 11px;
-        text-decoration: none;
-    }
-
-
-    .archive-pagination a {
-        border: 1px solid var(--border-color);
-        background: #ffffff;
-        transition: all .2s ease;
-    }
-
-
-        .archive-pagination a:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-
-
-        .archive-pagination a.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: #ffffff;
-        }
-
-
-    .archive-pagination .pagination-arrow {
-        font-size: 15px;
-    }
-
-
-/* Empty */
-
-.archive-empty {
-    padding: 70px 20px;
-    text-align: center;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 18px;
-}
-
-
-.archive-empty-icon {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: var(--primary-light);
-    color: var(--primary-color);
-    font-size: 24px;
-}
-
-
-.archive-empty h3 {
-    margin: 0 0 8px;
-    font-size: 15px;
-}
-
-
-.archive-empty p {
-    margin: 0;
-    color: var(--muted-color);
-    font-size: 11px;
-}
-
-
-/* Archive Mobile */
-
-@media (max-width: 767.98px) {
-
-    .archive-page {
-        padding: 50px 0 65px;
-    }
-
-    .archive-header h1 {
-        font-size: 31px;
-    }
-
-    .archive-filters {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-@media (max-width: 575.98px) {
-
-    .archive-search-box {
-        padding: 5px;
-    }
-
-    .archive-search-icon {
-        padding: 0 8px;
-    }
-
-    .archive-search-box button {
-        padding: 10px 14px;
-    }
-}
-
-/* =========================================================
-   MAJALES AHVAZ - PREMIUM HEADER
-========================================================= */
+   04. HEADER
+   ========================================================= */
 
 .site-header {
     position: sticky;
@@ -510,17 +99,18 @@ body {
     padding: 10px 0;
 }
 
+
 /* =========================================================
-   BRAND
-========================================================= */
+   05. HEADER BRAND
+   ========================================================= */
 
 .site-brand {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #143d2d !important;
-    text-decoration: none;
     flex-shrink: 0;
+    color: var(--header-text) !important;
+    text-decoration: none;
 }
 
     .site-brand:hover {
@@ -535,7 +125,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 15px;
-    background: linear-gradient( 145deg, #126b48 0%, #0c4d36 100% );
+    background: linear-gradient(145deg, #126b48 0%, #0c4d36 100%);
     color: #ffffff;
     box-shadow: 0 8px 20px rgba(14, 94, 63, 0.18);
 }
@@ -544,7 +134,7 @@ body {
         content: "";
         position: absolute;
         inset: 5px;
-        border: 1px solid rgba(255,255,255,0.18);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 11px;
     }
 
@@ -562,21 +152,22 @@ body {
 }
 
     .brand-content strong {
+        color: var(--header-text);
         font-size: 17px;
         font-weight: 800;
-        color: #143d2d;
     }
 
     .brand-content small {
         margin-top: 5px;
+        color: var(--header-muted);
         font-size: 10px;
         font-weight: 500;
-        color: #7b8c84;
     }
 
+
 /* =========================================================
-   NAVIGATION
-========================================================= */
+   06. HEADER NAVIGATION
+   ========================================================= */
 
 .main-nav {
     display: flex;
@@ -589,10 +180,10 @@ body {
     .main-nav .nav-link {
         position: relative;
         padding: 10px 14px !important;
+        border-radius: 10px;
         color: #52645c !important;
         font-size: 13px;
         font-weight: 600;
-        border-radius: 10px;
         transition: color 0.2s ease, background-color 0.2s ease;
     }
 
@@ -617,9 +208,10 @@ body {
                 background: #0d6847;
             }
 
+
 /* =========================================================
-   HEADER ACTIONS
-========================================================= */
+   07. HEADER ACTIONS
+   ========================================================= */
 
 .header-actions {
     display: flex;
@@ -634,6 +226,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     border: 1px solid #e3ebe7;
     border-radius: 12px;
     background: #ffffff;
@@ -674,19 +267,19 @@ body {
     gap: 8px;
     min-height: 42px;
     padding: 0 15px;
-    color: #ffffff !important;
-    text-decoration: none;
-    background: #126b48;
     border-radius: 12px;
+    background: #126b48;
+    color: #ffffff !important;
     font-size: 12px;
     font-weight: 700;
+    text-decoration: none;
     box-shadow: 0 7px 18px rgba(18, 107, 72, 0.16);
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
     .header-archive-button:hover {
-        color: #ffffff !important;
         background: #0d583b;
+        color: #ffffff !important;
         transform: translateY(-1px);
         box-shadow: 0 10px 24px rgba(18, 107, 72, 0.22);
     }
@@ -700,19 +293,20 @@ body {
         transform: translateX(-3px);
     }
 
+
 /* =========================================================
-   MOBILE BUTTON
-========================================================= */
+   08. MOBILE NAVIGATION BUTTON
+   ========================================================= */
 
 .custom-toggler {
     width: 44px;
     height: 44px;
-    padding: 9px !important;
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 5px;
+    padding: 9px !important;
     border: 1px solid #dce8e3 !important;
     border-radius: 12px !important;
     background: #ffffff !important;
@@ -732,12 +326,352 @@ body {
         transition: 0.25s ease;
     }
 
+
 /* =========================================================
-   TABLET
-========================================================= */
+   09. FOOTER
+   ========================================================= */
+
+.site-footer {
+    position: relative;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0;
+    overflow: hidden;
+    direction: rtl;
+    background: radial-gradient( circle at 90% 15%, rgba(54, 169, 112, 0.13), transparent 28% ), radial-gradient( circle at 8% 85%, rgba(27, 118, 78, 0.12), transparent 30% ), linear-gradient( 145deg, #071a12 0%, #0b2419 45%, #071810 100% );
+    color: #ffffff;
+}
+
+    .site-footer > .container {
+        margin-bottom: 0;
+    }
+
+    .site-footer p:last-child,
+    .site-footer ul:last-child {
+        margin-bottom: 0;
+    }
+
+
+/* =========================================================
+   10. FOOTER DECORATION
+   ========================================================= */
+
+.footer-glow {
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(2px);
+}
+
+.footer-glow-right {
+    top: -170px;
+    right: -100px;
+    background: rgba(42, 151, 99, 0.08);
+}
+
+.footer-glow-left {
+    bottom: -190px;
+    left: -110px;
+    background: rgba(33, 127, 83, 0.07);
+}
+
+
+/* =========================================================
+   11. FOOTER MAIN
+   ========================================================= */
+
+.footer-main {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(280px, 2fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(240px, 1.3fr);
+    gap: 55px;
+    padding: 70px 0 55px;
+}
+
+
+/* =========================================================
+   12. FOOTER BRAND
+   ========================================================= */
+
+.footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+.footer-logo {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(129, 218, 169, 0.22);
+    border-radius: 15px;
+    background: linear-gradient(145deg, #218b5b, #126342);
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 900;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.footer-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .footer-brand-text strong {
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 850;
+        line-height: 1.4;
+    }
+
+    .footer-brand-text small {
+        color: #8da99b;
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+
+/* =========================================================
+   13. FOOTER DESCRIPTION
+   ========================================================= */
+
+.footer-description {
+    max-width: 430px;
+    margin: 20px 0 22px;
+    color: #8da99b;
+    font-size: 11px;
+    line-height: 2.15;
+}
+
+
+/* =========================================================
+   14. FOOTER PRIMARY LINK
+   ========================================================= */
+
+.footer-primary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 15px;
+    border: 1px solid rgba(104, 199, 148, 0.18);
+    border-radius: 10px;
+    background: rgba(31, 131, 86, 0.10);
+    color: #91d9b1 !important;
+    text-decoration: none !important;
+    font-size: 10px;
+    font-weight: 700;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+    .footer-primary-link span {
+        font-size: 14px;
+        transition: transform 0.2s ease;
+    }
+
+    .footer-primary-link:hover {
+        background: rgba(31, 131, 86, 0.18);
+        border-color: rgba(104, 199, 148, 0.30);
+        transform: translateY(-2px);
+    }
+
+        .footer-primary-link:hover span {
+            transform: translateX(-3px);
+        }
+
+
+/* =========================================================
+   15. FOOTER COLUMNS
+   ========================================================= */
+
+.footer-column {
+    position: relative;
+}
+
+.footer-title {
+    margin: 4px 0 20px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+    .footer-title::after {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 2px;
+        margin-top: 9px;
+        border-radius: 10px;
+        background: #2a9a66;
+    }
+
+
+/* =========================================================
+   16. FOOTER LINKS
+   ========================================================= */
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    .footer-links li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #8da99b !important;
+        text-decoration: none !important;
+        font-size: 10px;
+        line-height: 1.8;
+        transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+        .footer-links a::before {
+            content: "‹";
+            color: #2b9865;
+            font-size: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #d4eadc !important;
+            transform: translateX(-3px);
+        }
+
+            .footer-links a:hover::before {
+                transform: translateX(-2px);
+            }
+
+
+/* =========================================================
+   17. FOOTER CONTACT
+   ========================================================= */
+
+.footer-contact-text {
+    max-width: 270px;
+    margin: 0 0 17px;
+    color: #8da99b;
+    font-size: 10px;
+    line-height: 2;
+}
+
+
+/* =========================================================
+   18. FOOTER SOCIAL
+   ========================================================= */
+
+.footer-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footer-social {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 34px;
+    padding: 5px 9px;
+    border: 1px solid rgba(141, 188, 164, 0.12);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.035);
+    color: #9bb4a7 !important;
+    text-decoration: none !important;
+    font-size: 9px;
+    font-weight: 600;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+    .footer-social > span:first-child {
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        background: rgba(39, 145, 94, 0.14);
+        color: #71c996;
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+    .footer-social:hover {
+        background: rgba(36, 143, 92, 0.10);
+        border-color: rgba(102, 193, 143, 0.24);
+        color: #d5eadc !important;
+        transform: translateY(-2px);
+    }
+
+
+/* =========================================================
+   19. FOOTER BOTTOM
+   ========================================================= */
+
+.footer-bottom {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(174, 218, 193, 0.09);
+    color: #718e80;
+    font-size: 9px;
+}
+
+.footer-copyright {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+    .footer-copyright strong {
+        color: #9db9aa;
+        font-weight: 700;
+    }
+
+.footer-made {
+    color: #718e80;
+}
+
+    .footer-made span {
+        margin: 0 3px;
+        color: #6fc894;
+        font-size: 10px;
+    }
+
+
+/* =========================================================
+   20. RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
 
 @media (max-width: 1199px) {
-
     .main-nav .nav-link {
         padding-right: 10px !important;
         padding-left: 10px !important;
@@ -752,12 +686,7 @@ body {
     }
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
 @media (max-width: 991.98px) {
-
     .main-navbar {
         min-height: 72px;
         padding: 9px 0;
@@ -810,21 +739,61 @@ body {
 
     .search-button {
         width: 46px;
-        flex-shrink: 0;
     }
 
     .header-archive-button {
         flex: 1;
         min-height: 46px;
     }
+
+    .footer-main {
+        grid-template-columns: 1.5fr 1fr 1fr;
+        gap: 40px;
+    }
+
+    .footer-brand-section {
+        grid-column: 1 / -1;
+    }
+
+    .footer-description {
+        max-width: 600px;
+    }
+
+    .footer-contact {
+        grid-column: 1 / -1;
+    }
+
+    .footer-contact-text {
+        max-width: 500px;
+    }
 }
 
+
 /* =========================================================
-   SMALL MOBILE
-========================================================= */
+   21. RESPONSIVE - MOBILE
+   ========================================================= */
 
-@media (max-width: 575px) {
+@media (max-width: 767.98px) {
+    .footer-main {
+        grid-template-columns: 1fr 1fr;
+        gap: 35px 25px;
+        padding: 50px 0 40px;
+    }
 
+    .footer-brand-section,
+    .footer-contact {
+        grid-column: 1 / -1;
+    }
+
+    .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        padding: 17px 0;
+    }
+}
+
+@media (max-width: 575.98px) {
     .site-header .container {
         padding-right: 15px;
         padding-left: 15px;
@@ -852,852 +821,6 @@ body {
         width: 42px;
         height: 42px;
     }
-}
-
-/* =========================================================
-   VERY SMALL DEVICES
-========================================================= */
-
-@media (max-width: 380px) {
-
-    .brand-content small {
-        display: none;
-    }
-
-    .brand-content strong {
-        font-size: 14px;
-    }
-
-    .brand-mark {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-/* =========================================================
-   MAJALES AHVAZ - PREMIUM FOOTER
-========================================================= */
-
-.site-footer {
-    position: relative;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient( 135deg, #092f22 0%, #0b3b2b 45%, #07291f 100% );
-    color: #ffffff;
-    overflow: hidden;
-}
-
-
-    /* Decorative glow */
-
-    .site-footer::before {
-        content: "";
-        position: absolute;
-        width: 420px;
-        height: 420px;
-        top: -260px;
-        right: -120px;
-        border-radius: 50%;
-        background: rgba(55, 174, 123, 0.10);
-        filter: blur(10px);
-        pointer-events: none;
-    }
-
-    .site-footer::after {
-        content: "";
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        bottom: -220px;
-        left: -120px;
-        border-radius: 50%;
-        background: rgba(55, 174, 123, 0.07);
-        filter: blur(15px);
-        pointer-events: none;
-    }
-
-
-/* =========================================================
-   MAIN FOOTER
-========================================================= */
-
-.footer-main {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: minmax(280px, 2fr) minmax(130px, 1fr) minmax(130px, 1fr) minmax(220px, 1.25fr);
-    gap: 55px;
-    padding: 72px 0 58px;
-}
-
-
-/* =========================================================
-   BRAND
-========================================================= */
-
-.footer-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 13px;
-    color: #ffffff !important;
-    text-decoration: none;
-    margin-bottom: 22px;
-}
-
-.footer-logo {
-    position: relative;
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 16px;
-    background: linear-gradient( 145deg, #16845a, #0c5b3e );
-    color: #ffffff;
-    font-size: 23px;
-    font-weight: 800;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-}
-
-    .footer-logo::before {
-        content: "";
-        position: absolute;
-        inset: 5px;
-        border: 1px solid rgba(255,255,255,0.20);
-        border-radius: 12px;
-    }
-
-.footer-logo {
-    isolation: isolate;
-}
-
-    .footer-logo::after {
-        content: "";
-        position: absolute;
-        width: 7px;
-        height: 7px;
-        right: 8px;
-        top: 8px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.65);
-    }
-
-.footer-brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
-
-    .footer-brand-text strong {
-        font-size: 18px;
-        font-weight: 800;
-    }
-
-    .footer-brand-text small {
-        margin-top: 6px;
-        color: rgba(255,255,255,0.48);
-        font-size: 10px;
-        font-weight: 500;
-    }
-
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
-
-.footer-description {
-    max-width: 440px;
-    margin: 0 0 24px;
-    color: rgba(255,255,255,0.63);
-    font-size: 13px;
-    line-height: 2;
-}
-
-
-/* =========================================================
-   PRIMARY BUTTON
-========================================================= */
-
-.footer-primary-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 15px;
-    color: #ffffff !important;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 11px;
-    background: rgba(255,255,255,0.06);
-    font-size: 12px;
-    font-weight: 700;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-    .footer-primary-link:hover {
-        color: #ffffff !important;
-        background: rgba(255,255,255,0.11);
-        border-color: rgba(255,255,255,0.20);
-        transform: translateY(-2px);
-    }
-
-.footer-arrow {
-    font-size: 15px;
-    transition: transform 0.2s ease;
-}
-
-.footer-primary-link:hover .footer-arrow {
-    transform: translateX(-4px);
-}
-
-
-/* =========================================================
-   FOOTER COLUMNS
-========================================================= */
-
-.footer-column {
-    padding-top: 4px;
-}
-
-.footer-title {
-    position: relative;
-    margin: 0 0 21px;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 800;
-}
-
-    .footer-title::after {
-        content: "";
-        display: block;
-        width: 25px;
-        height: 2px;
-        margin-top: 10px;
-        border-radius: 5px;
-        background: #2caa78;
-    }
-
-
-/* =========================================================
-   LINKS
-========================================================= */
-
-.footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-    .footer-links li {
-        margin: 0;
-        padding: 0;
-    }
-
-    .footer-links a {
-        position: relative;
-        color: rgba(255,255,255,0.56) !important;
-        text-decoration: none;
-        font-size: 12px;
-        font-weight: 500;
-        transition: color 0.2s ease, padding-right 0.2s ease;
-    }
-
-        .footer-links a:hover {
-            color: #ffffff !important;
-            padding-right: 5px;
-        }
-
-
-/* =========================================================
-   CONTACT
-========================================================= */
-
-.footer-contact-text {
-    margin: 0 0 18px;
-    color: rgba(255,255,255,0.57);
-    font-size: 12px;
-    line-height: 1.9;
-}
-
-
-/* =========================================================
-   SOCIAL
-========================================================= */
-
-.footer-socials {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-    .footer-socials a {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        padding: 10px 12px;
-        color: rgba(255,255,255,0.68) !important;
-        text-decoration: none;
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 10px;
-        background: rgba(255,255,255,0.035);
-        font-size: 11px;
-        font-weight: 600;
-        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-    }
-
-        .footer-socials a:hover {
-            color: #ffffff !important;
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.15);
-            transform: translateX(-3px);
-        }
-
-.social-arrow {
-    color: #5bc596;
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   BOTTOM
-========================================================= */
-
-.footer-bottom {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    min-height: 70px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.42);
-    font-size: 10px;
-}
-
-.footer-copyright strong {
-    color: rgba(255,255,255,0.70);
-    font-weight: 700;
-}
-
-.footer-bottom-note {
-    text-align: left;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 991px) {
-
-    .footer-main {
-        grid-template-columns: 1.5fr 1fr 1fr;
-        gap: 42px;
-        padding-top: 60px;
-    }
-
-    .footer-brand-section {
-        grid-column: 1 / -1;
-        max-width: 650px;
-    }
-
-    .footer-social-column {
-        grid-column: 1 / -1;
-        max-width: 400px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 767px) {
-
-    .site-footer {
-        text-align: right;
-    }
-
-    .footer-main {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 38px 25px;
-        padding: 48px 0 40px;
-    }
-
-    .footer-brand-section {
-        grid-column: 1 / -1;
-        max-width: none;
-    }
-
-    .footer-description {
-        max-width: 100%;
-        font-size: 12px;
-    }
-
-    .footer-social-column {
-        grid-column: 1 / -1;
-        max-width: none;
-    }
-
-    .footer-socials {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 7px;
-    }
-
-        .footer-socials a {
-            justify-content: center;
-            padding: 11px 7px;
-        }
-
-    .social-arrow {
-        display: none;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        justify-content: center;
-        gap: 7px;
-        padding: 18px 0;
-        text-align: center;
-    }
-
-    .footer-bottom-note {
-        text-align: center;
-    }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-    .footer-main {
-        grid-template-columns: 1fr;
-        gap: 32px;
-    }
-
-    .footer-brand-section,
-    .footer-social-column {
-        grid-column: auto;
-    }
-
-    .footer-logo {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-    }
-
-    .footer-brand-text strong {
-        font-size: 16px;
-    }
-
-    .footer-brand-text small {
-        font-size: 9px;
-    }
-
-    .footer-title {
-        margin-bottom: 17px;
-    }
-
-    .footer-links {
-        gap: 11px;
-    }
-
-    .footer-socials {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-}
-
-
-/* =========================================================
-   EXTRA SMALL
-========================================================= */
-
-@media (max-width: 350px) {
-
-    .footer-socials {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =========================================================
-   MAJALES AHVAZ
-   PREMIUM FOOTER
-========================================================= */
-
-.site-footer {
-    position: relative;
-    direction: rtl;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: radial-gradient( circle at 90% 15%, rgba(54, 169, 112, 0.13), transparent 28% ), radial-gradient( circle at 8% 85%, rgba(27, 118, 78, 0.12), transparent 30% ), linear-gradient( 145deg, #071a12 0%, #0b2419 45%, #071810 100% );
-    color: #ffffff;
-}
-
-
-/* Decorative glow */
-
-.footer-glow {
-    position: absolute;
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    pointer-events: none;
-    filter: blur(2px);
-}
-
-.footer-glow-right {
-    top: -170px;
-    right: -100px;
-    background: rgba(42, 151, 99, 0.08);
-}
-
-.footer-glow-left {
-    bottom: -190px;
-    left: -110px;
-    background: rgba(33, 127, 83, 0.07);
-}
-
-
-/* Main */
-
-.footer-main {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: minmax(280px, 2fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(240px, 1.3fr);
-    gap: 55px;
-    padding: 70px 0 55px;
-}
-
-
-/* Brand */
-
-.footer-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    color: #ffffff !important;
-    text-decoration: none !important;
-}
-
-.footer-logo {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: 1px solid rgba(129, 218, 169, 0.22);
-    border-radius: 15px;
-    background: linear-gradient( 145deg, #218b5b, #126342 );
-    color: #ffffff;
-    font-size: 23px;
-    font-weight: 900;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-
-.footer-brand-text {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-    .footer-brand-text strong {
-        color: #ffffff;
-        font-size: 18px;
-        font-weight: 850;
-        line-height: 1.4;
-    }
-
-    .footer-brand-text small {
-        color: #8da99b;
-        font-size: 10px;
-        font-weight: 500;
-    }
-
-
-/* Description */
-
-.footer-description {
-    max-width: 430px;
-    margin: 20px 0 22px;
-    color: #8da99b;
-    font-size: 11px;
-    line-height: 2.15;
-}
-
-
-/* Main CTA */
-
-.footer-primary-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 10px 15px;
-    border: 1px solid rgba(104, 199, 148, 0.18);
-    border-radius: 10px;
-    background: rgba(31, 131, 86, 0.10);
-    color: #91d9b1 !important;
-    text-decoration: none !important;
-    font-size: 10px;
-    font-weight: 700;
-    transition: background .2s ease, border-color .2s ease, transform .2s ease;
-}
-
-    .footer-primary-link span {
-        font-size: 14px;
-        transition: transform .2s ease;
-    }
-
-    .footer-primary-link:hover {
-        background: rgba(31, 131, 86, 0.18);
-        border-color: rgba(104, 199, 148, 0.30);
-        transform: translateY(-2px);
-    }
-
-        .footer-primary-link:hover span {
-            transform: translateX(-3px);
-        }
-
-
-/* Columns */
-
-.footer-column {
-    position: relative;
-}
-
-.footer-title {
-    margin: 4px 0 20px;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 800;
-}
-
-    .footer-title::after {
-        content: "";
-        display: block;
-        width: 28px;
-        height: 2px;
-        margin-top: 9px;
-        border-radius: 10px;
-        background: #2a9a66;
-    }
-
-
-/* Links */
-
-.footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-    .footer-links li {
-        margin: 0;
-        padding: 0;
-    }
-
-    .footer-links a {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        color: #8da99b !important;
-        text-decoration: none !important;
-        font-size: 10px;
-        line-height: 1.8;
-        transition: color .2s ease, transform .2s ease;
-    }
-
-        .footer-links a::before {
-            content: "‹";
-            color: #2b9865;
-            font-size: 14px;
-            transition: transform .2s ease;
-        }
-
-        .footer-links a:hover {
-            color: #d4eadc !important;
-            transform: translateX(-3px);
-        }
-
-            .footer-links a:hover::before {
-                transform: translateX(-2px);
-            }
-
-
-/* Contact */
-
-.footer-contact-text {
-    max-width: 270px;
-    margin: 0 0 17px;
-    color: #8da99b;
-    font-size: 10px;
-    line-height: 2;
-}
-
-
-/* Social */
-
-.footer-socials {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.footer-social {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    min-height: 34px;
-    padding: 5px 9px;
-    border: 1px solid rgba(141, 188, 164, 0.12);
-    border-radius: 9px;
-    background: rgba(255, 255, 255, 0.035);
-    color: #9bb4a7 !important;
-    text-decoration: none !important;
-    font-size: 9px;
-    font-weight: 600;
-    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
-}
-
-    .footer-social > span:first-child {
-        width: 22px;
-        height: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-        background: rgba(39, 145, 94, 0.14);
-        color: #71c996;
-        font-size: 10px;
-        font-weight: 800;
-    }
-
-    .footer-social:hover {
-        background: rgba(36, 143, 92, 0.10);
-        border-color: rgba(102, 193, 143, 0.24);
-        color: #d5eadc !important;
-        transform: translateY(-2px);
-    }
-
-
-/* Bottom */
-
-.footer-bottom {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px 0;
-    border-top: 1px solid rgba(174, 218, 193, 0.09);
-    color: #718e80;
-    font-size: 9px;
-}
-
-.footer-copyright {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-    .footer-copyright strong {
-        color: #9db9aa;
-        font-weight: 700;
-    }
-
-.footer-made {
-    color: #718e80;
-}
-
-    .footer-made span {
-        margin: 0 3px;
-        color: #6fc894;
-        font-size: 10px;
-    }
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 991.98px) {
-
-    .footer-main {
-        grid-template-columns: 1.5fr 1fr 1fr;
-        gap: 40px;
-    }
-
-    .footer-brand-section {
-        grid-column: 1 / -1;
-    }
-
-    .footer-description {
-        max-width: 600px;
-    }
-
-    .footer-contact {
-        grid-column: 1 / -1;
-    }
-
-    .footer-contact-text {
-        max-width: 500px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 767.98px) {
-
-    .footer-main {
-        grid-template-columns: 1fr 1fr;
-        gap: 35px 25px;
-        padding: 50px 0 40px;
-    }
-
-    .footer-brand-section {
-        grid-column: 1 / -1;
-    }
-
-    .footer-contact {
-        grid-column: 1 / -1;
-    }
-
-    .footer-bottom {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 10px;
-        padding: 17px 0;
-    }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 575.98px) {
 
     .footer-main {
         grid-template-columns: 1fr;
@@ -1735,13 +858,31 @@ body {
     }
 }
 
+@media (max-width: 380px) {
+    .brand-content small {
+        display: none;
+    }
+
+    .brand-content strong {
+        font-size: 14px;
+    }
+
+    .brand-mark {
+        width: 40px;
+        height: 40px;
+    }
+}
+
 
 /* =========================================================
-   ACCESSIBILITY
-========================================================= */
+   22. ACCESSIBILITY
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
+    .site-header,
+    .search-button,
+    .header-archive-button,
+    .custom-toggler span,
     .footer-primary-link,
     .footer-primary-link span,
     .footer-links a,
@@ -1752,44 +893,906 @@ body {
 }
 
 /* =========================================================
-   GLOBAL PAGE END FIX
-========================================================= */
+   23. HEADER NOTICES
+   ========================================================= */
+/*
+ * اطلاعیه‌ها عمداً خارج از main-nav و navbar-collapse قرار گرفته
+ * تا در موبایل نیز همیشه قابل مشاهده باشد.
+ */
+.header-notices {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-right: 18px;
+    padding-right: 18px;
+}
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
+.header-notices::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    right: 0;
+    width: 1px;
+    height: 24px;
+    background: #dfe9e4;
+}
+
+
+/* =========================================================
+   NOTICE BUTTON
+   ========================================================= */
+
+.header-notice-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 5px 10px 5px 13px;
+    border: 1px solid rgba(25, 135, 84, 0.16);
+    border-radius: 14px;
+    background: linear-gradient( 135deg, rgba(25, 135, 84, 0.075), rgba(25, 135, 84, 0.025) );
+    color: #185c40 !important;
+    text-decoration: none !important;
+    box-shadow: 0 5px 18px rgba(18, 107, 72, 0.055);
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .header-notice-button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(25, 135, 84, 0.28);
+        background: linear-gradient( 135deg, rgba(25, 135, 84, 0.13), rgba(25, 135, 84, 0.045) );
+        color: #0d6847 !important;
+        box-shadow: 0 9px 24px rgba(18, 107, 72, 0.11);
+    }
+
+    .header-notice-button.active {
+        border-color: rgba(25, 135, 84, 0.30);
+        background: linear-gradient( 135deg, rgba(25, 135, 84, 0.14), rgba(25, 135, 84, 0.055) );
+    }
+
+
+/* =========================================================
+   NOTICE ICON
+   ========================================================= */
+
+.header-notice-icon {
+    position: relative;
+    width: 31px;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #eaf7f0;
+    color: #198754;
+    font-size: 12px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.header-notice-button:hover .header-notice-icon {
+    background: #198754;
+    color: #ffffff;
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   NOTICE CONTENT
+   ========================================================= */
+
+.header-notice-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    line-height: 1.2;
+}
+
+    .header-notice-content strong {
+        color: #185c40;
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .header-notice-content small {
+        margin-top: 3px;
+        color: #7b8c84;
+        font-size: 8px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+
+/* =========================================================
+   NOTICE ARROW
+   ========================================================= */
+
+.header-notice-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2px;
+    color: #198754;
+    font-size: 15px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.header-notice-button:hover .header-notice-arrow {
+    transform: translateX(-3px);
+}
+
+
+/* =========================================================
+   NOTICE INDICATOR
+   ========================================================= */
+
+.header-notice-button::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: #198754;
+    box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.10);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1199px) {
+
+    .header-notices {
+        margin-right: 12px;
+        padding-right: 12px;
+    }
+
+    .header-notice-button {
+        min-height: 43px;
+        padding-left: 10px;
+        padding-right: 8px;
+    }
+
+    .header-notice-content small {
+        display: none;
+    }
+
+    .header-notice-arrow {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+    /*
+     * اطلاعیه‌ها عمداً خارج از navbar-collapse هستند.
+     * بنابراین با منوی همبرگری باز و بسته نمی‌شوند.
+     */
+
+    .main-navbar {
+        flex-wrap: wrap;
+    }
+
+    .header-notices {
+        order: 3;
+        width: 100%;
+        margin: 4px 0 0;
+        padding: 0;
+    }
+
+        .header-notices::before {
+            display: none;
+        }
+
+    .header-notice-button {
+        width: 100%;
+        min-height: 48px;
+        justify-content: flex-start;
+        padding: 6px 12px;
+        border-radius: 13px;
+        box-shadow: 0 5px 18px rgba(18, 107, 72, 0.055);
+    }
+
+    .header-notice-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        font-size: 13px;
+    }
+
+    .header-notice-content {
+        flex: 1;
+    }
+
+        .header-notice-content strong {
+            font-size: 11px;
+        }
+
+        .header-notice-content small {
+            display: block;
+            margin-top: 3px;
+            font-size: 8px;
+        }
+
+    .header-notice-arrow {
+        display: flex;
+        margin-right: auto;
+        font-size: 17px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .header-notices {
+        margin-top: 3px;
+    }
+
+    .header-notice-button {
+        min-height: 46px;
+        border-radius: 12px;
+    }
+
+    .header-notice-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .header-notice-content strong {
+        font-size: 10px;
+    }
+
+    .header-notice-content small {
+        font-size: 7.5px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .header-notice-content small {
+        display: none;
+    }
+
+    .header-notice-button {
+        min-height: 44px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .header-notice-button,
+    .header-notice-icon,
+    .header-notice-arrow {
+        transition: none !important;
+    }
+
+        .header-notice-button:hover {
+            transform: none;
+        }
+
+            .header-notice-button:hover .header-notice-icon {
+                transform: none;
+            }
+
+            .header-notice-button:hover .header-notice-arrow {
+                transform: none;
+            }
+}
+
+/* =========================================================
+   TYPOGRAPHY SYSTEM
+   مجـالس اهواز
+   خوانایی بالا | RTL | فارسی
+   ========================================================= */
+/* =========================================================
+   24. TYPOGRAPHY TOKENS
+   ========================================================= */
+:root {
+    /* -----------------------------------------------------
+       Base
+       ----------------------------------------------------- */
+
+    --font-family-base: "Vazirmatn", Tahoma, Arial, sans-serif;
+    --font-size-base: 16px;
+    --line-height-base: 1.9;
+    /* -----------------------------------------------------
+       Text sizes
+       ----------------------------------------------------- */
+
+    --font-size-xs: 13px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+    --font-size-2xl: 24px;
+    --font-size-3xl: 30px;
+    --font-size-4xl: 36px;
+    --font-size-5xl: 42px;
+    /* -----------------------------------------------------
+       Font weights
+       ----------------------------------------------------- */
+
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    --font-weight-black: 900;
+    /* -----------------------------------------------------
+       Reading
+       ----------------------------------------------------- */
+
+    --text-line-height: 1.9;
+    --heading-line-height: 1.45;
+    --small-line-height: 1.7;
+}
+
+
+/* =========================================================
+   25. GLOBAL FONT
+   ========================================================= */
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
-    overflow-x: hidden;
-    background: #ffffff;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-base);
+    color: var(--text-color);
 }
+
+
+/* =========================================================
+   26. GLOBAL TEXT ELEMENTS
+   ========================================================= */
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--text-line-height);
+}
+
+
+small {
+    font-size: var(--font-size-sm);
+    line-height: var(--small-line-height);
+}
+
+
+strong,
+b {
+    font-weight: var(--font-weight-bold);
+}
+
+
+em,
+i {
+    font-style: normal;
+}
+
+
+/* =========================================================
+   27. HEADINGS
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    font-family: var(--font-family-base);
+    color: var(--text-color);
+    line-height: var(--heading-line-height);
+    letter-spacing: -0.01em;
+}
+
+
+h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-extrabold);
+}
+
+
+h2 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+}
+
+
+h3 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+
+h4 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+}
+
+
+h5 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+
+h6 {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+}
+
+
+/* =========================================================
+   28. LINKS
+   ========================================================= */
+
+a {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   29. FORMS
+   ========================================================= */
+
+button,
+input,
+textarea,
+select {
+    font-family: var(--font-family-base);
+}
+
+
+input,
+select,
+textarea {
+    font-size: var(--font-size-md);
+}
+
+
+button {
+    font-size: var(--font-size-md);
+}
+
+
+/* =========================================================
+   30. HEADER TYPOGRAPHY
+   ========================================================= */
+
+/* Brand */
+
+.brand-content strong {
+    font-size: 16px;
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1.4;
+}
+
+
+.brand-content small {
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: var(--font-weight-regular);
+    line-height: 1.6;
+}
+
+
+/* Navigation */
+
+.main-nav .nav-link {
+    font-size: 15px;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.6;
+}
+
+
+/* Header buttons */
+
+.header-archive-button {
+    font-size: 14px;
+    font-weight: var(--font-weight-semibold);
+}
+
+
+.search-button {
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   31. HEADER NOTICES
+   ========================================================= */
+
+.header-notice-content strong {
+    font-size: 13px;
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1.5;
+}
+
+
+.header-notice-content small {
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+}
+
+
+.header-notice-arrow {
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   32. MOBILE HEADER
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .brand-content strong {
+        font-size: 16px;
+    }
+
+    .brand-content small {
+        font-size: 12px;
+    }
+
+    .main-nav .nav-link {
+        font-size: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .header-archive-button {
+        font-size: 14px;
+    }
+
+    .header-notice-content strong {
+        font-size: 13px;
+    }
+
+    .header-notice-content small {
+        font-size: 10px;
+    }
+}
+
+
+/* =========================================================
+   33. CONTENT READING
+   ========================================================= */
 
 .site-main {
-    margin: 0;
-    padding: 0;
+    font-size: var(--font-size-md);
+    line-height: var(--text-line-height);
 }
 
-.site-footer {
-    margin: 0 !important;
-    padding-bottom: 0;
+
+    .site-main p {
+        max-width: 75ch;
+    }
+
+
+/* متن‌های طولانی */
+
+.notice-details-body,
+.audio-description,
+.page-content,
+.article-content {
+    font-size: 17px;
+    line-height: 2;
 }
 
-    /* جلوگیری از ایجاد فاصله توسط آخرین عنصر داخل فوتر */
-    .site-footer > .container {
-        margin-bottom: 0;
+
+/* =========================================================
+   34. META / SECONDARY TEXT
+   ========================================================= */
+
+.text-muted {
+    font-size: var(--font-size-sm);
+}
+
+
+.muted-text {
+    font-size: var(--font-size-sm);
+}
+
+
+.meta,
+.metadata {
+    font-size: var(--font-size-sm);
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   35. CARDS
+   ========================================================= */
+
+.card-title {
+    font-size: 18px;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.6;
+}
+
+
+.card-text {
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+
+.card small {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   36. BUTTONS
+   ========================================================= */
+
+.btn {
+    font-family: var(--font-family-base);
+    font-size: 14px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.6;
+}
+
+
+.btn-lg {
+    font-size: 16px;
+}
+
+
+.btn-sm {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   37. MOBILE TYPOGRAPHY
+   ========================================================= */
+
+@media (max-width: 767.98px) {
+
+    html {
+        font-size: 16px;
     }
 
-    .site-footer p:last-child,
-    .site-footer ul:last-child {
-        margin-bottom: 0;
+    body {
+        font-size: 16px;
+        line-height: 1.9;
     }
 
-    .site-footer::after {
-        content: "";
-        display: block;
-        height: 0;
-        clear: both;
+    p {
+        font-size: 16px;
+        line-height: 1.95;
     }
+
+    h1 {
+        font-size: 30px;
+        line-height: 1.45;
+    }
+
+    h2 {
+        font-size: 25px;
+        line-height: 1.5;
+    }
+
+    h3 {
+        font-size: 21px;
+        line-height: 1.55;
+    }
+
+    h4 {
+        font-size: 19px;
+    }
+
+    h5 {
+        font-size: 17px;
+    }
+
+    h6 {
+        font-size: 16px;
+    }
+
+    .notice-details-body,
+    .audio-description,
+    .page-content,
+    .article-content {
+        font-size: 16px;
+        line-height: 2;
+    }
+
+    .card-title {
+        font-size: 18px;
+    }
+
+    .card-text {
+        font-size: 15px;
+    }
+}
+
+
+/* =========================================================
+   38. SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .brand-content strong {
+        font-size: 15px;
+    }
+
+    .brand-content small {
+        font-size: 11px;
+    }
+
+    .main-nav .nav-link {
+        font-size: 15px;
+    }
+
+    .header-archive-button {
+        font-size: 14px;
+    }
+
+    .header-notice-content strong {
+        font-size: 13px;
+    }
+
+    .header-notice-content small {
+        font-size: 10px;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
+}
+
+
+/* =========================================================
+   39. VERY SMALL DEVICES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    body {
+        font-size: 16px;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    h2 {
+        font-size: 23px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    .brand-content strong {
+        font-size: 14px;
+    }
+
+    .brand-content small {
+        font-size: 10px;
+    }
+
+    .main-nav .nav-link {
+        font-size: 14px;
+    }
+}
+
+
+/* =========================================================
+   40. ACCESSIBILITY / READABILITY
+   ========================================================= */
+
+/*
+   جلوگیری از کوچک شدن خودکار متن در بعضی مرورگرها
+*/
+
+body,
+button,
+input,
+textarea,
+select {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/*
+   فاصله مناسب برای متن فارسی
+*/
+
+p,
+li {
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+
+/*
+   متن‌های طولانی فارسی
+*/
+
+.notice-details-body p,
+.page-content p,
+.article-content p {
+    margin-bottom: 1.25rem;
+}
+
+
+/*
+   لیست‌ها
+*/
+
+.site-main ul,
+.site-main ol {
+    padding-right: 1.5rem;
+    padding-left: 0;
+    font-size: 16px;
+    line-height: 2;
+}
+
+
+/* =========================================================
+   41. REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+
+
+/* =========================================================
+   END
+   ========================================================= */
