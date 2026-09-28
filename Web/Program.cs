@@ -3,12 +3,19 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web.Data.Seed;
+using Web.Middleware;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<AudioStatisticsService>();
+
+builder.Services.AddScoped<SiteStatisticsService>();
+
+builder.Services.AddScoped<StatisticsDashboardService>();
 
 builder.Services.AddScoped<FtpAudioStorage>();
 
@@ -63,6 +70,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<SiteStatisticsMiddleware>();
 
 app.MapStaticAssets();
 

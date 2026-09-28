@@ -1,0 +1,421 @@
+﻿@model Web.Areas.Admin.Models.Statistics.StatisticsDashboardViewModel
+
+@{
+    ViewData["Title"] = "آمار و گزارش‌ها";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/statistics.css"
+          asp-append-version="true" />
+}
+
+<div class="statistics-dashboard">
+
+    <!-- Header -->
+    <div class="statistics-header">
+        <div>
+            <span class="statistics-eyebrow">
+                داشبورد مدیریت
+            </span>
+
+            <h1 class="statistics-title">
+                آمار و گزارش‌ها
+            </h1>
+
+            <p class="statistics-description">
+                نمای کلی عملکرد سایت و آرشیو صوتی مجالس اهواز
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Main Statistics -->
+    <div class="statistics-grid">
+
+        <!-- Today -->
+        <div class="statistics-card">
+            <div class="statistics-card-top">
+                <div class="statistics-icon">
+                    <i class="bi bi-eye"></i>
+                </div>
+
+                <span class="statistics-label">
+                    بازدید امروز
+                </span>
+            </div>
+
+            <div class="statistics-value">
+                @Model.TodayPageViews
+            </div>
+
+            <div class="statistics-meta">
+                تعداد بازدید صفحات سایت
+            </div>
+        </div>
+
+
+        <!-- Yesterday -->
+        <div class="statistics-card">
+            <div class="statistics-card-top">
+                <div class="statistics-icon">
+                    <i class="bi bi-calendar-day"></i>
+                </div>
+
+                <span class="statistics-label">
+                    بازدید دیروز
+                </span>
+            </div>
+
+            <div class="statistics-value">
+                @Model.YesterdayPageViews
+            </div>
+
+            <div class="statistics-meta">
+                مقایسه با روز جاری
+            </div>
+        </div>
+
+
+        <!-- 7 Days -->
+        <div class="statistics-card">
+            <div class="statistics-card-top">
+                <div class="statistics-icon">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+
+                <span class="statistics-label">
+                    بازدید ۷ روز اخیر
+                </span>
+            </div>
+
+            <div class="statistics-value">
+                @Model.Last7DaysPageViews
+            </div>
+
+            <div class="statistics-meta">
+                مجموع بازدید هفته اخیر
+            </div>
+        </div>
+
+
+        <!-- 30 Days -->
+        <div class="statistics-card">
+            <div class="statistics-card-top">
+                <div class="statistics-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+
+                <span class="statistics-label">
+                    بازدید ۳۰ روز اخیر
+                </span>
+            </div>
+
+            <div class="statistics-value">
+                @Model.Last30DaysPageViews
+            </div>
+
+            <div class="statistics-meta">
+                مجموع بازدید ماه اخیر
+            </div>
+        </div>
+
+
+        <!-- Audio Views -->
+        <div class="statistics-card">
+            <div class="statistics-card-top">
+                <div class="statistics-icon">
+                    <i class="bi bi-headphones"></i>
+                </div>
+
+                <span class="statistics-label">
+                    بازدید صوتی امروز
+                </span>
+            </div>
+
+            <div class="statistics-value">
+                @Model.TodayAudioViews
+            </div>
+
+            <div class="statistics-meta">
+                مشاهده صفحات صوت‌ها
+            </div>
+        </div>
+
+
+        <!-- Downloads -->
+        <div class="statistics-card">
+            <div class="statistics-card-top">
+                <div class="statistics-icon">
+                    <i class="bi bi-download"></i>
+                </div>
+
+                <span class="statistics-label">
+                    دانلود امروز
+                </span>
+            </div>
+
+            <div class="statistics-value">
+                @Model.TodayDownloads
+            </div>
+
+            <div class="statistics-meta">
+                تعداد دانلود فایل‌های صوتی
+            </div>
+        </div>
+
+
+        <!-- 30 Days Downloads -->
+        <div class="statistics-card statistics-card-wide">
+            <div class="statistics-card-top">
+                <div class="statistics-icon">
+                    <i class="bi bi-cloud-download"></i>
+                </div>
+
+                <span class="statistics-label">
+                    دانلود ۳۰ روز اخیر
+                </span>
+            </div>
+
+            <div class="statistics-value">
+                @Model.Last30DaysDownloads
+            </div>
+
+            <div class="statistics-meta">
+                مجموع دانلودهای ماه اخیر
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Daily Statistics -->
+    <div class="statistics-section">
+
+        <div class="statistics-panel">
+
+            <div class="statistics-panel-header">
+
+                <div>
+                    <span class="statistics-panel-eyebrow">
+                        فعالیت سایت
+                    </span>
+
+                    <h2>
+                        بازدید ۷ روز اخیر
+                    </h2>
+                </div>
+
+                <div class="statistics-panel-icon">
+                    <i class="bi bi-activity"></i>
+                </div>
+
+            </div>
+
+
+            <div class="statistics-table-wrapper">
+
+                <table class="statistics-table">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                روز
+                            </th>
+
+                            <th>
+                                تعداد بازدید
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    @foreach (var dailyItem in Model.DailyPageViews)
+                    {
+                        <tr>
+
+                            <td>
+                                <span class="statistics-date">
+                                    @dailyItem.DisplayDate
+                                </span>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    @dailyItem.Count
+                                </strong>
+                            </td>
+
+                        </tr>
+                    }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- Popular Pages -->
+        <div class="statistics-panel">
+
+            <div class="statistics-panel-header">
+
+                <div>
+                    <span class="statistics-panel-eyebrow">
+                        صفحات سایت
+                    </span>
+
+                    <h2>
+                        صفحات پربازدید
+                    </h2>
+                </div>
+
+                <div class="statistics-panel-icon">
+                    <i class="bi bi-window-stack"></i>
+                </div>
+
+            </div>
+
+
+            <div class="statistics-table-wrapper">
+
+                <table class="statistics-table">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                صفحه
+                            </th>
+
+                            <th>
+                                بازدید
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    @foreach (var pageItem in Model.PopularPages)
+                    {
+                        <tr>
+
+                            <td>
+                                <span class="statistics-path">
+                                    @pageItem.Path
+                                </span>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    @pageItem.Count
+                                </strong>
+                            </td>
+
+                        </tr>
+                    }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Popular Audios -->
+    <div class="statistics-panel statistics-audio-panel">
+
+        <div class="statistics-panel-header">
+
+            <div>
+                <span class="statistics-panel-eyebrow">
+                    آرشیو صوتی
+                </span>
+
+                <h2>
+                    صوت‌های پربازدید
+                </h2>
+
+                <p>
+                    محبوب‌ترین فایل‌های صوتی بر اساس تعداد بازدید
+                </p>
+            </div>
+
+            <div class="statistics-panel-icon">
+                <i class="bi bi-music-note-list"></i>
+            </div>
+
+        </div>
+
+
+        <div class="statistics-table-wrapper">
+
+            <table class="statistics-table statistics-audio-table">
+
+                <thead>
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            عنوان صوت
+                        </th>
+
+                        <th>
+                            تعداد بازدید
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                @{
+                    var audioRank = 1;
+                }
+
+                @foreach (var audioItem in Model.PopularAudios)
+                {
+                    <tr>
+
+                        <td>
+                            <span class="statistics-rank">
+                                @audioRank
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="statistics-audio-title">
+                                @audioItem.Title
+                            </span>
+                        </td>
+
+                        <td>
+                            <strong>
+                                @audioItem.ViewCount
+                            </strong>
+                        </td>
+
+                    </tr>
+
+                    audioRank++;
+                }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

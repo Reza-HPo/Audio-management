@@ -1,6 +1,6 @@
 ﻿using MaktabAhvaz.Domain.Entities;
 
-namespace Web.Models.Speakers;
+namespace Web.Models.ViewModels.Speakers;
 
 public class SpeakerListViewModel
 {

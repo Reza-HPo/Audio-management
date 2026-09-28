@@ -408,20 +408,15 @@
 
 
                                 <!-- DOWNLOAD -->
-
                                 @if (Model.IsDownloadable)
                                 {
-                                    <a href="@audioUrl"
-                                       download
+                                    <a asp-controller="Archive"
+                                       asp-action="Download"
+                                       asp-route-id="@Model.Id"
                                        class="player-download"
                                        aria-label="دانلود @Model.Title">
-
-                                        <span aria-hidden="true">
-                                            ↓
-                                        </span>
-
+                                        <span aria-hidden="true">↓</span>
                                         دانلود فایل
-
                                     </a>
                                 }
 

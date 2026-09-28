@@ -20,6 +20,8 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<SiteSetting> SiteSettings => Set<SiteSetting>();
     public DbSet<NavigationItem> NavigationItems { get; set; }
     public DbSet<Notice> Notices => Set<Notice>();
+    public DbSet<AudioStatistic> AudioStatistics => Set<AudioStatistic>();
+    public DbSet<SiteStatistic> SiteStatistics => Set<SiteStatistic>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,5 +61,29 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
         modelBuilder.Entity<SiteSetting>()
             .HasIndex(s => s.Key)
             .IsUnique();
+
+        // AudioFile → AudioStatistic
+        modelBuilder.Entity<AudioStatistic>()
+            .HasOne(s => s.AudioFile)
+            .WithMany()
+            .HasForeignKey(s => s.AudioFileId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<AudioStatistic>()
+            .HasIndex(s => new 
+            { 
+                s.AudioFileId, 
+                s.EventType, 
+                s.CreatedAt 
+            });
+        modelBuilder.Entity<SiteStatistic>()
+            .HasIndex(s => new
+            {
+             s.EventType,
+             s.CreatedAt
+            });
+
+        modelBuilder.Entity<SiteStatistic>()
+            .HasIndex(s => s.Path);
     }
 }

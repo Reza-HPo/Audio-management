@@ -1,19 +1,26 @@
-﻿using MaktabAhvaz.Infrastructure.Data;
+﻿using MaktabAhvaz.Domain.Entities;
+using MaktabAhvaz.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Models.ViewModels.Archive;
+using Web.Services;
 
 namespace Web.Controllers;
 
 public class ArchiveController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly AudioStatisticsService _audioStatisticsService;
 
     private const int PageSize = 12;
 
-    public ArchiveController(ApplicationDbContext context)
+
+    public ArchiveController(
+        ApplicationDbContext context,
+        AudioStatisticsService audioStatisticsService)
     {
         _context = context;
+        _audioStatisticsService = audioStatisticsService;
     }
 
     public async Task<IActionResult> Index(string? search, int? categoryId, int? speakerId, string sort = "newest", int page = 1)
@@ -182,6 +189,11 @@ public class ArchiveController : Controller
         if (audio == null)
             return NotFound();
 
+        await _audioStatisticsService.TrackAsync(
+            audio.Id,
+            AudioStatisticEventType.View,
+            HttpContext);
+
         var model = new AudioItemViewModel
         {
             Id = audio.Id,
@@ -209,5 +221,28 @@ public class ArchiveController : Controller
         };
 
         return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Download(int id)
+    {
+        var audio = await _context.AudioFiles
+            .AsNoTracking()
+            .FirstOrDefaultAsync(a =>
+                a.Id == id &&
+                a.IsPublished);
+
+        if (audio == null)
+            return NotFound();
+
+        if (!audio.IsDownloadable)
+            return Forbid();
+
+        await _audioStatisticsService.TrackAsync(
+            audio.Id,
+            AudioStatisticEventType.Download,
+            HttpContext);
+
+        return Redirect(audio.FileName);
     }
 }
