@@ -2625,3 +2625,491 @@ input[type="file"].admin-form-control {
     }
 
 }
+
+/* =========================================================
+AUDIO FILES
+FILTER SYSTEM
+========================================================= */
+
+.audio-filter-card {
+    position: relative;
+    margin-bottom: 24px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+}
+
+/* =========================================================
+FILTER HEADER
+========================================================= */
+
+.audio-filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+}
+
+.audio-filter-title {
+    margin: 0 0 5px;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.6;
+}
+
+.audio-filter-description {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.8;
+}
+
+/* =========================================================
+RESET FILTERS
+========================================================= */
+
+.audio-filter-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    flex-shrink: 0;
+    padding: 9px 13px;
+    color: #64748b;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+    .audio-filter-reset:hover {
+        color: #0f172a;
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        transform: translateY(-1px);
+    }
+
+    .audio-filter-reset span {
+        font-size: 16px;
+        line-height: 1;
+    }
+
+/* =========================================================
+FILTER FORM
+========================================================= */
+
+.audio-filter-form {
+    display: grid;
+    grid-template-columns: minmax(260px, 2fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(160px, 1fr) minmax(160px, 1fr);
+    gap: 16px;
+    align-items: end;
+    
+}
+
+/* =========================================================
+FILTER FIELD
+========================================================= */
+
+.audio-filter-field {
+    min-width: 0;
+}
+
+    .audio-filter-field label {
+        display: block;
+        margin: 0 0 8px;
+        color: #334155;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+
+/* =========================================================
+SEARCH
+========================================================= */
+
+.audio-search-wrapper {
+    position: relative;
+}
+
+.audio-search-icon {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: #94a3b8;
+    font-size: 21px;
+    line-height: 1;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.audio-filter-search .audio-filter-input {
+    padding-right: 43px;
+}
+
+.audio-filter-input,
+.audio-filter-select {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    color: #0f172a;
+    background: #ffffff;
+    border: 1px solid #dbe2ea;
+    border-radius: 11px;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+    .audio-filter-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .audio-filter-input:hover,
+    .audio-filter-select:hover {
+        border-color: #cbd5e1;
+        background: #fcfdff;
+    }
+
+    .audio-filter-input:focus,
+    .audio-filter-select:focus {
+        border-color: #2563eb;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+    }
+
+/* =========================================================
+SELECT
+========================================================= */
+
+.audio-filter-select {
+    cursor: pointer;
+    appearance: auto;
+}
+
+/* =========================================================
+ACTION
+========================================================= */
+
+.audio-filter-actions {
+    display: flex;
+    align-items: flex-end;
+    min-width: 150px;
+}
+
+    .audio-filter-actions .admin-btn {
+        width: 100%;
+        min-height: 46px;
+        justify-content: center;
+    }
+
+/* =========================================================
+FILTER ACTIVE STATE
+========================================================= */
+
+.audio-filter-card:has( .audio-filter-input:not([value=""]) ) {
+    border-color: rgba(37, 99, 235, 0.10);
+}
+
+/* =========================================================
+STATUS GROUP
+========================================================= */
+
+.audio-status-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.audio-download-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.audio-download-yes {
+    color: #15803d;
+}
+
+.audio-download-no {
+    color: #94a3b8;
+}
+
+/* =========================================================
+LIST FOOTER
+========================================================= */
+
+.audio-list-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 22px;
+    border-top: 1px solid rgba(15, 23, 42, 0.07);
+    background: #fcfdff;
+}
+
+.audio-list-summary {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+    .audio-list-summary strong {
+        color: #0f172a;
+        font-weight: 800;
+    }
+
+/* =========================================================
+PAGINATION
+========================================================= */
+
+.audio-pagination {
+    margin: 0;
+}
+
+    .audio-pagination .pagination {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .audio-pagination .page-item {
+        margin: 0;
+    }
+
+    .audio-pagination .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        padding: 0 9px;
+        color: #475569;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 9px !important;
+        box-shadow: none;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+        .audio-pagination .page-link:hover {
+            color: #2563eb;
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            transform: translateY(-1px);
+        }
+
+    .audio-pagination .page-item.active .page-link {
+        color: #ffffff;
+        background: #2563eb;
+        border-color: #2563eb;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.20);
+    }
+
+    .audio-pagination .page-item.disabled .page-link {
+        color: #cbd5e1;
+        background: #f8fafc;
+        border-color: #edf1f5;
+        cursor: default;
+        pointer-events: none;
+    }
+
+/* =========================================================
+EMPTY SEARCH STATE
+========================================================= */
+
+.audio-empty {
+    padding: 70px 24px;
+    text-align: center;
+}
+
+.audio-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    color: #64748b;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    font-size: 30px;
+}
+
+.audio-empty h3 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.audio-empty p {
+    max-width: 520px;
+    margin: 0 auto 22px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+/* =========================================================
+DELETE FORM
+========================================================= */
+
+.audio-delete-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 1300px) {
+
+    
+    .audio-filter-form {
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+    }
+
+    .audio-filter-search {
+        grid-column: span 3;
+    }
+
+    .audio-filter-actions {
+        min-width: 0;
+    }
+
+    
+}
+
+@media (max-width: 900px) {
+
+    
+    .audio-filter-card {
+        padding: 20px;
+    }
+
+    .audio-filter-header {
+        align-items: flex-start;
+    }
+
+    .audio-filter-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .audio-filter-search {
+        grid-column: span 2;
+    }
+
+    .audio-filter-actions {
+        grid-column: span 2;
+    }
+
+    
+}
+
+@media (max-width: 640px) {
+
+    
+    .audio-filter-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .audio-filter-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+    .audio-filter-reset {
+        align-self: flex-start;
+    }
+
+    .audio-filter-form {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .audio-filter-search,
+    .audio-filter-actions {
+        grid-column: auto;
+    }
+
+        .audio-filter-input,
+        .audio-filter-select,
+        .audio-filter-actions .admin-btn {
+            height: 48px;
+        }
+
+    .audio-list-footer {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+    }
+
+    .audio-list-summary {
+        text-align: center;
+    }
+
+    .audio-pagination {
+        display: flex;
+        justify-content: center;
+    }
+
+        .audio-pagination .pagination {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+    
+}
+
+/* =========================================================
+REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    
+    .audio-filter-reset,
+    .audio-filter-input,
+    .audio-filter-select,
+    .audio-pagination .page-link {
+        transition: none;
+    }
+
+   
+}
+

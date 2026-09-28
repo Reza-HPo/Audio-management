@@ -27,22 +27,276 @@ public class AudioFilesController : Controller
         _ftpStorage = ftpStorage;
     }
 
-    // =========================================================
+   
+     // =========================================================
     // INDEX
-    // =========================================================
+   // =========================================================
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(
+       string? search,
+       int? speakerId,
+       int? categoryId,
+       string? status,
+       string? downloadable,
+       string? sort = "latest",
+       int page = 1,
+       int pageSize = 20)
     {
-        var audioFiles = await _context.AudioFiles
+          // ---------------------------------------------------------
+         // Normalize
+        // ---------------------------------------------------------
+
+        page = Math.Max(page, 1);
+
+        var allowedPageSizes = new[] { 20, 50, 100 };
+
+        if (!allowedPageSizes.Contains(pageSize))
+        {
+            pageSize = 20;
+        }
+
+
+        // ---------------------------------------------------------
+        // Base Query
+        // ---------------------------------------------------------
+
+        var query = _context.AudioFiles
             .AsNoTracking()
             .Include(a => a.Speaker)
             .Include(a => a.AudioCategories)
                 .ThenInclude(ac => ac.Category)
-            .OrderByDescending(a => a.CreatedAt)
+            .AsQueryable();
+
+
+        // ---------------------------------------------------------
+        // Search
+        // ---------------------------------------------------------
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            search = search.Trim();
+
+            query = query.Where(a =>
+                a.Title.Contains(search) ||
+
+                (a.Description != null &&
+                 a.Description.Contains(search)) ||
+
+                a.FileName.Contains(search) ||
+
+                (a.Speaker != null &&
+                 a.Speaker.Name.Contains(search)));
+        }
+
+
+        // ---------------------------------------------------------
+        // Speaker
+        // ---------------------------------------------------------
+
+        if (speakerId.HasValue)
+        {
+            query = query.Where(a =>
+                a.SpeakerId == speakerId.Value);
+        }
+
+
+        // ---------------------------------------------------------
+        // Category
+        // ---------------------------------------------------------
+
+        if (categoryId.HasValue)
+        {
+            query = query.Where(a =>
+                a.AudioCategories.Any(ac =>
+                    ac.CategoryId == categoryId.Value));
+        }
+
+
+        // ---------------------------------------------------------
+        // Publish Status
+        // ---------------------------------------------------------
+
+        if (status == "published")
+        {
+            query = query.Where(a =>
+                a.IsPublished);
+        }
+        else if (status == "draft")
+        {
+            query = query.Where(a =>
+                !a.IsPublished);
+        }
+
+
+        // ---------------------------------------------------------
+        // Download Status
+        // ---------------------------------------------------------
+
+        if (downloadable == "yes")
+        {
+            query = query.Where(a =>
+                a.IsDownloadable);
+        }
+        else if (downloadable == "no")
+        {
+            query = query.Where(a =>
+                !a.IsDownloadable);
+        }
+
+
+        // ---------------------------------------------------------
+        // Sorting
+        // ---------------------------------------------------------
+
+        query = sort switch
+        {
+            "oldest" =>
+                query.OrderBy(a => a.CreatedAt),
+
+            "title_asc" =>
+                query.OrderBy(a => a.Title),
+
+            "title_desc" =>
+                query.OrderByDescending(a => a.Title),
+
+            "size_desc" =>
+                query.OrderByDescending(a => a.FileSize),
+
+            "size_asc" =>
+                query.OrderBy(a => a.FileSize),
+
+            _ =>
+                query.OrderByDescending(a => a.CreatedAt)
+        };
+
+
+        // ---------------------------------------------------------
+        // Total filtered records
+        // ---------------------------------------------------------
+
+        var totalItems =
+            await query.CountAsync();
+
+
+        // ---------------------------------------------------------
+        // Total pages
+        // ---------------------------------------------------------
+
+        var totalPages =
+            (int)Math.Ceiling(
+                totalItems / (double)pageSize);
+
+
+        if (totalPages > 0 &&
+            page > totalPages)
+        {
+            page = totalPages;
+        }
+
+
+        // ---------------------------------------------------------
+        // Pagination
+        // ---------------------------------------------------------
+
+        var audioFiles = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
 
-        return View(audioFiles);
+
+        // ---------------------------------------------------------
+        // Speakers
+        // ---------------------------------------------------------
+
+        var speakers =
+            await _context.Speakers
+                .AsNoTracking()
+                .Where(s => s.IsActive)
+                .OrderBy(s => s.Name)
+                .ToListAsync();
+
+
+        // ---------------------------------------------------------
+        // Categories
+        // ---------------------------------------------------------
+
+        var categories =
+            await _context.Categories
+                .AsNoTracking()
+                .Where(c => c.IsActive)
+                .OrderBy(c => c.DisplayOrder)
+                .ThenBy(c => c.Name)
+                .ToListAsync();
+
+
+        // ---------------------------------------------------------
+        // Global Statistics
+        // ---------------------------------------------------------
+
+        var totalAudioCount =
+            await _context.AudioFiles.CountAsync();
+
+        var publishedAudioCount =
+            await _context.AudioFiles
+                .CountAsync(a => a.IsPublished);
+
+        var draftAudioCount =
+            totalAudioCount - publishedAudioCount;
+
+        var totalFileSize =
+            await _context.AudioFiles
+                .Select(a => (long?)a.FileSize)
+                .SumAsync() ?? 0;
+
+
+        // ---------------------------------------------------------
+        // ViewModel
+        // ---------------------------------------------------------
+
+        var model = new AudioFileListViewModel
+        {
+            Items = audioFiles,
+
+            Search = search,
+
+            SpeakerId = speakerId,
+
+            CategoryId = categoryId,
+
+            Status = status,
+
+            Downloadable = downloadable,
+
+            Sort = string.IsNullOrWhiteSpace(sort)
+                ? "latest"
+                : sort,
+
+            CurrentPage = page,
+
+            PageSize = pageSize,
+
+            TotalItems = totalItems,
+
+            Speakers = speakers,
+
+            Categories = categories,
+
+            TotalAudioCount =
+                totalAudioCount,
+
+            PublishedAudioCount =
+                publishedAudioCount,
+
+            DraftAudioCount =
+                draftAudioCount,
+
+            TotalFileSize =
+                totalFileSize
+        };
+
+
+        return View(model);
     }
 
     // =========================================================
