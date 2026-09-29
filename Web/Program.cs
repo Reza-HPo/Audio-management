@@ -17,6 +17,8 @@ builder.Services.AddScoped<SiteStatisticsService>();
 
 builder.Services.AddScoped<StatisticsDashboardService>();
 
+builder.Services.AddScoped<VisitorIdentityService>();
+
 builder.Services.AddScoped<FtpAudioStorage>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

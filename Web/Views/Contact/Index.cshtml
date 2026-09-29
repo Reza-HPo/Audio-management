@@ -1,0 +1,516 @@
+﻿@{
+    ViewData["Title"] = "ارتباط با ما";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/contact.css"
+          asp-append-version="true" />
+}
+
+<main class="contact-page">
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+    <section class="contact-hero">
+
+        <div class="contact-container">
+
+            <div class="contact-hero-content">
+
+                <span class="contact-eyebrow">
+                    <i class="bi bi-envelope"></i>
+                    ارتباط با ما
+                </span>
+
+                <h1>
+                    در ارتباط
+                    <span>باشید</span>
+                </h1>
+
+                <p>
+                    اگر پرسش، پیشنهاد، انتقاد یا پیامی برای
+                    «مجالس اهواز» دارید، خوشحال می‌شویم آن را
+                    با ما در میان بگذارید.
+                </p>
+
+            </div>
+
+            <div class="contact-hero-icon">
+
+                <div class="contact-icon-glow"></div>
+
+                <div class="contact-icon-card">
+                    <i class="bi bi-chat-square-text"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CONTACT CONTENT
+    ========================================================== -->
+    <section class="contact-section">
+
+        <div class="contact-container">
+
+            <div class="contact-grid">
+
+                <!-- =================================================
+                     CONTACT INFO
+                ================================================== -->
+                <div class="contact-info">
+
+                    <div class="contact-section-heading">
+
+                        <span class="contact-section-label">
+                            اطلاعات تماس
+                        </span>
+
+                        <h2>
+                            راه‌های
+                            <span>ارتباط با ما</span>
+                        </h2>
+
+                        <p>
+                            برای ارتباط با مجموعه مجالس اهواز می‌توانید
+                            از راه‌های زیر استفاده کنید.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <a href="mailto:info@maktabahwaz.ir"
+                       class="contact-info-card">
+
+                        <div class="contact-info-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+
+                        <div class="contact-info-content">
+
+                            <span>
+                                ایمیل عمومی
+                            </span>
+
+                            <strong>
+                                info@maktabahwaz.ir
+                            </strong>
+
+                        </div>
+
+                        <i class="bi bi-arrow-left"></i>
+
+                    </a>
+
+
+                    <!-- Official Email -->
+                    <a href="mailto:Official@maktabahwaz.ir"
+                       class="contact-info-card">
+
+                        <div class="contact-info-icon">
+                            <i class="bi bi-envelope-paper"></i>
+                        </div>
+
+                        <div class="contact-info-content">
+
+                            <span>
+                                ارتباط رسمی
+                            </span>
+
+                            <strong>
+                                Official@maktabahwaz.ir
+                            </strong>
+
+                        </div>
+
+                        <i class="bi bi-arrow-left"></i>
+
+                    </a>
+
+
+                    <!-- Eitaa -->
+                    <a href="https://eitaa.com/ahvazmajles"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-info-card">
+
+                        <div class="contact-info-icon">
+                            <i class="bi bi-chat-square-text"></i>
+                        </div>
+
+                        <div class="contact-info-content">
+
+                            <span>
+                                کانال ایتا
+                            </span>
+
+                            <strong>
+                                مجالس اهواز
+                            </strong>
+
+                        </div>
+
+                        <i class="bi bi-arrow-left"></i>
+
+                    </a>
+
+
+                    <!-- Telegram -->
+                    <a href="https://t.me/ahvazmajlesbot"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-info-card">
+
+                        <div class="contact-info-icon">
+                            <i class="bi bi-telegram"></i>
+                        </div>
+
+                        <div class="contact-info-content">
+
+                            <span>
+                                تلگرام
+                            </span>
+
+                            <strong>
+                                @@ahvazmajlesbot
+                            </strong>
+
+                        </div>
+
+                        <i class="bi bi-arrow-left"></i>
+
+                    </a>
+
+
+                    <!-- Bale -->
+                    <a href="https://ble.ir/ahvazmajlesbot"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-info-card">
+
+                        <div class="contact-info-icon">
+                            <i class="bi bi-send"></i>
+                        </div>
+
+                        <div class="contact-info-content">
+
+                            <span>
+                                پیام‌رسان بله
+                            </span>
+
+                            <strong>
+                                @@ahvazmajlesbot
+                            </strong>
+
+                        </div>
+
+                        <i class="bi bi-arrow-left"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- =================================================
+                     CONTACT FORM
+                ================================================== -->
+                <div class="contact-form-wrapper">
+
+                    <div class="contact-form-heading">
+
+                        <span class="contact-section-label">
+                            ارسال پیام
+                        </span>
+
+                        <h2>
+                            پیام خود را
+                            <span>برای ما ارسال کنید</span>
+                        </h2>
+
+                        <p>
+                            فرم زیر را تکمیل کنید تا پیام شما برای
+                            بررسی دریافت شود.
+                        </p>
+
+                    </div>
+
+
+                    @if (TempData["ContactSuccess"] != null)
+                    {
+                        <div class="contact-alert contact-alert-success">
+
+                            <i class="bi bi-check-circle"></i>
+
+                            <span>
+                                @TempData["ContactSuccess"]
+                            </span>
+
+                        </div>
+                    }
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="contact-alert contact-alert-error">
+                    </div>
+
+
+                    <form asp-action="Index"
+                          asp-controller="Contact"
+                          method="post"
+                          class="contact-form">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <!-- Name -->
+                        <div class="contact-form-group">
+
+                            <label for="name">
+                                نام و نام خانوادگی
+                                <span>*</span>
+                            </label>
+
+                            <div class="contact-input-wrapper">
+
+                                <i class="bi bi-person"></i>
+
+                                <input type="text"
+                                       id="name"
+                                       name="name"
+                                       placeholder="نام و نام خانوادگی"
+                                       autocomplete="name"
+                                       required />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="contact-form-group">
+
+                            <label for="email">
+                                ایمیل
+                                <span>*</span>
+                            </label>
+
+                            <div class="contact-input-wrapper">
+
+                                <i class="bi bi-envelope"></i>
+
+                                <input type="email"
+                                       id="email"
+                                       name="email"
+                                       placeholder="example@email.com"
+                                       autocomplete="email"
+                                       dir="ltr"
+                                       required />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Subject -->
+                        <div class="contact-form-group">
+
+                            <label for="subject">
+                                موضوع
+                            </label>
+
+                            <div class="contact-input-wrapper">
+
+                                <i class="bi bi-chat-left-text"></i>
+
+                                <input type="text"
+                                       id="subject"
+                                       name="subject"
+                                       placeholder="موضوع پیام"
+                                       required />
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Message -->
+                        <div class="contact-form-group">
+
+                            <label for="message">
+                                پیام
+                                <span>*</span>
+                            </label>
+
+                            <div class="contact-textarea-wrapper">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                                <textarea id="message"
+                                          name="message"
+                                          rows="6"
+                                          placeholder="پیام خود را اینجا بنویسید..."
+                                          required></textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Submit -->
+                        <button type="submit"
+                                class="contact-submit">
+
+                            <span>
+                                ارسال پیام
+                            </span>
+
+                            <i class="bi bi-send"></i>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         SOCIAL CTA
+    ========================================================== -->
+    <section class="contact-social-section">
+
+        <div class="contact-container">
+
+            <div class="contact-social-box">
+
+                <div class="contact-social-content">
+
+                    <span class="contact-section-label">
+                        همراه ما باشید
+                    </span>
+
+                    <h2>
+                        ارتباطتان را با
+                        <span>مجالس اهواز</span>
+                        حفظ کنید
+                    </h2>
+
+                    <p>
+                        برای اطلاع از انتشار محتوای جدید و آخرین
+                        اطلاع‌رسانی‌ها، شبکه‌های اجتماعی ما را دنبال کنید.
+                    </p>
+
+                </div>
+
+
+                <div class="contact-social-links">
+
+                    <a href="https://eitaa.com/ahvazmajles"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-social-link">
+
+                        <i class="bi bi-chat-square-text"></i>
+
+                        <span>
+                            ایتا
+                        </span>
+
+                    </a>
+
+
+                    <a href="https://t.me/ahvazmajlesbot"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-social-link">
+
+                        <i class="bi bi-telegram"></i>
+
+                        <span>
+                            تلگرام
+                        </span>
+
+                    </a>
+
+
+                    <a href="https://ble.ir/ahvazmajlesbot"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-social-link">
+
+                        <i class="bi bi-send"></i>
+
+                        <span>
+                            بله
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         FINAL CTA
+    ========================================================== -->
+    <section class="contact-final">
+
+        <div class="contact-container">
+
+            <div class="contact-final-inner">
+
+                <div class="contact-final-icon">
+                    <i class="bi bi-collection-play"></i>
+                </div>
+
+                <div class="contact-final-content">
+
+                    <span>
+                        دنبال محتوای صوتی هستید؟
+                    </span>
+
+                    <h2>
+                        آرشیو مجالس اهواز را ببینید
+                    </h2>
+
+                    <p>
+                        مجموعه فایل‌های صوتی و سخنرانی‌های موجود
+                        در آرشیو را مشاهده کنید.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Archive"
+                   asp-action="Index"
+                   class="contact-final-button">
+
+                    مشاهده آرشیو
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

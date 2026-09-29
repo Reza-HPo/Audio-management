@@ -1,4 +1,5 @@
-﻿using Web.Services;
+﻿using Microsoft.AspNetCore.Http;
+using Web.Services;
 
 namespace Web.Middleware;
 
@@ -6,14 +7,16 @@ public class SiteStatisticsMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public SiteStatisticsMiddleware(RequestDelegate next)
+    public SiteStatisticsMiddleware(
+        RequestDelegate next)
     {
         _next = next;
     }
 
     public async Task InvokeAsync(
         HttpContext context,
-        SiteStatisticsService statisticsService)
+        SiteStatisticsService statisticsService,
+        VisitorIdentityService visitorIdentityService)
     {
         if (!ShouldTrack(context))
         {
@@ -21,12 +24,16 @@ public class SiteStatisticsMiddleware
             return;
         }
 
+        var visitorId =
+            visitorIdentityService.GetOrCreateVisitorId();
+
         await _next(context);
 
         if (context.Response.StatusCode != StatusCodes.Status200OK)
             return;
 
-        var contentType = context.Response.ContentType;
+        var contentType =
+            context.Response.ContentType;
 
         if (string.IsNullOrWhiteSpace(contentType) ||
             !contentType.StartsWith(
@@ -36,10 +43,20 @@ public class SiteStatisticsMiddleware
             return;
         }
 
-        await statisticsService.TrackAsync(context);
+        var path = context.Request.Path.Value;
+
+        if (string.IsNullOrWhiteSpace(path))
+            return;
+
+        await statisticsService.TrackPageViewAsync(
+            path,
+            visitorId,
+            context.Connection.RemoteIpAddress?.ToString(),
+            context.Request.Headers.UserAgent.ToString());
     }
 
-    private static bool ShouldTrack(HttpContext context)
+    private static bool ShouldTrack(
+        HttpContext context)
     {
         if (!HttpMethods.IsGet(context.Request.Method))
             return false;
@@ -49,28 +66,28 @@ public class SiteStatisticsMiddleware
         if (string.IsNullOrWhiteSpace(path))
             return false;
 
-        path = path.ToLowerInvariant();
-
-        // API
-        if (path.StartsWith("/api"))
+        if (path.StartsWith(
+                "/api",
+                StringComparison.OrdinalIgnoreCase))
             return false;
 
-        // Identity / Authentication
-        if (path.StartsWith("/identity"))
+        if (path.StartsWith(
+                "/identity",
+                StringComparison.OrdinalIgnoreCase))
             return false;
 
-        // Admin
-        if (path.StartsWith("/admin"))
+        if (path.StartsWith(
+                "/admin",
+                StringComparison.OrdinalIgnoreCase))
             return false;
 
-        // Static files
-        if (HasStaticFileExtension(path))
+        if (IsStaticFile(path))
             return false;
 
         return true;
     }
 
-    private static bool HasStaticFileExtension(string path)
+    private static bool IsStaticFile(string path)
     {
         var extensions = new[]
         {
@@ -80,8 +97,8 @@ public class SiteStatisticsMiddleware
             ".jpg",
             ".jpeg",
             ".gif",
-            ".webp",
             ".svg",
+            ".webp",
             ".ico",
             ".woff",
             ".woff2",
@@ -92,13 +109,13 @@ public class SiteStatisticsMiddleware
             ".mp4",
             ".webm",
             ".pdf",
-            ".zip",
-            ".rar",
-            ".xml",
-            ".json",
-            ".txt"
+            ".zip"
         };
 
-        return extensions.Any(path.EndsWith);
+        return extensions.Any(
+            extension =>
+                path.EndsWith(
+                    extension,
+                    StringComparison.OrdinalIgnoreCase));
     }
 }

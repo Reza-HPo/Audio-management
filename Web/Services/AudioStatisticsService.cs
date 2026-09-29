@@ -9,35 +9,59 @@ public class AudioStatisticsService
 {
     private readonly ApplicationDbContext _context;
     private readonly IConfiguration _configuration;
+    private readonly VisitorIdentityService _visitorIdentityService;
 
     public AudioStatisticsService(
         ApplicationDbContext context,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        VisitorIdentityService visitorIdentityService)
     {
         _context = context;
         _configuration = configuration;
+        _visitorIdentityService = visitorIdentityService;
     }
 
-    public async Task TrackAsync(
+    public async Task TrackViewAsync(
+        int audioFileId,
+        string? ipAddress,
+        string? userAgent)
+    {
+        await TrackAsync(
+            audioFileId,
+            AudioStatisticEventType.View,
+            ipAddress,
+            userAgent);
+    }
+
+    public async Task TrackDownloadAsync(
+        int audioFileId,
+        string? ipAddress,
+        string? userAgent)
+    {
+        await TrackAsync(
+            audioFileId,
+            AudioStatisticEventType.Download,
+            ipAddress,
+            userAgent);
+    }
+
+    private async Task TrackAsync(
         int audioFileId,
         AudioStatisticEventType eventType,
-        HttpContext httpContext)
+        string? ipAddress,
+        string? userAgent)
     {
-        var ipAddress = httpContext.Connection.RemoteIpAddress?.ToString();
-
-        var ipHash = HashIpAddress(ipAddress);
-
-        var userAgent = httpContext.Request.Headers.UserAgent.ToString();
+        var visitorId =
+            _visitorIdentityService.GetOrCreateVisitorId();
 
         var statistic = new AudioStatistic
         {
             AudioFileId = audioFileId,
             EventType = eventType,
             CreatedAt = DateTime.UtcNow,
-            IpHash = ipHash,
-            UserAgent = string.IsNullOrWhiteSpace(userAgent)
-                ? null
-                : userAgent
+            VisitorId = visitorId,
+            IpHash = HashIp(ipAddress),
+            UserAgent = userAgent
         };
 
         _context.AudioStatistics.Add(statistic);
@@ -45,15 +69,16 @@ public class AudioStatisticsService
         await _context.SaveChangesAsync();
     }
 
-    private string? HashIpAddress(string? ipAddress)
+    private string? HashIp(string? ipAddress)
     {
         if (string.IsNullOrWhiteSpace(ipAddress))
             return null;
 
-        var salt = _configuration["Statistics:IpHashSalt"];
+        var salt =
+            _configuration["Statistics:IpHashSalt"];
 
         if (string.IsNullOrWhiteSpace(salt))
-            salt = "MajalesAhvaz-Statistics";
+            salt = "majales-ahvaz-statistics";
 
         var input = $"{salt}:{ipAddress}";
 

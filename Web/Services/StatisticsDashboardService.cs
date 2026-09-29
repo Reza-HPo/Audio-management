@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MaktabAhvaz.Infrastructure.Data;
 using MaktabAhvaz.Domain.Entities;
+using MaktabAhvaz.Infrastructure.Data;
 
 namespace Web.Services;
 
@@ -13,11 +13,75 @@ public class StatisticsDashboardService
         _context = context;
     }
 
-    // =========================================================
-    // SITE
-    // =========================================================
+    public async Task<int> GetTodayUniqueVisitorsAsync()
+    {
+        var today = DateTime.UtcNow.Date;
+        var tomorrow = today.AddDays(1);
 
-    public async Task<int> GetTodayPageViewsAsync()
+        return await _context.SiteStatistics
+            .AsNoTracking()
+            .Where(s =>
+                s.EventType == SiteStatisticEventType.PageView &&
+                s.CreatedAt >= today &&
+                s.CreatedAt < tomorrow &&
+                s.VisitorId != null)
+            .Select(s => s.VisitorId!)
+            .Distinct()
+            .CountAsync();
+    }
+
+    public async Task<int> GetYesterdayUniqueVisitorsAsync()
+    {
+        var today = DateTime.UtcNow.Date;
+        var yesterday = today.AddDays(-1);
+
+        return await _context.SiteStatistics
+            .AsNoTracking()
+            .Where(s =>
+                s.EventType == SiteStatisticEventType.PageView &&
+                s.CreatedAt >= yesterday &&
+                s.CreatedAt < today &&
+                s.VisitorId != null)
+            .Select(s => s.VisitorId!)
+            .Distinct()
+            .CountAsync();
+    }
+
+    public async Task<int> GetLast7DaysUniqueVisitorsAsync()
+    {
+        var startDate = DateTime.UtcNow.Date.AddDays(-6);
+        var endDate = DateTime.UtcNow.Date.AddDays(1);
+
+        return await _context.SiteStatistics
+            .AsNoTracking()
+            .Where(s =>
+                s.EventType == SiteStatisticEventType.PageView &&
+                s.CreatedAt >= startDate &&
+                s.CreatedAt < endDate &&
+                s.VisitorId != null)
+            .Select(s => s.VisitorId!)
+            .Distinct()
+            .CountAsync();
+    }
+
+    public async Task<int> GetLast30DaysUniqueVisitorsAsync()
+    {
+        var startDate = DateTime.UtcNow.Date.AddDays(-29);
+        var endDate = DateTime.UtcNow.Date.AddDays(1);
+
+        return await _context.SiteStatistics
+            .AsNoTracking()
+            .Where(s =>
+                s.EventType == SiteStatisticEventType.PageView &&
+                s.CreatedAt >= startDate &&
+                s.CreatedAt < endDate &&
+                s.VisitorId != null)
+            .Select(s => s.VisitorId!)
+            .Distinct()
+            .CountAsync();
+    }
+
+    public async Task<int> GetTodayPageViewCountAsync()
     {
         var today = DateTime.UtcNow.Date;
         var tomorrow = today.AddDays(1);
@@ -30,49 +94,9 @@ public class StatisticsDashboardService
                 s.CreatedAt < tomorrow);
     }
 
-    public async Task<int> GetYesterdayPageViewsAsync()
-    {
-        var today = DateTime.UtcNow.Date;
-        var yesterday = today.AddDays(-1);
-
-        return await _context.SiteStatistics
-            .AsNoTracking()
-            .CountAsync(s =>
-                s.EventType == SiteStatisticEventType.PageView &&
-                s.CreatedAt >= yesterday &&
-                s.CreatedAt < today);
-    }
-
-    public async Task<int> GetLast7DaysPageViewCountAsync()
-    {
-        var startDate = DateTime.UtcNow.Date.AddDays(-6);
-        var endDate = DateTime.UtcNow.Date.AddDays(1);
-
-        return await _context.SiteStatistics
-            .AsNoTracking()
-            .CountAsync(s =>
-                s.EventType == SiteStatisticEventType.PageView &&
-                s.CreatedAt >= startDate &&
-                s.CreatedAt < endDate);
-    }
-
-    public async Task<int> GetLast30DaysPageViewsAsync()
-    {
-        var startDate = DateTime.UtcNow.Date.AddDays(-29);
-        var endDate = DateTime.UtcNow.Date.AddDays(1);
-
-        return await _context.SiteStatistics
-            .AsNoTracking()
-            .CountAsync(s =>
-                s.EventType == SiteStatisticEventType.PageView &&
-                s.CreatedAt >= startDate &&
-                s.CreatedAt < endDate);
-    }
-
-    // =========================================================
-    // AUDIO
-    // =========================================================
-
+    /// <summary>
+    /// تعداد بازدیدکنندگان یکتای صوت‌ها در امروز
+    /// </summary>
     public async Task<int> GetTodayAudioViewsAsync()
     {
         var today = DateTime.UtcNow.Date;
@@ -80,10 +104,14 @@ public class StatisticsDashboardService
 
         return await _context.AudioStatistics
             .AsNoTracking()
-            .CountAsync(s =>
+            .Where(s =>
                 s.EventType == AudioStatisticEventType.View &&
                 s.CreatedAt >= today &&
-                s.CreatedAt < tomorrow);
+                s.CreatedAt < tomorrow &&
+                s.VisitorId != null)
+            .Select(s => s.VisitorId!)
+            .Distinct()
+            .CountAsync();
     }
 
     public async Task<int> GetTodayDownloadsAsync()
@@ -112,11 +140,7 @@ public class StatisticsDashboardService
                 s.CreatedAt < endDate);
     }
 
-    // =========================================================
-    // DAILY PAGE VIEWS
-    // =========================================================
-
-    public async Task<List<DailyStatisticItem>> GetLast7DaysPageViewsAsync()
+    public async Task<List<DailyStatisticItem>> GetLast7DaysUniqueVisitorsDailyAsync()
     {
         var startDate = DateTime.UtcNow.Date.AddDays(-6);
         var endDate = DateTime.UtcNow.Date.AddDays(1);
@@ -126,9 +150,20 @@ public class StatisticsDashboardService
             .Where(s =>
                 s.EventType == SiteStatisticEventType.PageView &&
                 s.CreatedAt >= startDate &&
-                s.CreatedAt < endDate)
-            .GroupBy(s => s.CreatedAt.Date)
+                s.CreatedAt < endDate &&
+                s.VisitorId != null)
+            .GroupBy(s => new
+            {
+                Date = s.CreatedAt.Date,
+                s.VisitorId
+            })
             .Select(g => new
+            {
+                Date = g.Key.Date,
+                VisitorId = g.Key.VisitorId
+            })
+            .GroupBy(x => x.Date)
+            .Select(g => new DailyStatisticItem
             {
                 Date = g.Key,
                 Count = g.Count()
@@ -138,7 +173,9 @@ public class StatisticsDashboardService
 
         var result = new List<DailyStatisticItem>();
 
-        for (var date = startDate; date < endDate; date = date.AddDays(1))
+        for (var date = startDate;
+             date < endDate;
+             date = date.AddDays(1))
         {
             var item = data.FirstOrDefault(x => x.Date == date);
 
@@ -151,10 +188,6 @@ public class StatisticsDashboardService
 
         return result;
     }
-
-    // =========================================================
-    // POPULAR PAGES
-    // =========================================================
 
     public async Task<List<PopularPageStatisticItem>> GetPopularPagesAsync(
         int take = 10)
@@ -174,27 +207,49 @@ public class StatisticsDashboardService
             .ToListAsync();
     }
 
-    // =========================================================
-    // POPULAR AUDIO
-    // =========================================================
-
+    /// <summary>
+    /// محبوب‌ترین صوت‌ها بر اساس تعداد بازدیدکنندگان یکتا
+    /// </summary>
     public async Task<List<PopularAudioStatisticItem>> GetPopularAudiosAsync(
-        int take = 10)
+    int take = 10)
     {
-        return await _context.AudioStatistics
+        var statistics = await _context.AudioStatistics
             .AsNoTracking()
             .Where(s =>
-                s.EventType == AudioStatisticEventType.View)
-            .GroupBy(s => s.AudioFileId)
-            .Select(g => new PopularAudioStatisticItem
+                s.EventType == AudioStatisticEventType.View &&
+                s.VisitorId != null)
+            .GroupBy(s => new
+            {
+                s.AudioFileId,
+                s.VisitorId
+            })
+            .Select(g => new
+            {
+                AudioFileId = g.Key.AudioFileId,
+                VisitorId = g.Key.VisitorId
+            })
+            .GroupBy(x => x.AudioFileId)
+            .Select(g => new
             {
                 AudioFileId = g.Key,
                 ViewCount = g.Count()
             })
             .OrderByDescending(x => x.ViewCount)
             .Take(take)
+            .ToListAsync();
+
+        var audioIds = statistics
+            .Select(x => x.AudioFileId)
+            .ToList();
+
+        var audios = await _context.AudioFiles
+            .AsNoTracking()
+            .Where(a => audioIds.Contains(a.Id))
+            .ToListAsync();
+
+        return statistics
             .Join(
-                _context.AudioFiles.AsNoTracking(),
+                audios,
                 statistic => statistic.AudioFileId,
                 audio => audio.Id,
                 (statistic, audio) => new PopularAudioStatisticItem
@@ -203,14 +258,9 @@ public class StatisticsDashboardService
                     Title = audio.Title,
                     ViewCount = statistic.ViewCount
                 })
-            .ToListAsync();
+            .ToList();
     }
 }
-
-
-// =========================================================
-// DTOs
-// =========================================================
 
 public class DailyStatisticItem
 {
@@ -219,14 +269,12 @@ public class DailyStatisticItem
     public int Count { get; set; }
 }
 
-
 public class PopularPageStatisticItem
 {
     public string Path { get; set; } = string.Empty;
 
     public int Count { get; set; }
 }
-
 
 public class PopularAudioStatisticItem
 {

@@ -140,8 +140,11 @@
 
                 <ul class="footer-links">
 
+                    <!-- درباره ما -->
+
                     <li>
-                        <a href="#">
+                        <a asp-controller="About"
+                           asp-action="Index">
 
                             <span>
                                 درباره ما
@@ -151,19 +154,25 @@
                     </li>
 
 
+                    <!-- قوانین و مقررات -->
+
                     <li>
-                        <a href="#">
+                        <a asp-controller="Terms"
+                           asp-action="Index">
 
                             <span>
-                                قوانین استفاده
+                                قوانین و مقررات
                             </span>
 
                         </a>
                     </li>
 
 
+                    <!-- حریم خصوصی -->
+
                     <li>
-                        <a href="#">
+                        <a asp-controller="Privacy"
+                           asp-action="Index">
 
                             <span>
                                 حریم خصوصی
@@ -173,8 +182,11 @@
                     </li>
 
 
+                    <!-- ارتباط با ما -->
+
                     <li>
-                        <a href="#">
+                        <a asp-controller="Contact"
+                           asp-action="Index">
 
                             <span>
                                 ارتباط با ما

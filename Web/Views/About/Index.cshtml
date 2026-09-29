@@ -1,0 +1,675 @@
+﻿@{
+    ViewData["Title"] = "درباره مجالس اهواز";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
+}
+
+<main class="about-page">
+
+    <!-- =========================================================
+         ABOUT HERO
+    ========================================================== -->
+    <section class="about-hero">
+        <div class="about-container">
+
+            <div class="about-hero-content">
+
+                <span class="about-eyebrow">
+                    <i class="bi bi-info-circle"></i>
+                    درباره ما
+                </span>
+
+                <h1>
+                    درباره
+                    <span>مجالس اهواز</span>
+                </h1>
+
+                <p>
+                    مجالس اهواز بستری برای دسترسی آسان و منظم به
+                    مجموعه‌ای از سخنرانی‌ها و فایل‌های صوتی مذهبی است؛
+                    با هدف فراهم‌کردن آرشیوی قابل استفاده، منظم و در دسترس
+                    برای علاقه‌مندان.
+                </p>
+
+                <div class="about-hero-actions">
+
+                    <a asp-controller="Archive"
+                       asp-action="Index"
+                       class="about-btn about-btn-primary">
+                        <i class="bi bi-collection-play"></i>
+                        مشاهده آرشیو
+                    </a>
+
+                    <a asp-controller="Contact"
+                       asp-action="Index"
+                       class="about-btn about-btn-outline">
+                        <i class="bi bi-envelope"></i>
+                        ارتباط با ما
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="about-hero-visual">
+
+                <div class="about-visual-glow"></div>
+
+                <div class="about-logo-card">
+
+                    <div class="about-logo-mark">
+                        <span>م</span>
+                    </div>
+
+                    <div class="about-logo-text">
+                        <strong>مجالس اهواز</strong>
+                        <span>آرشیو صوتی مجالس و سخنرانی‌ها</span>
+                    </div>
+
+                    <div class="about-logo-wave">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- =========================================================
+         INTRODUCTION
+    ========================================================== -->
+    <section class="about-section about-introduction">
+
+        <div class="about-container">
+
+            <div class="about-section-heading">
+
+                <span class="about-section-label">
+                    معرفی
+                </span>
+
+                <h2>
+                    درباره
+                    <span>مجالس اهواز</span>
+                </h2>
+
+                <div class="about-heading-line"></div>
+
+            </div>
+
+            <div class="about-introduction-grid">
+
+                <div class="about-introduction-content">
+
+                    <p class="about-lead">
+                        «مجالس اهواز» با رویکرد ایجاد یک آرشیو صوتی منظم،
+                        تلاش می‌کند دسترسی به سخنرانی‌ها و فایل‌های صوتی
+                        مجالس را ساده‌تر و سریع‌تر کند.
+                    </p>
+
+                    <p>
+                        در این مجموعه، فایل‌های صوتی در قالب دسته‌بندی‌ها،
+                        سخنرانان و اطلاعات مشخص ارائه می‌شوند تا پیدا کردن
+                        محتوای موردنظر برای کاربران آسان باشد.
+                    </p>
+
+                    <p>
+                        هدف ما ایجاد محیطی ساده، سریع و قابل استفاده است؛
+                        محیطی که کاربر بتواند بدون پیچیدگی در میان آرشیو
+                        جست‌وجو کند، محتوای موردنظر خود را پیدا کند و
+                        به آن دسترسی داشته باشد.
+                    </p>
+
+                </div>
+
+                <div class="about-introduction-card">
+
+                    <div class="about-introduction-icon">
+                        <i class="bi bi-collection-play"></i>
+                    </div>
+
+                    <h3>
+                        یک آرشیو، یک دسترسی ساده
+                    </h3>
+
+                    <p>
+                        محتوای صوتی با ساختاری منظم در اختیار شما قرار
+                        گرفته است تا جست‌وجو و استفاده از آرشیو آسان‌تر باشد.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         PURPOSE
+    ========================================================== -->
+    <section class="about-section about-purpose">
+
+        <div class="about-container">
+
+            <div class="about-section-heading about-section-heading-center">
+
+                <span class="about-section-label">
+                    رویکرد ما
+                </span>
+
+                <h2>
+                    چه چیزی برای ما
+                    <span>مهم است؟</span>
+                </h2>
+
+                <p>
+                    ساختن تجربه‌ای ساده و منظم برای دسترسی به محتوای صوتی
+                </p>
+
+            </div>
+
+            <div class="about-purpose-grid">
+
+                <article class="about-purpose-card">
+
+                    <div class="about-purpose-number">
+                        01
+                    </div>
+
+                    <div class="about-purpose-icon">
+                        <i class="bi bi-folder2-open"></i>
+                    </div>
+
+                    <h3>
+                        نظم در آرشیو
+                    </h3>
+
+                    <p>
+                        دسته‌بندی و سازمان‌دهی محتوا برای دسترسی سریع‌تر
+                        به سخنرانی‌ها و فایل‌های صوتی.
+                    </p>
+
+                </article>
+
+
+                <article class="about-purpose-card">
+
+                    <div class="about-purpose-number">
+                        02
+                    </div>
+
+                    <div class="about-purpose-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+
+                    <h3>
+                        دسترسی آسان
+                    </h3>
+
+                    <p>
+                        طراحی مسیرهای ساده برای پیدا کردن محتوای موردنظر
+                        بدون پیچیدگی و سردرگمی.
+                    </p>
+
+                </article>
+
+
+                <article class="about-purpose-card">
+
+                    <div class="about-purpose-number">
+                        03
+                    </div>
+
+                    <div class="about-purpose-icon">
+                        <i class="bi bi-phone"></i>
+                    </div>
+
+                    <h3>
+                        تجربه کاربری مناسب
+                    </h3>
+
+                    <p>
+                        ارائه آرشیو در محیطی سازگار با موبایل، تبلت و
+                        رایانه برای استفاده راحت‌تر کاربران.
+                    </p>
+
+                </article>
+
+
+                <article class="about-purpose-card">
+
+                    <div class="about-purpose-number">
+                        04
+                    </div>
+
+                    <div class="about-purpose-icon">
+                        <i class="bi bi-headphones"></i>
+                    </div>
+
+                    <h3>
+                        تمرکز بر محتوای صوتی
+                    </h3>
+
+                    <p>
+                        فراهم‌کردن دسترسی مستقیم و ساده به فایل‌های صوتی
+                        موجود در آرشیو.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         ARCHIVE EXPERIENCE
+    ========================================================== -->
+    <section class="about-section about-archive">
+
+        <div class="about-container">
+
+            <div class="about-archive-box">
+
+                <div class="about-archive-content">
+
+                    <span class="about-section-label">
+                        آرشیو صوتی
+                    </span>
+
+                    <h2>
+                        همه‌چیز برای پیدا کردن
+                        <span>صدای موردنظر شما</span>
+                    </h2>
+
+                    <p>
+                        آرشیو مجالس اهواز با تمرکز بر دسترسی سریع به
+                        فایل‌های صوتی طراحی شده است. کاربران می‌توانند
+                        محتوای موجود را بر اساس اطلاعات مختلف بررسی کرده
+                        و فایل موردنظر خود را انتخاب کنند.
+                    </p>
+
+                    <div class="about-feature-list">
+
+                        <div class="about-feature-item">
+                            <span class="about-feature-icon">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                            <span>
+                                دسته‌بندی منظم فایل‌های صوتی
+                            </span>
+                        </div>
+
+                        <div class="about-feature-item">
+                            <span class="about-feature-icon">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                            <span>
+                                تفکیک محتوا بر اساس سخنران
+                            </span>
+                        </div>
+
+                        <div class="about-feature-item">
+                            <span class="about-feature-icon">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                            <span>
+                                امکان جست‌وجو و پیدا کردن محتوای موردنظر
+                            </span>
+                        </div>
+
+                        <div class="about-feature-item">
+                            <span class="about-feature-icon">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                            <span>
+                                پخش مستقیم فایل‌های صوتی
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <a asp-controller="Archive"
+                       asp-action="Index"
+                       class="about-btn about-btn-primary">
+                        <i class="bi bi-arrow-left"></i>
+                        ورود به آرشیو
+                    </a>
+
+                </div>
+
+
+                <div class="about-archive-visual">
+
+                    <div class="about-audio-card">
+
+                        <div class="about-audio-cover">
+                            <i class="bi bi-music-note-beamed"></i>
+                        </div>
+
+                        <div class="about-audio-info">
+
+                            <span>
+                                آرشیو صوتی
+                            </span>
+
+                            <strong>
+                                مجالس و سخنرانی‌ها
+                            </strong>
+
+                            <div class="about-audio-progress">
+                                <span></span>
+                            </div>
+
+                            <div class="about-audio-controls">
+
+                                <i class="bi bi-skip-forward-fill"></i>
+
+                                <div class="about-audio-play">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+
+                                <i class="bi bi-skip-backward-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         VALUES
+    ========================================================== -->
+    <section class="about-section about-values">
+
+        <div class="about-container">
+
+            <div class="about-values-grid">
+
+                <div class="about-values-title">
+
+                    <span class="about-section-label">
+                        ارزش‌ها
+                    </span>
+
+                    <h2>
+                        یک تجربه
+                        <span>ساده و قابل اعتماد</span>
+                    </h2>
+
+                    <p>
+                        تلاش کرده‌ایم ساختار سایت تا حد امکان روشن،
+                        کاربردی و بدون پیچیدگی باشد تا تمرکز اصلی روی
+                        محتوای آرشیو باقی بماند.
+                    </p>
+
+                </div>
+
+
+                <div class="about-value-list">
+
+                    <div class="about-value-item">
+
+                        <div class="about-value-icon">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+
+                        <div>
+                            <h3>
+                                سادگی
+                            </h3>
+
+                            <p>
+                                مسیرهای ساده و قابل فهم برای دسترسی به محتوا.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="about-value-item">
+
+                        <div class="about-value-icon">
+                            <i class="bi bi-grid"></i>
+                        </div>
+
+                        <div>
+                            <h3>
+                                نظم
+                            </h3>
+
+                            <p>
+                                سازمان‌دهی محتوا برای جست‌وجو و استفاده بهتر.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="about-value-item">
+
+                        <div class="about-value-icon">
+                            <i class="bi bi-display"></i>
+                        </div>
+
+                        <div>
+                            <h3>
+                                دسترس‌پذیری
+                            </h3>
+
+                            <p>
+                                تجربه‌ای مناسب برای دستگاه‌ها و اندازه‌های
+                                مختلف صفحه‌نمایش.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="about-value-item">
+
+                        <div class="about-value-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+
+                        <div>
+                            <h3>
+                                توسعه مستمر
+                            </h3>
+
+                            <p>
+                                بهبود تدریجی امکانات و تجربه استفاده از سایت.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         SOCIAL
+    ========================================================== -->
+    <section class="about-section about-social">
+
+        <div class="about-container">
+
+            <div class="about-section-heading about-section-heading-center">
+
+                <span class="about-section-label">
+                    همراه ما باشید
+                </span>
+
+                <h2>
+                    مجالس اهواز را در
+                    <span>شبکه‌های اجتماعی</span>
+                    دنبال کنید
+                </h2>
+
+                <p>
+                    برای اطلاع از محتوای جدید و آخرین فعالیت‌ها، ما را
+                    در شبکه‌های اجتماعی دنبال کنید.
+                </p>
+
+            </div>
+
+
+            <div class="about-social-grid">
+
+                <a href="https://eitaa.com/ahvazmajles"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="about-social-card">
+
+                    <div class="about-social-icon">
+                        <i class="bi bi-chat-square-text"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            ایتا
+                        </strong>
+
+                        <span>
+                            کانال مجالس اهواز
+                        </span>
+                    </div>
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
+
+                <a href="https://t.me/ahvazmajlesbot"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="about-social-card">
+
+                    <div class="about-social-icon">
+                        <i class="bi bi-telegram"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            تلگرام
+                        </strong>
+
+                        <span>
+                            @@ahvazmajlesbot
+                        </span>
+                    </div>
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
+
+                <a href="https://ble.ir/ahvazmajlesbot"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="about-social-card">
+
+                    <div class="about-social-icon">
+                        <i class="bi bi-send"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            بله
+                        </strong>
+
+                        <span>
+                            @@ahvazmajlesbot
+                        </span>
+                    </div>
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         FINAL CTA
+    ========================================================== -->
+    <section class="about-final-cta">
+
+        <div class="about-container">
+
+            <div class="about-final-cta-inner">
+
+                <div class="about-final-icon">
+                    <i class="bi bi-headphones"></i>
+                </div>
+
+                <div class="about-final-content">
+
+                    <span>
+                        آماده‌اید آرشیو را ببینید؟
+                    </span>
+
+                    <h2>
+                        محتوای موردنظر خود را پیدا کنید
+                    </h2>
+
+                    <p>
+                        وارد آرشیو شوید و مجموعه سخنرانی‌ها و فایل‌های صوتی
+                        موجود در مجالس اهواز را مشاهده کنید.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Archive"
+                   asp-action="Index"
+                   class="about-final-button">
+
+                    مشاهده آرشیو
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

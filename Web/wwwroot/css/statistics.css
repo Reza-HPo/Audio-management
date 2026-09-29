@@ -19,6 +19,7 @@
     --statistics-text-soft: #66736d;
     --statistics-text-muted: #8b9691;
     --statistics-border: #e8eeeb;
+    --statistics-border-soft: #f0f3f1;
     --statistics-background: #f7f9f8;
     --statistics-card: #ffffff;
     --statistics-shadow: 0 10px 35px rgba(18, 47, 36, 0.06);
@@ -66,6 +67,7 @@
         content: "";
         width: 7px;
         height: 7px;
+        flex: 0 0 auto;
         border-radius: 50%;
         background: var(--statistics-primary);
     }
@@ -87,7 +89,7 @@
 
 
 /* =========================================================
-   STATISTICS CARDS
+   STATISTICS GRID
 ========================================================= */
 
 .statistics-grid {
@@ -98,8 +100,13 @@
 }
 
 
+/* =========================================================
+   STATISTICS CARD
+========================================================= */
+
 .statistics-card {
     position: relative;
+    min-width: 0;
     min-height: 165px;
     padding: 22px;
     overflow: hidden;
@@ -156,6 +163,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     margin-bottom: 18px;
 }
 
@@ -163,6 +171,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 auto;
     width: 46px;
     height: 46px;
     color: var(--statistics-primary);
@@ -173,14 +182,17 @@
 }
 
 .statistics-label {
+    min-width: 0;
     color: var(--statistics-text-soft);
     font-size: 0.84rem;
     font-weight: 700;
+    line-height: 1.7;
+    text-align: left;
 }
 
 
 /* =========================================================
-   CARD VALUES
+   CARD VALUE
 ========================================================= */
 
 .statistics-value {
@@ -201,15 +213,6 @@
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.7;
-}
-
-
-/* =========================================================
-   WIDE CARD
-========================================================= */
-
-.statistics-card-wide {
-    grid-column: span 1;
 }
 
 
@@ -244,6 +247,10 @@
         box-shadow: 0 14px 40px rgba(18, 47, 36, 0.075);
     }
 
+.statistics-audio-panel {
+    margin-bottom: 20px;
+}
+
 
 /* =========================================================
    PANEL HEADER
@@ -253,6 +260,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    gap: 18px;
     padding: 24px 24px 20px;
     border-bottom: 1px solid var(--statistics-border);
 }
@@ -302,6 +310,9 @@
 .statistics-table-wrapper {
     width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #d8e1dc transparent;
 }
 
 
@@ -329,7 +340,7 @@
     .statistics-table tbody td {
         padding: 15px 24px;
         color: var(--statistics-text-soft);
-        border-bottom: 1px solid #f0f3f1;
+        border-bottom: 1px solid var(--statistics-border-soft);
         font-size: 0.8rem;
         vertical-align: middle;
     }
@@ -360,6 +371,7 @@
 .statistics-date {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     min-width: 62px;
     padding: 5px 9px;
     color: var(--statistics-text-soft);
@@ -368,7 +380,6 @@
     border-radius: 8px;
     font-size: 0.72rem;
     font-weight: 700;
-    justify-content: center;
 }
 
 
@@ -386,19 +397,19 @@
     border-radius: 8px;
     font-family: "Cascadia Code", "Consolas", monospace;
     font-size: 0.71rem;
-    text-overflow: ellipsis;
     direction: ltr;
     text-align: left;
+    text-overflow: ellipsis;
     vertical-align: middle;
 }
 
 
 /* =========================================================
-   AUDIO PANEL
+   AUDIO
 ========================================================= */
 
-.statistics-audio-panel {
-    margin-bottom: 20px;
+.statistics-audio-table {
+    table-layout: auto;
 }
 
 .statistics-audio-title {
@@ -497,10 +508,6 @@
 
     .statistics-section {
         grid-template-columns: 1fr;
-    }
-
-    .statistics-card-wide {
-        grid-column: auto;
     }
 }
 

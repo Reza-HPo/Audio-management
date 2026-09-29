@@ -10,6 +10,14 @@ public class SiteStatistic
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    /// <summary>
+    /// شناسه ناشناس و یکتای مرورگر/بازدیدکننده
+    /// </summary>
+    public string? VisitorId { get; set; }
+
+    /// <summary>
+    /// Hash شده IP بازدیدکننده
+    /// </summary>
     public string? IpHash { get; set; }
 
     public string? UserAgent { get; set; }

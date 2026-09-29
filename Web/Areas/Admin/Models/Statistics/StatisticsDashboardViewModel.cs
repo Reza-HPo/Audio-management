@@ -2,19 +2,40 @@
 
 public class StatisticsDashboardViewModel
 {
+    // =========================================================
+    // UNIQUE VISITORS
+    // =========================================================
+
+    public int TodayUniqueVisitors { get; set; }
+
+    public int YesterdayUniqueVisitors { get; set; }
+
+    public int Last7DaysUniqueVisitors { get; set; }
+
+    public int Last30DaysUniqueVisitors { get; set; }
+
+
+    // =========================================================
+    // PAGE VIEWS
+    // =========================================================
+
     public int TodayPageViews { get; set; }
 
-    public int YesterdayPageViews { get; set; }
 
-    public int Last7DaysPageViews { get; set; }
-
-    public int Last30DaysPageViews { get; set; }
+    // =========================================================
+    // AUDIO
+    // =========================================================
 
     public int TodayAudioViews { get; set; }
 
     public int TodayDownloads { get; set; }
 
     public int Last30DaysDownloads { get; set; }
+
+
+    // =========================================================
+    // TABLES
+    // =========================================================
 
     public List<DailyStatisticViewModel> DailyPageViews { get; set; } = new();
 

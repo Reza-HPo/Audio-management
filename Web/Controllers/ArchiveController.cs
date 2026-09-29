@@ -14,7 +14,6 @@ public class ArchiveController : Controller
 
     private const int PageSize = 12;
 
-
     public ArchiveController(
         ApplicationDbContext context,
         AudioStatisticsService audioStatisticsService)
@@ -23,7 +22,12 @@ public class ArchiveController : Controller
         _audioStatisticsService = audioStatisticsService;
     }
 
-    public async Task<IActionResult> Index(string? search, int? categoryId, int? speakerId, string sort = "newest", int page = 1)
+    public async Task<IActionResult> Index(
+        string? search,
+        int? categoryId,
+        int? speakerId,
+        string sort = "newest",
+        int page = 1)
     {
         if (page < 1)
             page = 1;
@@ -36,7 +40,6 @@ public class ArchiveController : Controller
             .Where(a => a.IsPublished)
             .AsQueryable();
 
-
         // Search
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -48,7 +51,6 @@ public class ArchiveController : Controller
                  a.Description.Contains(search)));
         }
 
-
         // Category Filter
         if (categoryId.HasValue)
         {
@@ -57,14 +59,12 @@ public class ArchiveController : Controller
                     ac.CategoryId == categoryId.Value));
         }
 
-
         // Speaker Filter
         if (speakerId.HasValue)
         {
             query = query.Where(a =>
                 a.SpeakerId == speakerId.Value);
         }
-
 
         // Sort
         query = sort.ToLower() switch
@@ -81,10 +81,8 @@ public class ArchiveController : Controller
                     a.PublishedAt ?? a.CreatedAt)
         };
 
-
         // Total count
         var totalCount = await query.CountAsync();
-
 
         // Pagination
         var totalPages =
@@ -94,12 +92,10 @@ public class ArchiveController : Controller
         if (totalPages > 0 && page > totalPages)
             page = totalPages;
 
-
         var audios = await query
             .Skip((page - 1) * PageSize)
             .Take(PageSize)
             .ToListAsync();
-
 
         // ViewModel
         var model = new ArchiveViewModel
@@ -118,31 +114,32 @@ public class ArchiveController : Controller
 
             TotalPages = totalPages,
 
-            Audios = audios.Select(a => new AudioItemViewModel
-            {
-                Id = a.Id,
+            Audios = audios
+                .Select(a => new AudioItemViewModel
+                {
+                    Id = a.Id,
 
-                Title = a.Title,
+                    Title = a.Title,
 
-                Description = a.Description,
+                    Description = a.Description,
 
-                SpeakerName = a.Speaker?.Name,
+                    SpeakerName = a.Speaker?.Name,
 
-                CoverImageUrl = a.CoverImageUrl,
+                    CoverImageUrl = a.CoverImageUrl,
 
-                FileName = a.FileName,
+                    FileName = a.FileName,
 
-                Duration = a.Duration,
+                    Duration = a.Duration,
 
-                PublishedAt = a.PublishedAt,
+                    PublishedAt = a.PublishedAt,
 
-                IsDownloadable = a.IsDownloadable,
+                    IsDownloadable = a.IsDownloadable,
 
-                Categories = a.AudioCategories
-        .Select(ac => ac.Category.Name)
-        .ToList()
-
-            }).ToList(),
+                    Categories = a.AudioCategories
+                        .Select(ac => ac.Category.Name)
+                        .ToList()
+                })
+                .ToList(),
 
             Categories = await _context.Categories
                 .AsNoTracking()
@@ -170,7 +167,6 @@ public class ArchiveController : Controller
                 .ToListAsync()
         };
 
-
         return View(model);
     }
 
@@ -189,10 +185,11 @@ public class ArchiveController : Controller
         if (audio == null)
             return NotFound();
 
-        await _audioStatisticsService.TrackAsync(
+        // ثبت بازدید صوت
+        await _audioStatisticsService.TrackViewAsync(
             audio.Id,
-            AudioStatisticEventType.View,
-            HttpContext);
+            HttpContext.Connection.RemoteIpAddress?.ToString(),
+            Request.Headers.UserAgent.ToString());
 
         var model = new AudioItemViewModel
         {
@@ -238,10 +235,11 @@ public class ArchiveController : Controller
         if (!audio.IsDownloadable)
             return Forbid();
 
-        await _audioStatisticsService.TrackAsync(
+        // ثبت دانلود
+        await _audioStatisticsService.TrackDownloadAsync(
             audio.Id,
-            AudioStatisticEventType.Download,
-            HttpContext);
+            HttpContext.Connection.RemoteIpAddress?.ToString(),
+            Request.Headers.UserAgent.ToString());
 
         return Redirect(audio.FileName);
     }

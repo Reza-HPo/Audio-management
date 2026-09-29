@@ -18,23 +18,20 @@ public class SiteStatisticsService
         _configuration = configuration;
     }
 
-    public async Task TrackAsync(HttpContext httpContext)
+    public async Task TrackPageViewAsync(
+        string path,
+        string visitorId,
+        string? ipAddress,
+        string? userAgent)
     {
-        var path = httpContext.Request.Path.Value;
-
-        if (string.IsNullOrWhiteSpace(path))
-            path = "/";
-
-        var ipAddress =
-            httpContext.Connection.RemoteIpAddress?.ToString();
-
         var statistic = new SiteStatistic
         {
             EventType = SiteStatisticEventType.PageView,
             Path = path,
             CreatedAt = DateTime.UtcNow,
-            IpHash = HashIpAddress(ipAddress),
-            UserAgent = GetUserAgent(httpContext)
+            VisitorId = visitorId,
+            IpHash = HashIp(ipAddress),
+            UserAgent = userAgent
         };
 
         _context.SiteStatistics.Add(statistic);
@@ -42,26 +39,15 @@ public class SiteStatisticsService
         await _context.SaveChangesAsync();
     }
 
-    private string? GetUserAgent(HttpContext httpContext)
-    {
-        var userAgent =
-            httpContext.Request.Headers.UserAgent.ToString();
-
-        return string.IsNullOrWhiteSpace(userAgent)
-            ? null
-            : userAgent;
-    }
-
-    private string? HashIpAddress(string? ipAddress)
+    private string? HashIp(string? ipAddress)
     {
         if (string.IsNullOrWhiteSpace(ipAddress))
             return null;
 
-        var salt =
-            _configuration["Statistics:IpHashSalt"];
+        var salt = _configuration["Statistics:IpHashSalt"];
 
         if (string.IsNullOrWhiteSpace(salt))
-            salt = "MajalesAhvaz-Statistics";
+            salt = "majales-ahvaz-statistics";
 
         var input = $"{salt}:{ipAddress}";
 

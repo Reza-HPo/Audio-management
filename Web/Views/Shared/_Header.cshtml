@@ -4,24 +4,38 @@
 
         <nav class="navbar navbar-expand-lg main-navbar">
 
-            <!-- Brand -->
+            <!-- =====================================================
+                 BRAND
+            ====================================================== -->
+
             <a class="navbar-brand site-brand"
                asp-controller="Home"
-               asp-action="Index">
+               asp-action="Index"
+               aria-label="صفحه اصلی مجالس اهواز">
 
                 <span class="brand-mark">
                     <span>م</span>
                 </span>
 
                 <span class="brand-content">
-                    <strong>مجالس اهواز</strong>
-                    <small>آرشیو صوتی مجالس و سخنرانی‌ها</small>
+
+                    <strong>
+                        مجالس اهواز
+                    </strong>
+
+                    <small>
+                        آرشیو صوتی مجالس و سخنرانی‌ها
+                    </small>
+
                 </span>
 
             </a>
 
 
-            <!-- Mobile Button -->
+            <!-- =====================================================
+                 MOBILE TOGGLE
+            ====================================================== -->
+
             <button class="navbar-toggler custom-toggler"
                     type="button"
                     data-bs-toggle="collapse"
@@ -37,77 +51,117 @@
             </button>
 
 
-            <!-- Navigation -->
+            <!-- =====================================================
+                 NAVIGATION
+            ====================================================== -->
+
             <div class="collapse navbar-collapse"
                  id="mainNavbar">
 
+
+                <!-- =================================================
+                     MAIN NAVIGATION
+                ================================================== -->
+
                 <ul class="navbar-nav main-nav">
 
+
                     <!-- Home -->
+
                     <li class="nav-item">
+
                         <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
                            asp-controller="Home"
                            asp-action="Index">
 
-                            <span>خانه</span>
+                            <span>
+                                خانه
+                            </span>
 
                         </a>
+
                     </li>
 
 
                     <!-- Archive -->
+
                     <li class="nav-item">
+
                         <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Archive" ? "active" : "")"
                            asp-controller="Archive"
                            asp-action="Index">
 
-                            <span>آرشیو صوتی</span>
+                            <span>
+                                آرشیو صوتی
+                            </span>
 
                         </a>
+
                     </li>
 
 
                     <!-- Speakers -->
+
                     <li class="nav-item">
+
                         <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Speakers" ? "active" : "")"
                            asp-controller="Speakers"
                            asp-action="Index">
 
-                            <span>سخنران‌ها</span>
+                            <span>
+                                سخنران‌ها
+                            </span>
 
                         </a>
+
                     </li>
 
 
                     <!-- Categories -->
+
                     <li class="nav-item">
+
                         <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categories" ? "active" : "")"
                            asp-controller="Categories"
                            asp-action="Index">
 
-                            <span>دسته‌بندی‌ها</span>
+                            <span>
+                                دسته‌بندی‌ها
+                            </span>
 
                         </a>
+
                     </li>
 
 
                     <!-- About -->
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="#">
 
-                            <span>درباره ما</span>
+                    <li class="nav-item">
+
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "About" ? "active" : "")"
+                           asp-controller="About"
+                           asp-action="Index">
+
+                            <span>
+                                درباره ما
+                            </span>
 
                         </a>
+
                     </li>
 
                 </ul>
 
 
-                <!-- Header Actions -->
+                <!-- =================================================
+                     HEADER ACTIONS
+                ================================================== -->
+
                 <div class="header-actions">
 
+
                     <!-- Search -->
+
                     <button class="search-button"
                             type="button"
                             aria-label="جستجو">
@@ -117,14 +171,19 @@
                     </button>
 
 
-                    <!-- Archive -->
+                    <!-- Archive CTA -->
+
                     <a class="header-archive-button"
                        asp-controller="Archive"
                        asp-action="Index">
 
-                        <span>مشاهده آرشیو</span>
+                        <span>
+                            مشاهده آرشیو
+                        </span>
 
-                        <span class="arrow">←</span>
+                        <span class="arrow">
+                            ←
+                        </span>
 
                     </a>
 
@@ -135,8 +194,8 @@
 
             <!-- =====================================================
                  NOTICES
-                 خارج از Navigation و Collapse
-                 ===================================================== -->
+                 خارج از Collapse
+            ====================================================== -->
 
             <div class="header-notices">
 
@@ -145,15 +204,27 @@
                               ? "active"
                               : "")"
                    asp-controller="Notices"
-                   asp-action="Index">
+                   asp-action="Index"
+                   aria-label="اطلاعیه‌ها">
+
+
+                    <!-- Notice Icon -->
 
                     <span class="header-notice-icon">
-                        <i class="bi bi-megaphone-fill"></i>
+
+                        <i class="bi bi-megaphone-fill"
+                           aria-hidden="true"></i>
+
                     </span>
+
+
+                    <!-- Notice Content -->
 
                     <span class="header-notice-content">
 
-                        <strong>اطلاعیه‌ها</strong>
+                        <strong>
+                            اطلاعیه‌ها
+                        </strong>
 
                         <small>
                             اطلاعیه‌های جدید
@@ -161,8 +232,14 @@
 
                     </span>
 
-                    <span class="header-notice-arrow">
+
+                    <!-- Notice Arrow -->
+
+                    <span class="header-notice-arrow"
+                          aria-hidden="true">
+
                         ←
+
                     </span>
 
                 </a>
